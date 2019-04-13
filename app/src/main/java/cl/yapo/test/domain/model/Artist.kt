@@ -5,5 +5,6 @@ data class Artist(
     val artistName: String,
     val artistLinkUrl: String,
     val primaryGenreName: String,
-    val primaryGenreId: Long
+    val primaryGenreId: Long,
+    val isLiked: Boolean
 )
