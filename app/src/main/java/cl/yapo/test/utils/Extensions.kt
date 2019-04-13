@@ -8,6 +8,8 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.HttpException
 import retrofit2.Response
+import java.text.SimpleDateFormat
+import java.util.*
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
 import kotlin.coroutines.suspendCoroutine
@@ -68,3 +70,9 @@ suspend fun <T> Call<T>.await() = suspendCoroutine<T?> { continuation ->
         }
     })
 }
+
+/* Parsing */
+
+private val ISO8601format = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.US)
+
+fun String.parseISO8601Date(): Date = ISO8601format.parse(this)
