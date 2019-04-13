@@ -1,6 +1,10 @@
 <resources>
+
+    <!-- App -->
     <string name="app_name">Yapo</string>
-    <string name="title_home">Home</string>
-    <string name="title_dashboard">Dashboard</string>
-    <string name="title_notifications">Notifications</string>
+
+    <!-- MainActivity -->
+    <string name="nav_search">Discover</string>
+    <string name="nav_favorites">You\'ve liked</string>
+
 </resources>
