@@ -12,10 +12,12 @@ import cl.yapo.test.domain.repository.MusicLocalRepository
 import cl.yapo.test.domain.repository.MusicRemoteRepository
 import cl.yapo.test.domain.repository.StorageRepository
 import cl.yapo.test.domain.usecase.*
+import cl.yapo.test.presentation.viewmodel.MainViewModel
 import cl.yapo.test.utils.DATABASE_NAME
 import cl.yapo.test.utils.URL_BASE_ITUNES_SEARCH_API
 import okhttp3.OkHttpClient
 import org.koin.android.ext.koin.androidContext
+import org.koin.androidx.viewmodel.experimental.builder.viewModel
 import org.koin.dsl.module.module
 import org.koin.experimental.builder.factory
 import org.koin.experimental.builder.factoryBy
@@ -64,6 +66,9 @@ val appModule = module {
             DATABASE_NAME
         ).build()
     }
+
+    /* View models */
+    viewModel<MainViewModel>()
 
     /* Factories */
 

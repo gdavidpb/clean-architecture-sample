@@ -76,3 +76,7 @@ suspend fun <T> Call<T>.await() = suspendCoroutine<T?> { continuation ->
 private val ISO8601format = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.US)
 
 fun String.parseISO8601Date(): Date = ISO8601format.parse(this)
+
+/* Utils */
+
+inline fun <T> T?.notNull(exec: (T) -> Unit): T? = this?.also { exec(this) }
