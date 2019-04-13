@@ -6,30 +6,37 @@ import java.io.File
 import java.io.FileNotFoundException
 import java.io.FileOutputStream
 import java.io.InputStream
+import java.net.URL
 
 open class LocalCacheDataStore(
     private val context: Context
 ) : StorageRepository {
-    override suspend fun put(name: String, inputStream: InputStream): File {
-        val outputFile = File(context.filesDir, name)
+    override suspend fun download(url: String, name: String): File {
+        return URL(url).openStream().use { inputStream ->
+            val outputFile = File(context.filesDir, name)
 
-        /* Create directories to */
-        outputFile.parentFile.mkdirs()
+            /* Create directories to */
+            outputFile.parentFile.mkdirs()
 
-        val outputStream = FileOutputStream(outputFile)
+            val outputStream = FileOutputStream(outputFile)
 
-        inputStream.copyTo(outputStream)
+            inputStream.copyTo(outputStream)
 
-        outputStream.flush()
-        outputStream.close()
+            outputStream.flush()
+            outputStream.close()
 
-        return outputFile
+            outputFile
+        }
     }
 
     override suspend fun get(name: String): InputStream {
         val inputFile = File(context.filesDir, name)
 
         return inputFile.inputStream()
+    }
+
+    override suspend fun exists(name: String): Boolean {
+        return File(name).exists()
     }
 
     override suspend fun delete(name: String) {
