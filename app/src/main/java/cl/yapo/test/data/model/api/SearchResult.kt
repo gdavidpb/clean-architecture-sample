@@ -1,4 +1,4 @@
-package cl.yapo.test.data.model
+package cl.yapo.test.data.model.api
 
 data class SearchResult<T>(
     val resultCount: Int,

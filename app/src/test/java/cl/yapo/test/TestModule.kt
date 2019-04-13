@@ -1,6 +1,6 @@
 package cl.yapo.test
 
-import cl.yapo.test.data.source.apple.iTunesSearchApi
+import cl.yapo.test.data.source.remote.iTunesSearchApi
 import cl.yapo.test.utils.URL_BASE_ITUNES_SEARCH_API
 import okhttp3.OkHttpClient
 import org.koin.dsl.module.module

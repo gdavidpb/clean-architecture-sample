@@ -1,9 +1,9 @@
-package cl.yapo.test.data.source.apple
+package cl.yapo.test.data.source.remote
 
-import cl.yapo.test.data.model.AlbumEntry
-import cl.yapo.test.data.model.ArtistEntry
-import cl.yapo.test.data.model.SearchResult
-import cl.yapo.test.data.model.TrackEntry
+import cl.yapo.test.data.model.api.AlbumEntry
+import cl.yapo.test.data.model.api.ArtistEntry
+import cl.yapo.test.data.model.api.SearchResult
+import cl.yapo.test.data.model.api.TrackEntry
 import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Query

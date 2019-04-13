@@ -1,11 +1,11 @@
 package cl.yapo.test
 
-import cl.yapo.test.data.source.apple.iTunesSearchApi
+import cl.yapo.test.data.source.remote.iTunesSearchApi
 import cl.yapo.test.utils.await
-import junit.framework.Assert.assertNotNull
-import junit.framework.Assert.assertTrue
 import kotlinx.coroutines.runBlocking
 import org.junit.After
+import org.junit.Assert.assertNotNull
+import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
 import org.koin.standalone.StandAloneContext.startKoin

@@ -1,4 +1,4 @@
-package cl.yapo.test.data.model
+package cl.yapo.test.data.model.api
 
 data class AlbumEntry(
     val artistId: Long,
@@ -8,6 +8,7 @@ data class AlbumEntry(
     val collectionCensoredName: String,
     val artistViewUrl: String,
     val collectionViewUrl: String,
+    val artworkUrl30: String,
     val artworkUrl60: String,
     val artworkUrl100: String,
     val collectionPrice: Double,
