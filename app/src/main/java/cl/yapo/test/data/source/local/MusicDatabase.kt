@@ -16,7 +16,8 @@ import cl.yapo.test.utils.DATABASE_VERSION
         AlbumEntity::class,
         TrackEntity::class
     ],
-    version = DATABASE_VERSION
+    version = DATABASE_VERSION,
+    exportSchema = false
 )
 abstract class MusicDatabase : RoomDatabase() {
     abstract fun artists(): ArtistDao
