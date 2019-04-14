@@ -80,6 +80,7 @@ open class SearchFragment : Fragment() {
                 pBarSearch.visibility = View.GONE
 
                 val artists = result.value
+                    .sortedBy { it.artistName }
 
                 val isSearch = eTextSearch.text.toString().isNotBlank()
 

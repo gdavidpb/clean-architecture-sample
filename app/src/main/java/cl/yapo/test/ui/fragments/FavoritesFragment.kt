@@ -49,6 +49,7 @@ open class FavoritesFragment : Fragment() {
             }
             is Result.OnSuccess -> {
                 val artists = result.value
+                    .sortedBy { it.artistName }
 
                 if (artists.isNotEmpty()) {
                     tViewFavorites.visibility = View.GONE
