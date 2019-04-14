@@ -117,10 +117,13 @@ fun View.onClickOnce(onClick: () -> Unit) {
 /* Parsing */
 
 private val ISO8601format = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.US)
+private val Yearformat = SimpleDateFormat("yyyy", Locale.US)
 
 fun String.parseISO8601Date(): Date = ISO8601format.parse(this)
 
 fun String.normalize() = Normalizer.normalize(toLowerCase(), Normalizer.Form.NFD).replace("[^\\p{ASCII}]".toRegex(), "")
+
+fun Date.formatYear(): String = Yearformat.format(this)
 
 /* Utils */
 

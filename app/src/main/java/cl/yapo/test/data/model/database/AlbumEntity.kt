@@ -17,7 +17,7 @@ data class AlbumEntity(
     val artworkUrl60: String?,
     val artworkUrl100: String?,
     val collectionPrice: Double,
-    val collectionExplicitness: String,
+    val isExplicit: Int,
     val trackCount: Int,
     val copyright: String,
     val country: String,

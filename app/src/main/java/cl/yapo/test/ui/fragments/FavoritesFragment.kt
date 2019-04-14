@@ -1,5 +1,6 @@
 package cl.yapo.test.ui.fragments
 
+import android.net.ConnectivityManager
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -13,15 +14,19 @@ import cl.yapo.test.presentation.viewmodel.FavoritesViewModel
 import cl.yapo.test.ui.activities.ArtistActivity
 import cl.yapo.test.ui.adapters.ArtistAdapter
 import cl.yapo.test.utils.EXTRA_ARTIST_ID
-import cl.yapo.test.utils.EXTRA_ARTIST_NAME
+import cl.yapo.test.utils.isNetworkAvailable
 import cl.yapo.test.utils.observe
 import kotlinx.android.synthetic.main.fragment_favorites.*
+import org.jetbrains.anko.support.v4.longToast
 import org.jetbrains.anko.support.v4.startActivity
+import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 open class FavoritesFragment : Fragment() {
 
     private val viewModel: FavoritesViewModel by viewModel()
+
+    private val connectionManager: ConnectivityManager by inject()
 
     private val artistAdapter = ArtistAdapter(callback = ArtistManager())
 
@@ -31,6 +36,8 @@ open class FavoritesFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        sRefreshFavorites.isEnabled = false
 
         with(rViewFavorites) {
             layoutManager = LinearLayoutManager(requireContext())
@@ -49,9 +56,11 @@ open class FavoritesFragment : Fragment() {
     private fun likedObserver(result: Result<List<Artist>>?) {
         when (result) {
             is Result.OnLoading -> {
-
+                sRefreshFavorites.isRefreshing = true
             }
             is Result.OnSuccess -> {
+                sRefreshFavorites.isRefreshing = false
+
                 val artists = result.value
                     .sortedBy { it.artistName }
 
@@ -66,20 +75,24 @@ open class FavoritesFragment : Fragment() {
                 artistAdapter.swapItems(new = artists)
             }
             is Result.OnError -> {
+                sRefreshFavorites.isRefreshing = false
 
+                if (connectionManager.isNetworkAvailable())
+                    longToast(R.string.toast_connection_failure)
+                else
+                    longToast(R.string.toast_no_connection)
             }
             else -> {
+                sRefreshFavorites.isRefreshing = false
 
+                longToast(R.string.toast_unexpected_failure)
             }
         }
     }
 
     inner class ArtistManager : ArtistAdapter.AdapterCallback {
         override fun onArtistClicked(item: Artist, position: Int) {
-            startActivity<ArtistActivity>(
-                EXTRA_ARTIST_ID to item.artistId,
-                EXTRA_ARTIST_NAME to item.artistName
-            )
+            startActivity<ArtistActivity>(EXTRA_ARTIST_ID to item.artistId)
         }
 
         override fun onArtistLikeChanged(item: Artist, position: Int, liked: Boolean) {

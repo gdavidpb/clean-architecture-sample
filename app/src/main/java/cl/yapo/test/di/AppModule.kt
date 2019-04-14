@@ -12,10 +12,12 @@ import cl.yapo.test.domain.repository.MusicLocalRepository
 import cl.yapo.test.domain.repository.MusicRemoteRepository
 import cl.yapo.test.domain.repository.StorageRepository
 import cl.yapo.test.domain.usecase.*
+import cl.yapo.test.presentation.viewmodel.ArtistViewModel
 import cl.yapo.test.presentation.viewmodel.FavoritesViewModel
 import cl.yapo.test.presentation.viewmodel.SearchViewModel
 import cl.yapo.test.utils.DATABASE_NAME
 import cl.yapo.test.utils.URL_BASE_ITUNES_SEARCH_API
+import com.squareup.picasso.Picasso
 import okhttp3.OkHttpClient
 import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.viewmodel.experimental.builder.viewModel
@@ -68,9 +70,16 @@ val appModule = module {
         ).build()
     }
 
+    /* Picasso */
+
+    single {
+        Picasso.get()
+    }
+
     /* View models */
     viewModel<SearchViewModel>()
     viewModel<FavoritesViewModel>()
+    viewModel<ArtistViewModel>()
 
     /* Factories */
 

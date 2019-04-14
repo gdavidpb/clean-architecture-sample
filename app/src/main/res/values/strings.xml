@@ -3,6 +3,10 @@
     <!-- App -->
     <string name="app_name">Yapo</string>
 
+    <string name="toast_no_connection">Are you connected to Internet?</string>
+    <string name="toast_connection_failure">Connection failure</string>
+    <string name="toast_unexpected_failure">Unexpected failure</string>
+
     <!-- MainActivity -->
     <string name="nav_search">Discover</string>
     <string name="nav_favorites">You\'ve liked</string>
@@ -19,5 +23,9 @@
         What are you waiting for?\n
         Give a like to your first artist
     </string>
+
+    <!-- ArtistActivity -->
+
+    <string name="text_album_genre_year">%1$s • %2$s</string>
 
 </resources>
