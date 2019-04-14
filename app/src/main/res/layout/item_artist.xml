@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/dp_16">
+
+    <TextView
+            android:id="@+id/tViewArtistName"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/cBoxLiked"
+            android:layout_marginEnd="@dimen/dp_16"
+            android:maxLines="1"
+            android:ellipsize="end"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+            android:textColor="@color/colorForegroundDark"
+            android:textStyle="bold"
+            tools:text="Adele"/>
+
+    <TextView
+            android:id="@+id/tViewArtistGenre"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/tViewArtistName"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/cBoxLiked"
+            android:layout_marginEnd="@dimen/dp_16"
+            android:textColor="@color/colorForeground"
+            android:maxLines="1"
+            android:ellipsize="end"
+            tools:text="Pop"/>
+
+    <CheckBox
+            android:id="@+id/cBoxLiked"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:button="@drawable/sl_like"
+            android:buttonTint="@color/colorPrimary"
+            tools:checked="true"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

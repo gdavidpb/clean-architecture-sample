@@ -7,4 +7,17 @@
     <string name="nav_search">Discover</string>
     <string name="nav_favorites">You\'ve liked</string>
 
+    <!-- SearchFragment -->
+    <string name="hint_search">Search for artists…</string>
+
+    <string name="text_search_empty">Discover a new world, look for it!</string>
+    <string name="text_search_no_results">It seems we couldn\'t find anything ;(</string>
+
+    <!-- FavoritesFragment -->
+
+    <string name="text_favorites_empty">
+        What are you waiting for?\n
+        Give a like to your first artist
+    </string>
+
 </resources>
