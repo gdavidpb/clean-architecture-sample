@@ -10,9 +10,13 @@ import cl.yapo.test.R
 import cl.yapo.test.domain.model.Artist
 import cl.yapo.test.domain.usecase.coroutines.Result
 import cl.yapo.test.presentation.viewmodel.FavoritesViewModel
+import cl.yapo.test.ui.activities.ArtistActivity
 import cl.yapo.test.ui.adapters.ArtistAdapter
+import cl.yapo.test.utils.EXTRA_ARTIST_ID
+import cl.yapo.test.utils.EXTRA_ARTIST_NAME
 import cl.yapo.test.utils.observe
 import kotlinx.android.synthetic.main.fragment_favorites.*
+import org.jetbrains.anko.support.v4.startActivity
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 open class FavoritesFragment : Fragment() {
@@ -72,7 +76,10 @@ open class FavoritesFragment : Fragment() {
 
     inner class ArtistManager : ArtistAdapter.AdapterCallback {
         override fun onArtistClicked(item: Artist, position: Int) {
-
+            startActivity<ArtistActivity>(
+                EXTRA_ARTIST_ID to item.artistId,
+                EXTRA_ARTIST_NAME to item.artistName
+            )
         }
 
         override fun onArtistLikeChanged(item: Artist, position: Int, liked: Boolean) {

@@ -12,11 +12,11 @@ import cl.yapo.test.domain.model.Artist
 import cl.yapo.test.domain.usecase.coroutines.Result
 import cl.yapo.test.presentation.state.SearchState
 import cl.yapo.test.presentation.viewmodel.SearchViewModel
+import cl.yapo.test.ui.activities.ArtistActivity
 import cl.yapo.test.ui.adapters.ArtistAdapter
-import cl.yapo.test.utils.IdempotentLocker
-import cl.yapo.test.utils.drawables
-import cl.yapo.test.utils.observe
+import cl.yapo.test.utils.*
 import kotlinx.android.synthetic.main.fragment_search.*
+import org.jetbrains.anko.support.v4.startActivity
 import org.jetbrains.anko.textResource
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -113,7 +113,10 @@ open class SearchFragment : Fragment() {
 
     inner class ArtistManager : ArtistAdapter.AdapterCallback {
         override fun onArtistClicked(item: Artist, position: Int) {
-
+            startActivity<ArtistActivity>(
+                EXTRA_ARTIST_ID to item.artistId,
+                EXTRA_ARTIST_NAME to item.artistName
+            )
         }
 
         override fun onArtistLikeChanged(item: Artist, position: Int, liked: Boolean) {
