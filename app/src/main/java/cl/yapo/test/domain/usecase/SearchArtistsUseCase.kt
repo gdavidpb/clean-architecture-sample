@@ -25,7 +25,7 @@ open class SearchArtistsUseCase(
         val remoteResults = remoteRepository.searchArtists(term = params.query)
 
         /* Save results to local cache */
-        cacheRepository.saveArtistsSearch(artists = remoteResults)
+        cacheRepository.saveArtistsSearch(artists = remoteResults, queryString = params.query)
 
         /* Return remote results */
         return remoteResults

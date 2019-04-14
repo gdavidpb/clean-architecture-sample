@@ -9,9 +9,6 @@ const val DATABASE_VERSION = 1
 
 const val TABLE_ARTISTS = "artists"
 
-const val COLUMN_ARTIST_NAME = "artistName"
-const val COLUMN_LIKE = "like"
-
 /* Albums table */
 
 const val TABLE_ALBUMS = "albums"

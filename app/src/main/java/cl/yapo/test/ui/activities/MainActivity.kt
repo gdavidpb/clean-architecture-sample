@@ -5,17 +5,21 @@ import android.view.MenuItem
 import androidx.annotation.IdRes
 import androidx.appcompat.app.AppCompatActivity
 import cl.yapo.test.R
-import cl.yapo.test.presentation.viewmodel.MainViewModel
 import cl.yapo.test.ui.fragments.FavoritesFragment
 import cl.yapo.test.ui.fragments.SearchFragment
 import cl.yapo.test.utils.notNull
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.android.synthetic.main.activity_main.*
-import org.koin.android.ext.android.inject
 
 class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemSelectedListener {
 
-    private val viewModel: MainViewModel by inject()
+    private val searchFragment by lazy {
+        SearchFragment()
+    }
+
+    private val favoritesFragment by lazy {
+        FavoritesFragment()
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         setTheme(R.style.AppTheme)
@@ -23,10 +27,9 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        navigation.setOnNavigationItemSelectedListener(this)
+        loadFragment(R.id.nav_search)
 
-        /* Anchor view model to this activity lifecycle */
-        viewModel
+        navigation.setOnNavigationItemSelectedListener(this)
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
@@ -37,15 +40,13 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
 
     private fun loadFragment(@IdRes itemId: Int) {
         when (itemId) {
-            R.id.nav_search -> R.string.nav_search to SearchFragment()
-            R.id.nav_favorites -> R.string.nav_favorites to FavoritesFragment()
+            R.id.nav_search -> searchFragment
+            R.id.nav_favorites -> favoritesFragment
             else -> null
-        }.notNull { (title, fragment) ->
-            supportActionBar?.setTitle(title)
-
+        }.notNull { fragment ->
             supportFragmentManager
                 .beginTransaction()
-                .setCustomAnimations(android.R.anim.slide_in_left, android.R.anim.slide_out_right)
+                //.setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out)
                 .replace(R.id.fragment_content, fragment)
                 .commit()
         }

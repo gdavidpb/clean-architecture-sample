@@ -17,9 +17,9 @@ fun ArtistEntry.toArtist(): Artist {
     return Artist(
         artistId = artistId,
         artistName = artistName,
-        artistLinkUrl = artistLinkUrl,
-        primaryGenreName = primaryGenreName,
-        primaryGenreId = primaryGenreId,
+        artistLinkUrl = artistLinkUrl ?: "",
+        primaryGenreName = primaryGenreName ?: "",
+        primaryGenreId = primaryGenreId ?: 0,
         isLiked = false
     )
 }
@@ -115,14 +115,15 @@ fun TrackEntity.toTrack(): Track {
 
 /* from domain to data layer */
 
-fun Artist.toArtistEntity(): ArtistEntity {
+fun Artist.toArtistEntity(queryString: String): ArtistEntity {
     return ArtistEntity(
         artistId = artistId,
         artistName = artistName,
         artistLinkUrl = artistLinkUrl,
         primaryGenreName = primaryGenreName,
         primaryGenreId = primaryGenreId,
-        like = if (isLiked) 1 else 0
+        like = if (isLiked) 1 else 0,
+        queryString = queryString
     )
 }
 

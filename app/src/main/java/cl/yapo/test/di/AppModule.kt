@@ -12,7 +12,8 @@ import cl.yapo.test.domain.repository.MusicLocalRepository
 import cl.yapo.test.domain.repository.MusicRemoteRepository
 import cl.yapo.test.domain.repository.StorageRepository
 import cl.yapo.test.domain.usecase.*
-import cl.yapo.test.presentation.viewmodel.MainViewModel
+import cl.yapo.test.presentation.viewmodel.FavoritesViewModel
+import cl.yapo.test.presentation.viewmodel.SearchViewModel
 import cl.yapo.test.utils.DATABASE_NAME
 import cl.yapo.test.utils.URL_BASE_ITUNES_SEARCH_API
 import okhttp3.OkHttpClient
@@ -68,7 +69,8 @@ val appModule = module {
     }
 
     /* View models */
-    viewModel<MainViewModel>()
+    viewModel<SearchViewModel>()
+    viewModel<FavoritesViewModel>()
 
     /* Factories */
 
@@ -84,4 +86,5 @@ val appModule = module {
     factory<LookupAlbumsUseCase>()
     factory<LookupTracksUseCase>()
     factory<SearchArtistsUseCase>()
+    factory<GetLikedArtistsUseCase>()
 }

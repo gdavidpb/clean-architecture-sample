@@ -1,13 +1,21 @@
 package cl.yapo.test.utils
 
 import android.net.ConnectivityManager
+import android.view.View
+import android.widget.TextView
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentActivity
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Observer
 import cl.yapo.test.domain.usecase.coroutines.Completable
 import cl.yapo.test.domain.usecase.coroutines.Result
+import kotlinx.coroutines.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.HttpException
 import retrofit2.Response
+import java.text.Normalizer
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.coroutines.resume
@@ -54,6 +62,14 @@ fun LiveCompletable.postLoading() = postValue(Completable.OnLoading)
 @JvmName("postCancelCompletable")
 fun LiveCompletable.postCancel() = postValue(Completable.OnCancel)
 
+/* Observers */
+
+fun <T, L : LiveData<T>> FragmentActivity.observe(liveData: L, body: (T?) -> Unit) =
+    liveData.observe(this, Observer(body))
+
+fun <T, L : LiveData<T>> Fragment.observe(liveData: L, body: (T?) -> Unit) =
+    liveData.observe(viewLifecycleOwner, Observer(body))
+
 /* Coroutines */
 
 suspend fun <T> Call<T>.await() = suspendCoroutine<T?> { continuation ->
@@ -71,11 +87,40 @@ suspend fun <T> Call<T>.await() = suspendCoroutine<T?> { continuation ->
     })
 }
 
+/* View */
+
+fun TextView.drawables(
+    left: Int = 0,
+    top: Int = 0,
+    right: Int = 0,
+    bottom: Int = 0
+) = setCompoundDrawablesWithIntrinsicBounds(left, top, right, bottom)
+
+fun View.onClickOnce(onClick: () -> Unit) {
+    setOnClickListener(object : View.OnClickListener {
+        override fun onClick(view: View) {
+            view.setOnClickListener(null)
+
+            also { listener ->
+                CoroutineScope(Dispatchers.Main).launch {
+                    onClick()
+
+                    withContext(Dispatchers.IO) { delay(500) }
+
+                    view.setOnClickListener(listener)
+                }
+            }
+        }
+    })
+}
+
 /* Parsing */
 
 private val ISO8601format = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.US)
 
 fun String.parseISO8601Date(): Date = ISO8601format.parse(this)
+
+fun String.normalize() = Normalizer.normalize(toLowerCase(), Normalizer.Form.NFD).replace("[^\\p{ASCII}]".toRegex(), "")
 
 /* Utils */
 

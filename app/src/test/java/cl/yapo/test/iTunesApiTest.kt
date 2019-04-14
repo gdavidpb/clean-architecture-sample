@@ -15,11 +15,11 @@ import org.koin.test.KoinTest
 
 class iTunesApiTest : KoinTest {
 
-    private val artistSearchQuery = "jack johnson"
+    private val artistSearchQuery = "jack"
     private val artistIdQuery = 909253L
     private val albumIdQuery = 879716730L
 
-    private val api by inject<iTunesSearchApi>()
+    private val api: iTunesSearchApi by inject()
 
     @Before
     fun `start koin`() {
@@ -32,11 +32,9 @@ class iTunesApiTest : KoinTest {
             api.searchArtists(terms = artistSearchQuery).await()
         }
 
-        assertNotNull(result)
+        assertNotNull(result); result ?: return
 
-        val resultCount = result?.resultCount ?: 0
-
-        assertTrue(resultCount > 0)
+        assertTrue(result.resultCount > 0)
     }
 
     @Test
@@ -45,11 +43,9 @@ class iTunesApiTest : KoinTest {
             api.lookupAlbums(artistId = artistIdQuery).await()
         }
 
-        assertNotNull(result)
+        assertNotNull(result); result ?: return
 
-        val resultCount = result?.resultCount ?: 0
-
-        assertTrue(resultCount > 0)
+        assertTrue(result.resultCount > 0)
     }
 
     @Test
@@ -58,11 +54,9 @@ class iTunesApiTest : KoinTest {
             api.lookupTracks(albumId = albumIdQuery).await()
         }
 
-        assertNotNull(result)
+        assertNotNull(result); result ?: return
 
-        val resultCount = result?.resultCount ?: 0
-
-        assertTrue(resultCount > 0)
+        assertTrue(result.resultCount > 0)
     }
 
     @After

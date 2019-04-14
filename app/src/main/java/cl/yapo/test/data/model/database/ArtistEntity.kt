@@ -12,5 +12,6 @@ data class ArtistEntity(
     val artistLinkUrl: String,
     val primaryGenreName: String,
     val primaryGenreId: Long,
-    val like: Int
+    val like: Int,
+    val queryString: String
 )

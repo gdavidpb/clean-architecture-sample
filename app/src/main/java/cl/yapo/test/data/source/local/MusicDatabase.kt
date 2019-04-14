@@ -20,7 +20,7 @@ import cl.yapo.test.utils.DATABASE_VERSION
     exportSchema = false
 )
 abstract class MusicDatabase : RoomDatabase() {
-    abstract fun artists(): ArtistDao
-    abstract fun albums(): AlbumDao
-    abstract fun tracks(): TrackDao
+    abstract val artists: ArtistDao
+    abstract val albums: AlbumDao
+    abstract val tracks: TrackDao
 }
