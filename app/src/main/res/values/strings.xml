@@ -26,6 +26,8 @@
 
     <!-- ArtistActivity -->
 
+    <string name="text_artist_no_albums">It seems we couldn\'t find any album ;(</string>
+
     <string name="text_album_genre_year">%1$s • %2$s</string>
 
 </resources>

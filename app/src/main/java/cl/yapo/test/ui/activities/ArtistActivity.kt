@@ -2,6 +2,7 @@ package cl.yapo.test.ui.activities
 
 import android.net.ConnectivityManager
 import android.os.Bundle
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import cl.yapo.test.R
@@ -9,12 +10,14 @@ import cl.yapo.test.domain.model.Album
 import cl.yapo.test.domain.usecase.coroutines.Result
 import cl.yapo.test.presentation.viewmodel.ArtistViewModel
 import cl.yapo.test.ui.adapters.AlbumAdapter
+import cl.yapo.test.utils.EXTRA_ALBUM_ID
 import cl.yapo.test.utils.EXTRA_ARTIST_ID
 import cl.yapo.test.utils.isNetworkAvailable
 import cl.yapo.test.utils.observe
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_artist.*
 import org.jetbrains.anko.longToast
+import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.support.v4.onRefresh
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -39,9 +42,11 @@ class ArtistActivity : AppCompatActivity() {
 
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
-        rViewAlbums.layoutManager = LinearLayoutManager(this)
-        rViewAlbums.adapter = albumAdapter
-        rViewAlbums.setHasFixedSize(true)
+        with(rViewAlbums) {
+            layoutManager = LinearLayoutManager(context)
+            adapter = albumAdapter
+            setHasFixedSize(true)
+        }
 
         with(viewModel) {
             observe(albums, ::albumsObserver)
@@ -69,10 +74,17 @@ class ArtistActivity : AppCompatActivity() {
                 sRefreshAlbums.isRefreshing = false
 
                 val albums = result.value
-                    .sortedBy { it.releaseDate }
+                    .sortedByDescending { it.releaseDate }
 
-                if (albums.isNotEmpty())
+                if (albums.isNotEmpty()) {
                     supportActionBar?.title = albums.first().artistName
+
+                    tViewAlbums.visibility = View.GONE
+                    rViewAlbums.visibility = View.VISIBLE
+                } else {
+                    rViewAlbums.visibility = View.GONE
+                    tViewAlbums.visibility = View.VISIBLE
+                }
 
                 albumAdapter.swapItems(new = albums)
             }
@@ -94,7 +106,7 @@ class ArtistActivity : AppCompatActivity() {
 
     inner class AlbumManager : AlbumAdapter.AdapterCallback {
         override fun onAlbumClicked(item: Album, position: Int) {
-
+            startActivity<AlbumDetailActivity>(EXTRA_ALBUM_ID to item.collectionId)
         }
 
         override fun provideImageLoader(): Picasso {

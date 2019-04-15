@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/dp_16"
+        android:background="?android:selectableItemBackground">
+
+    <ProgressBar
+            android:id="@+id/pBarTrack"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="@id/iViewTrackAction"
+            app:layout_constraintBottom_toBottomOf="@id/iViewTrackAction"
+            app:layout_constraintStart_toStartOf="@id/iViewTrackAction"
+            app:layout_constraintEnd_toEndOf="@id/iViewTrackAction"
+            style="?android:attr/progressBarStyleSmall"
+            android:indeterminate="true"
+            android:visibility="gone"/>
+
+    <ImageView
+            android:id="@+id/iViewTrackAction"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:padding="@dimen/dp_8"
+            android:src="@drawable/ic_play"
+            tools:ignore="ContentDescription"/>
+
+    <TextView
+            android:id="@+id/tViewTrackName"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toEndOf="@id/iViewTrackAction"
+            app:layout_constraintEnd_toStartOf="@id/tViewTrackTime"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginEnd="@dimen/dp_16"
+            android:layout_marginStart="@dimen/dp_8"
+            android:textColor="@color/colorForegroundDark"
+            android:maxLines="1"
+            android:ellipsize="end"
+            android:drawablePadding="@dimen/dp_4"
+            android:gravity="center_vertical"
+            tools:drawableEnd="@drawable/ic_explicit"
+            tools:text="Rolling in the Deep"
+            tools:ignore="ContentDescription"/>
+
+    <TextView
+            android:id="@+id/tViewTrackTime"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/colorForegroundDark"
+            tools:text="03:48"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

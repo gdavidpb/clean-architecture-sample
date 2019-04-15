@@ -16,6 +16,11 @@
             android:theme="@style/AppTheme">
         <activity
                 android:name=".ui.activities.ArtistActivity"
+                android:label=""
+                android:exported="false"/>
+        <activity
+                android:name=".ui.activities.AlbumDetailActivity"
+                android:label=""
                 android:exported="false"/>
         <activity
                 android:name=".ui.activities.MainActivity"

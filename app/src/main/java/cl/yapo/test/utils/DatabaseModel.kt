@@ -13,10 +13,6 @@ const val TABLE_ARTISTS = "artists"
 
 const val TABLE_ALBUMS = "albums"
 
-const val COLUMN_ARTIST_ID = "artistId"
-
 /* Tracks table */
 
 const val TABLE_TRACKS = "tracks"
-
-const val COLUMN_COLLECTION_ID = "collectionId"

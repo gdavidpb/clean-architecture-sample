@@ -7,7 +7,8 @@
         android:paddingStart="@dimen/dp_16"
         android:paddingEnd="@dimen/dp_16"
         android:paddingTop="@dimen/dp_8"
-        android:paddingBottom="@dimen/dp_8">
+        android:paddingBottom="@dimen/dp_8"
+        android:background="?android:selectableItemBackground">
 
     <ImageView
             android:id="@+id/iViewAlbumCover"

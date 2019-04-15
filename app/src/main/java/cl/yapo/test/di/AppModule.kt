@@ -12,6 +12,7 @@ import cl.yapo.test.domain.repository.MusicLocalRepository
 import cl.yapo.test.domain.repository.MusicRemoteRepository
 import cl.yapo.test.domain.repository.StorageRepository
 import cl.yapo.test.domain.usecase.*
+import cl.yapo.test.presentation.viewmodel.ArtistDetailViewModel
 import cl.yapo.test.presentation.viewmodel.ArtistViewModel
 import cl.yapo.test.presentation.viewmodel.FavoritesViewModel
 import cl.yapo.test.presentation.viewmodel.SearchViewModel
@@ -80,6 +81,7 @@ val appModule = module {
     viewModel<SearchViewModel>()
     viewModel<FavoritesViewModel>()
     viewModel<ArtistViewModel>()
+    viewModel<ArtistDetailViewModel>()
 
     /* Factories */
 

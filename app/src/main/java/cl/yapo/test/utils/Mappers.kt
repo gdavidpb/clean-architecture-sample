@@ -59,7 +59,26 @@ fun TrackEntry.toTrack(): Track {
         trackCensoredName = trackCensoredName,
         artistViewUrl = artistViewUrl,
         collectionViewUrl = collectionViewUrl,
-        trackViewUrl = trackViewUrl
+        trackViewUrl = trackViewUrl,
+        previewUrl = previewUrl,
+        collectionPrice = collectionPrice,
+        trackPrice = trackPrice,
+        releaseDate = releaseDate,
+        isCollectionExplicit = collectionExplicitness != "notExplicit",
+        isTrackExplicit = trackExplicitness != "notExplicit",
+        discCount = discCount,
+        discNumber = discNumber,
+        trackCount = trackCount,
+        trackNumber = trackNumber,
+        trackTimeMillis = trackTimeMillis,
+        country = country,
+        currency = currency,
+        primaryGenreName = primaryGenreName,
+        isStreamable = isStreamable,
+        isDownloading = false,
+        isPlaying = false,
+        isPaused = false,
+        isDownloaded = false
     )
 }
 
@@ -99,9 +118,9 @@ fun AlbumEntity.toAlbum(): Album {
 
 fun TrackEntity.toTrack(): Track {
     return Track(
-        trackId = trackId,
         artistId = artistId,
         collectionId = collectionId,
+        trackId = trackId,
         artistName = artistName,
         collectionName = collectionName,
         trackName = trackName,
@@ -109,7 +128,26 @@ fun TrackEntity.toTrack(): Track {
         trackCensoredName = trackCensoredName,
         artistViewUrl = artistViewUrl,
         collectionViewUrl = collectionViewUrl,
-        trackViewUrl = trackViewUrl
+        trackViewUrl = trackViewUrl,
+        previewUrl = previewUrl,
+        collectionPrice = collectionPrice,
+        trackPrice = trackPrice,
+        releaseDate = releaseDate,
+        isCollectionExplicit = (isCollectionExplicit == 1),
+        isTrackExplicit = (isTrackExplicit == 1),
+        discCount = discCount,
+        discNumber = discNumber,
+        trackCount = trackCount,
+        trackNumber = trackNumber,
+        trackTimeMillis = trackTimeMillis,
+        country = country,
+        currency = currency,
+        primaryGenreName = primaryGenreName,
+        isStreamable = (isStreamable == 1),
+        isDownloading = false,
+        isPlaying = false,
+        isPaused = false,
+        isDownloaded = (isDownloaded == 1)
     )
 }
 
@@ -152,9 +190,9 @@ fun Album.toAlbumEntity(): AlbumEntity {
 
 fun Track.toTrackEntity(): TrackEntity {
     return TrackEntity(
-        trackId = trackId,
         artistId = artistId,
         collectionId = collectionId,
+        trackId = trackId,
         artistName = artistName,
         collectionName = collectionName,
         trackName = trackName,
@@ -162,6 +200,22 @@ fun Track.toTrackEntity(): TrackEntity {
         trackCensoredName = trackCensoredName,
         artistViewUrl = artistViewUrl,
         collectionViewUrl = collectionViewUrl,
-        trackViewUrl = trackViewUrl
+        trackViewUrl = trackViewUrl,
+        previewUrl = previewUrl,
+        collectionPrice = collectionPrice,
+        trackPrice = trackPrice,
+        releaseDate = releaseDate,
+        isCollectionExplicit = if (isCollectionExplicit) 1 else 0,
+        isTrackExplicit = if (isTrackExplicit) 1 else 0,
+        discCount = discCount,
+        discNumber = discNumber,
+        trackCount = trackCount,
+        trackNumber = trackNumber,
+        trackTimeMillis = trackTimeMillis,
+        country = country,
+        currency = currency,
+        primaryGenreName = primaryGenreName,
+        isStreamable = if (isStreamable) 1 else 0,
+        isDownloaded = if (isDownloaded) 1 else 0
     )
 }

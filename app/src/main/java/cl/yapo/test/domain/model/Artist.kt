@@ -7,4 +7,15 @@ data class Artist(
     val primaryGenreName: String,
     val primaryGenreId: Long,
     val isLiked: Boolean
-)
+) {
+    override fun hashCode() = artistId.toInt()
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (javaClass != other?.javaClass) return false
+
+        other as Track
+
+        return (artistId == other.artistId)
+    }
+}
