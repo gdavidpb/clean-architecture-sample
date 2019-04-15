@@ -13,11 +13,10 @@ import cl.yapo.test.domain.model.response.DownloadTrackResponse
 import cl.yapo.test.domain.usecase.coroutines.Result
 import cl.yapo.test.presentation.viewmodel.ArtistDetailViewModel
 import cl.yapo.test.ui.adapters.TrackAdapter
-import cl.yapo.test.utils.EXTRA_ALBUM_ID
-import cl.yapo.test.utils.isNetworkAvailable
-import cl.yapo.test.utils.observe
+import cl.yapo.test.utils.*
 import kotlinx.android.synthetic.main.activity_album_detail.*
 import org.jetbrains.anko.longToast
+import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.support.v4.onRefresh
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -207,6 +206,13 @@ class AlbumDetailActivity : AppCompatActivity() {
 
                 player.pause()
             }
+        }
+
+        override fun onPreviewTrackClicked(track: Track, position: Int) {
+            startActivity<WebViewActivity>(
+                EXTRA_TITLE to track.trackName,
+                EXTRA_URL to track.previewUrl
+            )
         }
 
         override fun getTrack(position: Int): Track {

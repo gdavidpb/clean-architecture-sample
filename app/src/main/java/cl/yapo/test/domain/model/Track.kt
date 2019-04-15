@@ -30,7 +30,9 @@ data class Track(
     val isDownloading: Boolean,
     val isPlaying: Boolean,
     val isPaused: Boolean,
-    val isDownloaded: Boolean
+    val isDownloaded: Boolean,
+    val isMusic: Boolean,
+    val isVideo: Boolean
 ) {
     override fun hashCode() = trackId.toInt()
 

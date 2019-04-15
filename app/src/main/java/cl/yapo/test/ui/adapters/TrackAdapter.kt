@@ -14,6 +14,7 @@ open class TrackAdapter(
     interface AdapterCallback {
         fun onPlayTrackClicked(track: Track, position: Int)
         fun onPauseTrackClicked(track: Track, position: Int)
+        fun onPreviewTrackClicked(track: Track, position: Int)
 
         fun getTrack(position: Int): Track
     }

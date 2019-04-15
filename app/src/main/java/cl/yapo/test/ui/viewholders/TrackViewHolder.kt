@@ -46,30 +46,37 @@ open class TrackViewHolder(
                     pBarTrack.visibility = View.VISIBLE
                 }
                 else -> {
-                    if (item.isStreamable) {
-                        tViewTrackName.textColorResource = R.color.colorForegroundDark
-                        tViewTrackTime.textColorResource = R.color.colorForegroundDark
-                        iViewTrackAction.imageResource = R.drawable.ic_play
+                    when {
+                        item.isMusic -> {
+                            tViewTrackName.textColorResource = R.color.colorForegroundDark
+                            tViewTrackTime.textColorResource = R.color.colorForegroundDark
+                            iViewTrackAction.imageResource = R.drawable.ic_play
 
-                        pBarTrack.visibility = View.GONE
-                        iViewTrackAction.visibility = View.VISIBLE
-                    } else {
-                        iViewTrackAction.imageResource = R.drawable.ic_video
+                            pBarTrack.visibility = View.GONE
+                            iViewTrackAction.visibility = View.VISIBLE
+                        }
+                        item.isVideo -> {
+                            iViewTrackAction.imageResource = R.drawable.ic_video
+                        }
                     }
                 }
             }
 
-            if (item.isStreamable)
-                onClickOnce {
-                    val updatedItem = callback.getTrack(adapterPosition)
+            onClickOnce {
+                val updatedItem = callback.getTrack(adapterPosition)
 
-                    if (updatedItem.isPlaying)
-                        callback.onPauseTrackClicked(track = item, position = adapterPosition)
-                    else
-                        callback.onPlayTrackClicked(track = item, position = adapterPosition)
+                when {
+                    updatedItem.isMusic -> {
+                        if (updatedItem.isPlaying)
+                            callback.onPauseTrackClicked(track = updatedItem, position = adapterPosition)
+                        else
+                            callback.onPlayTrackClicked(track = updatedItem, position = adapterPosition)
+                    }
+                    updatedItem.isVideo -> {
+                        callback.onPreviewTrackClicked(track = updatedItem, position = adapterPosition)
+                    }
                 }
-            else
-                setOnClickListener(null)
+            }
         }
     }
 }

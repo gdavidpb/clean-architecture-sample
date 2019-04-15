@@ -78,7 +78,9 @@ fun TrackEntry.toTrack(): Track {
         isDownloading = false,
         isPlaying = false,
         isPaused = false,
-        isDownloaded = false
+        isDownloaded = false,
+        isMusic = previewUrl.endsWith(".m4a"),
+        isVideo = previewUrl.endsWith(".m4v")
     )
 }
 
@@ -147,7 +149,9 @@ fun TrackEntity.toTrack(): Track {
         isDownloading = false,
         isPlaying = false,
         isPaused = false,
-        isDownloaded = (isDownloaded == 1)
+        isDownloaded = (isDownloaded == 1),
+        isMusic = previewUrl.endsWith(".m4a"),
+        isVideo = previewUrl.endsWith(".m4v")
     )
 }
 
