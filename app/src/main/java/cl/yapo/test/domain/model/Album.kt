@@ -28,7 +28,7 @@ data class Album(
         if (this === other) return true
         if (javaClass != other?.javaClass) return false
 
-        other as Track
+        other as Album
 
         return (collectionId == other.collectionId)
     }

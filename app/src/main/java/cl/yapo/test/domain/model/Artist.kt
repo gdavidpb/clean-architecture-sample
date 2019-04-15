@@ -14,7 +14,7 @@ data class Artist(
         if (this === other) return true
         if (javaClass != other?.javaClass) return false
 
-        other as Track
+        other as Artist
 
         return (artistId == other.artistId)
     }
