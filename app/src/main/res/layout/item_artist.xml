@@ -46,7 +46,6 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             android:button="@drawable/sl_like"
-            android:buttonTint="@color/colorPrimary"
             tools:checked="true"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

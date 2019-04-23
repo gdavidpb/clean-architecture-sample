@@ -1,7 +1,7 @@
 <resources>
 
     <!-- App -->
-    <string name="app_name">Yapo</string>
+    <string name="app_name">Test</string>
 
     <string name="toast_no_connection">Are you connected to Internet?</string>
     <string name="toast_connection_failure">Connection failure</string>

@@ -9,7 +9,7 @@ apply plugin: "kotlin-kapt"
 android {
     compileSdkVersion 28
     defaultConfig {
-        applicationId "cl.yapo.test"
+        applicationId "com.gdavidpb.test"
         minSdkVersion 21
         targetSdkVersion 28
         versionCode 1
@@ -34,8 +34,8 @@ android {
 dependencies {
     /* Testing */
     testImplementation "junit:junit:4.12"
-    androidTestImplementation "androidx.test:runner:1.2.0-alpha03"
-    androidTestImplementation "androidx.test.espresso:espresso-core:3.2.0-alpha03"
+    androidTestImplementation "androidx.test:runner:1.2.0-alpha04"
+    androidTestImplementation "androidx.test.espresso:espresso-core:3.2.0-alpha04"
 
     /* AndroidX */
     implementation "androidx.core:core-ktx:1.1.0-alpha05"
