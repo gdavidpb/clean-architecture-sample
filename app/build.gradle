@@ -34,11 +34,11 @@ android {
 dependencies {
     /* Testing */
     testImplementation "junit:junit:4.12"
-    androidTestImplementation "androidx.test:runner:1.2.0-alpha04"
-    androidTestImplementation "androidx.test.espresso:espresso-core:3.2.0-alpha04"
+    androidTestImplementation "androidx.test:runner:1.2.0"
+    androidTestImplementation "androidx.test.espresso:espresso-core:3.2.0"
 
     /* AndroidX */
-    implementation "androidx.core:core-ktx:1.1.0-alpha05"
+    implementation "androidx.core:core-ktx:1.2.0-alpha01"
 
     /* Architecture */
     implementation "androidx.arch.core:core-runtime:2.0.1"
@@ -50,10 +50,10 @@ dependencies {
     kapt "androidx.lifecycle:lifecycle-compiler:$lifecycle_version"
 
     /* Support */
-    implementation "com.google.android.material:material:1.1.0-alpha05"
-    implementation "androidx.recyclerview:recyclerview:1.1.0-alpha04"
-    implementation "androidx.appcompat:appcompat:1.1.0-alpha04"
-    implementation "androidx.constraintlayout:constraintlayout:2.0.0-alpha4"
+    implementation "com.google.android.material:material:1.1.0-alpha06"
+    implementation "androidx.recyclerview:recyclerview:1.1.0-alpha05"
+    implementation "androidx.appcompat:appcompat:1.1.0-alpha05"
+    implementation "androidx.constraintlayout:constraintlayout:2.0.0-beta1"
 
     /* Kotlin */
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
