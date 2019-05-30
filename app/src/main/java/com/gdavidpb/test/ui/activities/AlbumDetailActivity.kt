@@ -9,6 +9,7 @@ import com.gdavidpb.test.R
 import com.gdavidpb.test.domain.model.Track
 import com.gdavidpb.test.domain.model.response.DownloadTrackResponse
 import com.gdavidpb.test.domain.usecase.coroutines.Result
+import com.gdavidpb.test.presentation.model.TrackItem
 import com.gdavidpb.test.presentation.viewmodel.ArtistDetailViewModel
 import com.gdavidpb.test.ui.adapters.TrackAdapter
 import com.gdavidpb.test.utils.*
@@ -99,7 +100,9 @@ class AlbumDetailActivity : AppCompatActivity() {
                 if (tracks.isNotEmpty())
                     supportActionBar?.title = tracks.first().collectionName
 
-                trackAdapter.swapItems(new = tracks)
+                val items = tracks.map(Track::toTrackItem)
+
+                trackAdapter.swapItems(new = items)
             }
             is Result.OnError -> {
                 sRefreshAlbumDetail.isRefreshing = false
@@ -128,7 +131,9 @@ class AlbumDetailActivity : AppCompatActivity() {
                 val isReady = !response.track.isDownloading || response.track.isDownloaded
 
                 if (isReady) {
-                    trackAdapter.updateItem(item = response.track) {
+                    val track = response.track.let(Track::toTrackItem)
+
+                    trackAdapter.updateItem(track) {
                         copy(
                             isPlaying = true,
                             isPaused = false,
@@ -138,7 +143,7 @@ class AlbumDetailActivity : AppCompatActivity() {
                     }
 
                     mediaPlayerManager.play(source = response.file) {
-                        trackAdapter.updateItem(item = response.track) {
+                        trackAdapter.updateItem(track) {
                             copy(
                                 isPlaying = false,
                                 isPaused = false,
@@ -158,7 +163,7 @@ class AlbumDetailActivity : AppCompatActivity() {
     }
 
     inner class TrackManager : TrackAdapter.AdapterManager {
-        override fun onPlayTrackClicked(track: Track, position: Int) {
+        override fun onPlayTrackClicked(track: TrackItem, position: Int) {
             mediaPlayerManager.stop()
 
             if (track.isDownloaded)
@@ -178,10 +183,10 @@ class AlbumDetailActivity : AppCompatActivity() {
                     )
                 }
 
-            viewModel.downloadTrack(track)
+            viewModel.downloadTrack(track = track.let(TrackItem::toTrack))
         }
 
-        override fun onPauseTrackClicked(track: Track, position: Int) {
+        override fun onPauseTrackClicked(track: TrackItem, position: Int) {
             mediaPlayerManager.pause()
 
             trackAdapter.updateItem(position = position) {
@@ -193,7 +198,7 @@ class AlbumDetailActivity : AppCompatActivity() {
             }
         }
 
-        override fun onPreviewTrackClicked(track: Track, position: Int) {
+        override fun onPreviewTrackClicked(track: TrackItem, position: Int) {
             startActivity<WebViewActivity>(
                 EXTRA_TITLE to track.trackName,
                 EXTRA_URL to track.previewUrl

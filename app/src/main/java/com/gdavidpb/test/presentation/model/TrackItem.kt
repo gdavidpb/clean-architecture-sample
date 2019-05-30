@@ -1,6 +1,8 @@
-package com.gdavidpb.test.domain.model
+package com.gdavidpb.test.presentation.model
 
-data class Track(
+import com.gdavidpb.test.R
+
+data class TrackItem(
     val artistId: Long,
     val collectionId: Long,
     val trackId: Long,
@@ -32,5 +34,32 @@ data class Track(
     val isPaused: Boolean,
     val isDownloaded: Boolean,
     val isMusic: Boolean,
-    val isVideo: Boolean
-)
+    val isVideo: Boolean,
+    val nameIconResource: Int,
+    val timeMillisString: String
+) {
+    override fun hashCode() = trackId.toInt()
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (javaClass != other?.javaClass) return false
+
+        other as TrackItem
+
+        return (trackId == other.trackId)
+    }
+
+    fun computeTextColorResource() = when {
+        isPlaying || isPaused || isDownloading -> R.color.colorAccent
+        else -> R.color.colorForegroundDark
+    }
+
+    fun computeActionIconResource() = when {
+        isPlaying -> R.drawable.ic_pause
+        isPaused -> R.drawable.ic_play_on
+        isDownloading -> R.drawable.ic_play
+        isMusic -> R.drawable.ic_play
+        isVideo -> R.drawable.ic_video
+        else -> 0
+    }
+}

@@ -31,6 +31,18 @@ abstract class BaseAdapter<T> : RecyclerView.Adapter<BaseViewHolder<T>>() {
     else
         null
 
+    open fun updateItem(position: Int, update: T.() -> T) {
+        items[position] = items[position].update()
+
+        notifyItemChanged(position)
+    }
+
+    open fun updateItem(item: T, update: T.() -> T) {
+        val position = items.indexOf(item)
+
+        updateItem(position, update)
+    }
+
     open fun getItem(position: Int): T {
         return items[position]
     }

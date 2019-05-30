@@ -104,6 +104,12 @@ fun CheckBox.setSafeChecked(checked: Boolean) {
     isEnabled = enabled
 }
 
+var View.visible: Boolean
+    get() = visibility == View.VISIBLE
+    set(value) {
+        visibility = if (value) View.VISIBLE else View.INVISIBLE
+    }
+
 fun View.onClickOnce(onClick: () -> Unit) {
     setOnClickListener(object : View.OnClickListener {
         override fun onClick(view: View) {

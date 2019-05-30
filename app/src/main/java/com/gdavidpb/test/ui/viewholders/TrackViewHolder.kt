@@ -1,63 +1,34 @@
 package com.gdavidpb.test.ui.viewholders
 
 import android.view.View
-import com.gdavidpb.test.R
-import com.gdavidpb.test.domain.model.Track
+import com.gdavidpb.test.presentation.model.TrackItem
 import com.gdavidpb.test.utils.drawables
-import com.gdavidpb.test.utils.formatInterval
+import com.gdavidpb.test.utils.visible
 import kotlinx.android.synthetic.main.item_track.view.*
 import org.jetbrains.anko.imageResource
 import org.jetbrains.anko.textColorResource
 
 open class TrackViewHolder(
     itemView: View
-) : BaseViewHolder<Track>(itemView) {
-    override fun bindView(item: Track) {
+) : BaseViewHolder<TrackItem>(itemView) {
+    override fun bindView(item: TrackItem) {
         with(itemView) {
+            tViewTrackName.drawables(right = item.nameIconResource)
+
+            val textColorResource = item.computeTextColorResource()
+            val actionIconResource = item.computeActionIconResource()
+
+            tViewTrackName.textColorResource = textColorResource
+            tViewTrackTime.textColorResource = textColorResource
+            iViewTrackAction.imageResource = actionIconResource
+
             tViewTrackName.text = item.trackName
-            tViewTrackName.drawables(right = if (item.isTrackExplicit) R.drawable.ic_explicit else 0)
-            tViewTrackTime.text = item.trackTimeMillis.formatInterval()
+            tViewTrackTime.text = item.timeMillisString
 
-            when {
-                item.isPlaying -> {
-                    tViewTrackName.textColorResource = R.color.colorAccent
-                    tViewTrackTime.textColorResource = R.color.colorAccent
-                    iViewTrackAction.imageResource = R.drawable.ic_pause
+            pBarTrack.visible = item.isDownloading
+            iViewTrackAction.visible = !item.isDownloading
 
-                    pBarTrack.visibility = View.GONE
-                    iViewTrackAction.visibility = View.VISIBLE
-                }
-                item.isPaused -> {
-                    tViewTrackName.textColorResource = R.color.colorAccent
-                    tViewTrackTime.textColorResource = R.color.colorAccent
-                    iViewTrackAction.imageResource = R.drawable.ic_play_on
-
-                    pBarTrack.visibility = View.GONE
-                    iViewTrackAction.visibility = View.VISIBLE
-                }
-                item.isDownloading -> {
-                    tViewTrackName.textColorResource = R.color.colorAccent
-                    tViewTrackTime.textColorResource = R.color.colorAccent
-
-                    iViewTrackAction.visibility = View.INVISIBLE
-                    pBarTrack.visibility = View.VISIBLE
-                }
-                else -> {
-                    when {
-                        item.isMusic -> {
-                            tViewTrackName.textColorResource = R.color.colorForegroundDark
-                            tViewTrackTime.textColorResource = R.color.colorForegroundDark
-                            iViewTrackAction.imageResource = R.drawable.ic_play
-
-                            pBarTrack.visibility = View.GONE
-                            iViewTrackAction.visibility = View.VISIBLE
-                        }
-                        item.isVideo -> {
-                            iViewTrackAction.imageResource = R.drawable.ic_video
-                        }
-                    }
-                }
-            }
+            if (actionIconResource != 0) iViewTrackAction.imageResource = actionIconResource
         }
     }
 }

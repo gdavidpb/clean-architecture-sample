@@ -3,24 +3,24 @@ package com.gdavidpb.test.ui.adapters
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.gdavidpb.test.R
-import com.gdavidpb.test.domain.model.Track
+import com.gdavidpb.test.presentation.model.TrackItem
 import com.gdavidpb.test.ui.viewholders.BaseViewHolder
 import com.gdavidpb.test.ui.viewholders.TrackViewHolder
 import com.gdavidpb.test.utils.onClickOnce
 
 open class TrackAdapter(
     private val manager: AdapterManager
-) : BaseAdapter<Track>() {
+) : BaseAdapter<TrackItem>() {
 
     interface AdapterManager {
-        fun onPlayTrackClicked(track: Track, position: Int)
-        fun onPauseTrackClicked(track: Track, position: Int)
-        fun onPreviewTrackClicked(track: Track, position: Int)
+        fun onPlayTrackClicked(track: TrackItem, position: Int)
+        fun onPauseTrackClicked(track: TrackItem, position: Int)
+        fun onPreviewTrackClicked(track: TrackItem, position: Int)
     }
 
-    override fun provideComparator() = compareBy(Track::trackId)
+    override fun provideComparator() = compareBy(TrackItem::trackId)
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder<Track> {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder<TrackItem> {
         val itemView = LayoutInflater.from(parent.context).inflate(R.layout.item_track, parent, false)
 
         return TrackViewHolder(itemView).also {
@@ -45,18 +45,10 @@ open class TrackAdapter(
         }
     }
 
-    fun updateItem(position: Int, update: Track.() -> Track) {
+    override fun updateItem(position: Int, update: TrackItem.() -> TrackItem) {
         resetStates()
 
-        items[position] = items[position].update()
-
-        notifyItemChanged(position)
-    }
-
-    fun updateItem(item: Track, update: Track.() -> Track) {
-        val position = items.indexOf(item)
-
-        updateItem(position, update)
+        super.updateItem(position, update)
     }
 
     fun resetStates() {
