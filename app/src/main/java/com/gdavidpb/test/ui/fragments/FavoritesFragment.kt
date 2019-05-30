@@ -28,7 +28,7 @@ open class FavoritesFragment : Fragment() {
 
     private val connectionManager: ConnectivityManager by inject()
 
-    private val artistAdapter = ArtistAdapter(callback = ArtistManager())
+    private val artistAdapter = ArtistAdapter(manager = ArtistManager())
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_favorites, container, false)
@@ -90,7 +90,7 @@ open class FavoritesFragment : Fragment() {
         }
     }
 
-    inner class ArtistManager : ArtistAdapter.AdapterCallback {
+    inner class ArtistManager : ArtistAdapter.AdapterManager {
         override fun onArtistClicked(item: Artist, position: Int) {
             startActivity<ArtistActivity>(EXTRA_ARTIST_ID to item.artistId)
         }

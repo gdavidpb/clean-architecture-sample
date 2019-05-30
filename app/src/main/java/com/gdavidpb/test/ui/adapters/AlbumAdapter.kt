@@ -8,14 +8,15 @@ import com.gdavidpb.test.domain.model.Album
 import com.gdavidpb.test.ui.viewholders.AlbumViewHolder
 import com.gdavidpb.test.ui.viewholders.BaseViewHolder
 import com.gdavidpb.test.utils.SIZE_ALBUM_COVER
+import com.gdavidpb.test.utils.onClickOnce
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.item_album.view.*
 
 open class AlbumAdapter(
-    private val callback: AdapterCallback
+    private val manager: AdapterManager
 ) : BaseAdapter<Album>() {
 
-    interface AdapterCallback {
+    interface AdapterManager {
         fun onAlbumClicked(item: Album, position: Int)
 
         fun provideImageLoader(): Picasso
@@ -33,6 +34,15 @@ open class AlbumAdapter(
             }
         }
 
-        return AlbumViewHolder(itemView, callback)
+        return AlbumViewHolder(itemView, manager).also {
+            with(itemView) {
+                onClickOnce {
+                    val item = it.resolveItem()
+
+                    if (item != null)
+                        manager.onAlbumClicked(item, it.adapterPosition)
+                }
+            }
+        }
     }
 }

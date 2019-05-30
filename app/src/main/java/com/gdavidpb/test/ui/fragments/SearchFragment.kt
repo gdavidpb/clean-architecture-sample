@@ -29,7 +29,7 @@ open class SearchFragment : Fragment() {
 
     private val connectionManager: ConnectivityManager by inject()
 
-    private val artistAdapter = ArtistAdapter(callback = ArtistManager())
+    private val artistAdapter = ArtistAdapter(manager = ArtistManager())
 
     private val locker = IdempotentLocker()
 
@@ -123,7 +123,7 @@ open class SearchFragment : Fragment() {
         }
     }
 
-    inner class ArtistManager : ArtistAdapter.AdapterCallback {
+    inner class ArtistManager : ArtistAdapter.AdapterManager {
         override fun onArtistClicked(item: Artist, position: Int) {
             startActivity<ArtistActivity>(EXTRA_ARTIST_ID to item.artistId)
         }

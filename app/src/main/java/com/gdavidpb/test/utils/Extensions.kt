@@ -2,6 +2,7 @@ package com.gdavidpb.test.utils
 
 import android.net.ConnectivityManager
 import android.view.View
+import android.widget.CheckBox
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
@@ -95,6 +96,13 @@ fun TextView.drawables(
     right: Int = 0,
     bottom: Int = 0
 ) = setCompoundDrawablesWithIntrinsicBounds(left, top, right, bottom)
+
+fun CheckBox.setSafeChecked(checked: Boolean) {
+    val enabled = isEnabled
+    isEnabled = false
+    isChecked = checked
+    isEnabled = enabled
+}
 
 fun View.onClickOnce(onClick: () -> Unit) {
     setOnClickListener(object : View.OnClickListener {

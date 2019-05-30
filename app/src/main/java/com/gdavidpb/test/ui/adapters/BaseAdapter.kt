@@ -26,6 +26,11 @@ abstract class BaseAdapter<T> : RecyclerView.Adapter<BaseViewHolder<T>>() {
         items.addAll(new)
     }
 
+    open fun BaseViewHolder<T>.resolveItem() = if (adapterPosition != RecyclerView.NO_POSITION)
+        items[adapterPosition]
+    else
+        null
+
     open fun getItem(position: Int): T {
         return items[position]
     }

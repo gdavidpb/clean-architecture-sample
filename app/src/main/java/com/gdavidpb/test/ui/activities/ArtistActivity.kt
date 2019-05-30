@@ -30,7 +30,7 @@ class ArtistActivity : AppCompatActivity() {
 
     private val connectionManager: ConnectivityManager by inject()
 
-    private val albumAdapter = AlbumAdapter(callback = AlbumManager())
+    private val albumAdapter = AlbumAdapter(manager = AlbumManager())
 
     private val extraArtistId by lazy {
         intent.getLongExtra(EXTRA_ARTIST_ID, 0)
@@ -104,7 +104,7 @@ class ArtistActivity : AppCompatActivity() {
         }
     }
 
-    inner class AlbumManager : AlbumAdapter.AdapterCallback {
+    inner class AlbumManager : AlbumAdapter.AdapterManager {
         override fun onAlbumClicked(item: Album, position: Int) {
             startActivity<AlbumDetailActivity>(EXTRA_ALBUM_ID to item.collectionId)
         }

@@ -25,7 +25,7 @@ class AlbumDetailActivity : AppCompatActivity() {
 
     private val connectionManager: ConnectivityManager by inject()
 
-    private val trackAdapter = TrackAdapter(callback = TrackManager())
+    private val trackAdapter = TrackAdapter(manager = TrackManager())
 
     private lateinit var mediaPlayerManager: MediaPlayerManager
 
@@ -157,7 +157,7 @@ class AlbumDetailActivity : AppCompatActivity() {
         }
     }
 
-    inner class TrackManager : TrackAdapter.AdapterCallback {
+    inner class TrackManager : TrackAdapter.AdapterManager {
         override fun onPlayTrackClicked(track: Track, position: Int) {
             mediaPlayerManager.stop()
 
@@ -198,10 +198,6 @@ class AlbumDetailActivity : AppCompatActivity() {
                 EXTRA_TITLE to track.trackName,
                 EXTRA_URL to track.previewUrl
             )
-        }
-
-        override fun getTrack(position: Int): Track {
-            return trackAdapter.getItem(position)
         }
     }
 }

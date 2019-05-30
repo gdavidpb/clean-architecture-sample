@@ -3,17 +3,14 @@ package com.gdavidpb.test.ui.viewholders
 import android.view.View
 import com.gdavidpb.test.R
 import com.gdavidpb.test.domain.model.Track
-import com.gdavidpb.test.ui.adapters.TrackAdapter
 import com.gdavidpb.test.utils.drawables
 import com.gdavidpb.test.utils.formatInterval
-import com.gdavidpb.test.utils.onClickOnce
 import kotlinx.android.synthetic.main.item_track.view.*
 import org.jetbrains.anko.imageResource
 import org.jetbrains.anko.textColorResource
 
 open class TrackViewHolder(
-    itemView: View,
-    private val callback: TrackAdapter.AdapterCallback
+    itemView: View
 ) : BaseViewHolder<Track>(itemView) {
     override fun bindView(item: Track) {
         with(itemView) {
@@ -58,22 +55,6 @@ open class TrackViewHolder(
                         item.isVideo -> {
                             iViewTrackAction.imageResource = R.drawable.ic_video
                         }
-                    }
-                }
-            }
-
-            onClickOnce {
-                val updatedItem = callback.getTrack(adapterPosition)
-
-                when {
-                    updatedItem.isMusic -> {
-                        if (updatedItem.isPlaying)
-                            callback.onPauseTrackClicked(track = updatedItem, position = adapterPosition)
-                        else
-                            callback.onPlayTrackClicked(track = updatedItem, position = adapterPosition)
-                    }
-                    updatedItem.isVideo -> {
-                        callback.onPreviewTrackClicked(track = updatedItem, position = adapterPosition)
                     }
                 }
             }
