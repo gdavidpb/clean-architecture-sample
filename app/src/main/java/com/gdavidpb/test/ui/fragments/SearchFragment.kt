@@ -15,7 +15,11 @@ import com.gdavidpb.test.presentation.state.SearchState
 import com.gdavidpb.test.presentation.viewmodel.SearchViewModel
 import com.gdavidpb.test.ui.activities.ArtistActivity
 import com.gdavidpb.test.ui.adapters.ArtistAdapter
-import com.gdavidpb.test.utils.*
+import com.gdavidpb.test.utils.EXTRA_ARTIST_ID
+import com.gdavidpb.test.utils.IdempotentLocker
+import com.gdavidpb.test.utils.extensions.drawables
+import com.gdavidpb.test.utils.extensions.isNetworkAvailable
+import com.gdavidpb.test.utils.extensions.observe
 import kotlinx.android.synthetic.main.fragment_search.*
 import org.jetbrains.anko.support.v4.longToast
 import org.jetbrains.anko.support.v4.startActivity

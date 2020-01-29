@@ -5,9 +5,9 @@ import com.gdavidpb.test.domain.model.Artist
 import com.gdavidpb.test.domain.model.request.LikeArtistsRequest
 import com.gdavidpb.test.domain.usecase.GetLikedArtistsUseCase
 import com.gdavidpb.test.domain.usecase.UnlikeArtistUseCase
-import com.gdavidpb.test.utils.LiveCompletable
-import com.gdavidpb.test.utils.LiveResult
-import com.gdavidpb.test.utils.execute
+import com.gdavidpb.test.utils.extensions.LiveCompletable
+import com.gdavidpb.test.utils.extensions.LiveResult
+import com.gdavidpb.test.utils.extensions.execute
 
 open class FavoritesViewModel(
     private val getLikedArtistsUseCase: GetLikedArtistsUseCase,

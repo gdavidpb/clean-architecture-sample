@@ -6,7 +6,7 @@ import com.gdavidpb.test.R
 import com.gdavidpb.test.presentation.model.TrackItem
 import com.gdavidpb.test.ui.viewholders.BaseViewHolder
 import com.gdavidpb.test.ui.viewholders.TrackViewHolder
-import com.gdavidpb.test.utils.onClickOnce
+import com.gdavidpb.test.utils.extensions.onClickOnce
 
 open class TrackAdapter(
     private val manager: AdapterManager

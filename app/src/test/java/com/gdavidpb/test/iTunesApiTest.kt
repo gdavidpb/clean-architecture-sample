@@ -1,7 +1,7 @@
 package com.gdavidpb.test
 
 import com.gdavidpb.test.data.source.remote.iTunesSearchApi
-import com.gdavidpb.test.utils.await
+import com.gdavidpb.test.utils.extensions.getOrThrow
 import kotlinx.coroutines.runBlocking
 import org.junit.After
 import org.junit.Assert.assertNotNull
@@ -31,7 +31,7 @@ class iTunesApiTest : KoinTest {
     @Test
     fun `should get artists from iTunes api`() {
         val result = runBlocking {
-            api.searchArtists(terms = artistSearchQuery).await()
+            api.searchArtists(terms = artistSearchQuery).getOrThrow()
         }
 
         assertNotNull(result); result ?: return
@@ -42,7 +42,7 @@ class iTunesApiTest : KoinTest {
     @Test
     fun `should get the artist's albums from iTunes api`() {
         val result = runBlocking {
-            api.lookupAlbums(artistId = artistIdQuery).await()
+            api.lookupAlbums(artistId = artistIdQuery).getOrThrow()
         }
 
         assertNotNull(result); result ?: return
@@ -53,7 +53,7 @@ class iTunesApiTest : KoinTest {
     @Test
     fun `should get the album's songs from iTunes api`() {
         val result = runBlocking {
-            api.lookupTracks(albumId = albumIdQuery).await()
+            api.lookupTracks(albumId = albumIdQuery).getOrThrow()
         }
 
         assertNotNull(result); result ?: return

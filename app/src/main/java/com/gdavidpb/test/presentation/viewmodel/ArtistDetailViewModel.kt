@@ -7,8 +7,8 @@ import com.gdavidpb.test.domain.model.request.LookupTracksRequest
 import com.gdavidpb.test.domain.model.response.DownloadTrackResponse
 import com.gdavidpb.test.domain.usecase.DownloadTrackUseCase
 import com.gdavidpb.test.domain.usecase.LookupTracksUseCase
-import com.gdavidpb.test.utils.LiveResult
-import com.gdavidpb.test.utils.execute
+import com.gdavidpb.test.utils.extensions.LiveResult
+import com.gdavidpb.test.utils.extensions.execute
 
 open class ArtistDetailViewModel(
     private val lookupTracksUseCase: LookupTracksUseCase,

@@ -14,8 +14,8 @@ import com.gdavidpb.test.presentation.viewmodel.FavoritesViewModel
 import com.gdavidpb.test.ui.activities.ArtistActivity
 import com.gdavidpb.test.ui.adapters.ArtistAdapter
 import com.gdavidpb.test.utils.EXTRA_ARTIST_ID
-import com.gdavidpb.test.utils.isNetworkAvailable
-import com.gdavidpb.test.utils.observe
+import com.gdavidpb.test.utils.extensions.isNetworkAvailable
+import com.gdavidpb.test.utils.extensions.observe
 import kotlinx.android.synthetic.main.fragment_favorites.*
 import org.jetbrains.anko.support.v4.longToast
 import org.jetbrains.anko.support.v4.startActivity

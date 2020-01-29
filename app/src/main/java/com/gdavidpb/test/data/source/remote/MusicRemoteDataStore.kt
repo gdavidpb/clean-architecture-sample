@@ -4,10 +4,10 @@ import com.gdavidpb.test.domain.model.Album
 import com.gdavidpb.test.domain.model.Artist
 import com.gdavidpb.test.domain.model.Track
 import com.gdavidpb.test.domain.repository.MusicRemoteRepository
-import com.gdavidpb.test.utils.getOrThrow
-import com.gdavidpb.test.utils.toAlbum
-import com.gdavidpb.test.utils.toArtist
-import com.gdavidpb.test.utils.toTrack
+import com.gdavidpb.test.utils.extensions.getOrThrow
+import com.gdavidpb.test.utils.mappers.toAlbum
+import com.gdavidpb.test.utils.mappers.toArtist
+import com.gdavidpb.test.utils.mappers.toTrack
 
 open class MusicRemoteDataStore(
     private val iTunesSearchApi: iTunesSearchApi

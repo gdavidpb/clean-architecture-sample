@@ -4,7 +4,8 @@ import com.gdavidpb.test.domain.model.Album
 import com.gdavidpb.test.domain.model.Artist
 import com.gdavidpb.test.domain.model.Track
 import com.gdavidpb.test.domain.repository.MusicLocalRepository
-import com.gdavidpb.test.utils.*
+import com.gdavidpb.test.utils.extensions.normalize
+import com.gdavidpb.test.utils.mappers.*
 
 open class MusicCacheDataStore(
     private val musicDatabase: MusicDatabase

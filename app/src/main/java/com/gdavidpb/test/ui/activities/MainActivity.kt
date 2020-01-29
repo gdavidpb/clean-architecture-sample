@@ -7,7 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.gdavidpb.test.R
 import com.gdavidpb.test.ui.fragments.FavoritesFragment
 import com.gdavidpb.test.ui.fragments.SearchFragment
-import com.gdavidpb.test.utils.notNull
+import com.gdavidpb.test.utils.extensions.notNull
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.android.synthetic.main.activity_main.*
 

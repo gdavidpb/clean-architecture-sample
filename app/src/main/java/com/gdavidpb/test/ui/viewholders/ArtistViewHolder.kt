@@ -2,7 +2,7 @@ package com.gdavidpb.test.ui.viewholders
 
 import android.view.View
 import com.gdavidpb.test.domain.model.Artist
-import com.gdavidpb.test.utils.setSafeChecked
+import com.gdavidpb.test.utils.extensions.setSafeChecked
 import kotlinx.android.synthetic.main.item_artist.view.*
 
 open class ArtistViewHolder(

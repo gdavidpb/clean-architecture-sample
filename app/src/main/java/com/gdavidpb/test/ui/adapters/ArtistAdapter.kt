@@ -6,7 +6,7 @@ import com.gdavidpb.test.R
 import com.gdavidpb.test.domain.model.Artist
 import com.gdavidpb.test.ui.viewholders.ArtistViewHolder
 import com.gdavidpb.test.ui.viewholders.BaseViewHolder
-import com.gdavidpb.test.utils.onClickOnce
+import com.gdavidpb.test.utils.extensions.onClickOnce
 import kotlinx.android.synthetic.main.item_artist.view.*
 
 open class ArtistAdapter(

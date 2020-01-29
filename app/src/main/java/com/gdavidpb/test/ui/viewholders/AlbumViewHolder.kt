@@ -5,8 +5,8 @@ import com.gdavidpb.test.R
 import com.gdavidpb.test.domain.model.Album
 import com.gdavidpb.test.ui.adapters.AlbumAdapter
 import com.gdavidpb.test.utils.CircleTransform
-import com.gdavidpb.test.utils.drawables
-import com.gdavidpb.test.utils.formatYear
+import com.gdavidpb.test.utils.extensions.drawables
+import com.gdavidpb.test.utils.extensions.formatYear
 import kotlinx.android.synthetic.main.item_album.view.*
 import org.jetbrains.anko.imageResource
 

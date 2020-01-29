@@ -4,8 +4,8 @@ import androidx.lifecycle.ViewModel
 import com.gdavidpb.test.domain.model.Album
 import com.gdavidpb.test.domain.model.request.LookupAlbumsRequest
 import com.gdavidpb.test.domain.usecase.LookupAlbumsUseCase
-import com.gdavidpb.test.utils.LiveResult
-import com.gdavidpb.test.utils.execute
+import com.gdavidpb.test.utils.extensions.LiveResult
+import com.gdavidpb.test.utils.extensions.execute
 
 open class ArtistViewModel(
     private val lookupAlbumsUseCase: LookupAlbumsUseCase

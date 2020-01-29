@@ -12,8 +12,8 @@ import com.gdavidpb.test.presentation.viewmodel.ArtistViewModel
 import com.gdavidpb.test.ui.adapters.AlbumAdapter
 import com.gdavidpb.test.utils.EXTRA_ALBUM_ID
 import com.gdavidpb.test.utils.EXTRA_ARTIST_ID
-import com.gdavidpb.test.utils.isNetworkAvailable
-import com.gdavidpb.test.utils.observe
+import com.gdavidpb.test.utils.extensions.isNetworkAvailable
+import com.gdavidpb.test.utils.extensions.observe
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_artist.*
 import org.jetbrains.anko.longToast

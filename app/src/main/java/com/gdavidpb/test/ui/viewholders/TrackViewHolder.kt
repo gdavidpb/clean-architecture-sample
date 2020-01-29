@@ -2,8 +2,8 @@ package com.gdavidpb.test.ui.viewholders
 
 import android.view.View
 import com.gdavidpb.test.presentation.model.TrackItem
-import com.gdavidpb.test.utils.drawables
-import com.gdavidpb.test.utils.visible
+import com.gdavidpb.test.utils.extensions.drawables
+import com.gdavidpb.test.utils.extensions.visible
 import kotlinx.android.synthetic.main.item_track.view.*
 import org.jetbrains.anko.imageResource
 import org.jetbrains.anko.textColorResource

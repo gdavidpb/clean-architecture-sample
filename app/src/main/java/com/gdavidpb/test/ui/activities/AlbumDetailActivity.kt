@@ -12,7 +12,14 @@ import com.gdavidpb.test.domain.usecase.coroutines.Result
 import com.gdavidpb.test.presentation.model.TrackItem
 import com.gdavidpb.test.presentation.viewmodel.ArtistDetailViewModel
 import com.gdavidpb.test.ui.adapters.TrackAdapter
-import com.gdavidpb.test.utils.*
+import com.gdavidpb.test.utils.EXTRA_ALBUM_ID
+import com.gdavidpb.test.utils.EXTRA_TITLE
+import com.gdavidpb.test.utils.EXTRA_URL
+import com.gdavidpb.test.utils.MediaPlayerManager
+import com.gdavidpb.test.utils.extensions.isNetworkAvailable
+import com.gdavidpb.test.utils.extensions.observe
+import com.gdavidpb.test.utils.mappers.toTrack
+import com.gdavidpb.test.utils.mappers.toTrackItem
 import kotlinx.android.synthetic.main.activity_album_detail.*
 import org.jetbrains.anko.longToast
 import org.jetbrains.anko.startActivity

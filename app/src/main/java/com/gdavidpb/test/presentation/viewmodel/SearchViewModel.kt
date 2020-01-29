@@ -7,10 +7,10 @@ import com.gdavidpb.test.domain.usecase.LikeArtistUseCase
 import com.gdavidpb.test.domain.usecase.SearchArtistsUseCase
 import com.gdavidpb.test.domain.usecase.UnlikeArtistUseCase
 import com.gdavidpb.test.presentation.state.SearchState
-import com.gdavidpb.test.utils.LiveCompletable
-import com.gdavidpb.test.utils.LiveResult
-import com.gdavidpb.test.utils.execute
-import com.gdavidpb.test.utils.postSuccess
+import com.gdavidpb.test.utils.extensions.LiveCompletable
+import com.gdavidpb.test.utils.extensions.LiveResult
+import com.gdavidpb.test.utils.extensions.execute
+import com.gdavidpb.test.utils.extensions.postSuccess
 
 open class SearchViewModel(
     private val searchArtistsUseCase: SearchArtistsUseCase,

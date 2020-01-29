@@ -1,6 +1,6 @@
 package com.gdavidpb.test.domain.usecase.coroutines
 
-import com.gdavidpb.test.utils.*
+import com.gdavidpb.test.utils.extensions.*
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch

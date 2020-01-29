@@ -1,6 +1,6 @@
 package com.gdavidpb.test
 
-import com.gdavidpb.test.utils.parseISO8601Date
+import com.gdavidpb.test.utils.extensions.parseISO8601Date
 import org.junit.Assert.assertNotNull
 import org.junit.Test
 import org.koin.test.KoinTest
