@@ -17,6 +17,7 @@ import com.gdavidpb.test.ui.activities.ArtistActivity
 import com.gdavidpb.test.ui.adapters.ArtistAdapter
 import com.gdavidpb.test.utils.EXTRA_ARTIST_ID
 import com.gdavidpb.test.utils.IdempotentLocker
+import com.gdavidpb.test.utils.TIME_SEARCHER_LOCKER
 import com.gdavidpb.test.utils.extensions.drawables
 import com.gdavidpb.test.utils.extensions.isNetworkAvailable
 import com.gdavidpb.test.utils.extensions.observe
@@ -53,7 +54,7 @@ open class SearchFragment : Fragment() {
 
         eTextSearch.doOnTextChanged { text, _, _, _ ->
             if (eTextSearch.isFocused) {
-                locker.executeLast(250) {
+                locker.executeLast(TIME_SEARCHER_LOCKER) {
                     viewModel.setState {
                         copy(query = "$text")
                     }

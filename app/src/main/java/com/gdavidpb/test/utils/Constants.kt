@@ -8,3 +8,5 @@ const val EXTRA_URL = "extraUrl"
 const val EXTRA_TITLE = "extraTitle"
 
 const val SIZE_ALBUM_COVER = 100
+
+const val TIME_SEARCHER_LOCKER = 300L
