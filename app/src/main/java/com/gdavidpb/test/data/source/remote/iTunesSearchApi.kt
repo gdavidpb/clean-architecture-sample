@@ -4,26 +4,26 @@ import com.gdavidpb.test.data.model.api.AlbumEntry
 import com.gdavidpb.test.data.model.api.ArtistEntry
 import com.gdavidpb.test.data.model.api.SearchResult
 import com.gdavidpb.test.data.model.api.TrackEntry
-import retrofit2.Call
+import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Query
 
 interface iTunesSearchApi {
     @GET("search")
-    fun searchArtists(
+    suspend fun searchArtists(
         @Query("term") terms: String,
         @Query("entity") entity: String = "musicArtist"
-    ): Call<SearchResult<ArtistEntry>>
+    ): Response<SearchResult<ArtistEntry>>
 
     @GET("lookup")
-    fun lookupAlbums(
+    suspend fun lookupAlbums(
         @Query("id") artistId: Long,
         @Query("entity") entity: String = "album"
-    ): Call<SearchResult<AlbumEntry>>
+    ): Response<SearchResult<AlbumEntry>>
 
     @GET("lookup")
-    fun lookupTracks(
+    suspend fun lookupTracks(
         @Query("id") albumId: Long,
         @Query("entity") entity: String = "song"
-    ): Call<SearchResult<TrackEntry>>
+    ): Response<SearchResult<TrackEntry>>
 }

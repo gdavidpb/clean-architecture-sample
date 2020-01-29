@@ -9,22 +9,20 @@ import android.widget.CheckBox
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
-import androidx.lifecycle.*
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.gdavidpb.test.domain.usecase.coroutines.BaseUseCase
 import com.gdavidpb.test.domain.usecase.coroutines.Completable
 import com.gdavidpb.test.domain.usecase.coroutines.Result
 import kotlinx.coroutines.*
-import retrofit2.Call
-import retrofit2.Callback
 import retrofit2.HttpException
 import retrofit2.Response
 import java.text.Normalizer
 import java.text.SimpleDateFormat
 import java.util.*
-import kotlin.coroutines.resume
-import kotlin.coroutines.resumeWithException
-import kotlin.coroutines.suspendCoroutine
 
 /* Context */
 
@@ -98,22 +96,9 @@ fun <T, L : LiveData<T>> FragmentActivity.observe(liveData: L, body: (T?) -> Uni
 fun <T, L : LiveData<T>> Fragment.observe(liveData: L, body: (T?) -> Unit) =
     liveData.observe(viewLifecycleOwner, Observer(body))
 
-/* Coroutines */
+/* Retrofit response */
 
-suspend fun <T> Call<T>.await() = suspendCoroutine<T?> { continuation ->
-    enqueue(object : Callback<T?> {
-        override fun onResponse(call: Call<T?>, response: Response<T?>) {
-            if (response.isSuccessful)
-                continuation.resume(response.body())
-            else
-                continuation.resumeWithException(HttpException(response))
-        }
-
-        override fun onFailure(call: Call<T?>, t: Throwable) {
-            continuation.resumeWithException(t)
-        }
-    })
-}
+fun <T> Response<T>.getOrThrow() = body() ?: throw HttpException(this)
 
 /* View */
 
