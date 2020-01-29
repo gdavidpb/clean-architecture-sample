@@ -8,6 +8,7 @@ import com.gdavidpb.test.domain.model.response.DownloadTrackResponse
 import com.gdavidpb.test.domain.usecase.DownloadTrackUseCase
 import com.gdavidpb.test.domain.usecase.LookupTracksUseCase
 import com.gdavidpb.test.utils.LiveResult
+import com.gdavidpb.test.utils.execute
 
 open class ArtistDetailViewModel(
     private val lookupTracksUseCase: LookupTracksUseCase,
@@ -16,14 +17,15 @@ open class ArtistDetailViewModel(
     val tracks = LiveResult<List<Track>>()
     val download = LiveResult<DownloadTrackResponse>()
 
-    fun lookupTracks(albumId: Long) {
-        lookupTracksUseCase.execute(liveData = tracks, params = LookupTracksRequest(albumId = albumId))
-    }
+    fun lookupTracks(albumId: Long) = execute(
+        useCase = lookupTracksUseCase,
+        liveData = tracks,
+        params = LookupTracksRequest(albumId = albumId)
+    )
 
-    fun downloadTrack(track: Track) {
-        downloadTrackUseCase.execute(
-            liveData = download,
-            params = DownloadTrackRequest(track = track)
-        )
-    }
+    fun downloadTrack(track: Track) = execute(
+        useCase = downloadTrackUseCase,
+        liveData = download,
+        params = DownloadTrackRequest(track = track)
+    )
 }

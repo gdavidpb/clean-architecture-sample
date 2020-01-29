@@ -9,9 +9,9 @@ import android.widget.CheckBox
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.*
 import androidx.lifecycle.Observer
+import com.gdavidpb.test.domain.usecase.coroutines.BaseUseCase
 import com.gdavidpb.test.domain.usecase.coroutines.Completable
 import com.gdavidpb.test.domain.usecase.coroutines.Result
 import kotlinx.coroutines.*
@@ -85,6 +85,10 @@ fun LiveCompletable.postLoading() = postValue(Completable.OnLoading)
 
 @JvmName("postCancelCompletable")
 fun LiveCompletable.postCancel() = postValue(Completable.OnCancel)
+
+fun <T : BaseUseCase<Q, W>, Q, W : MutableLiveData<*>> ViewModel.execute(useCase: T, params: Q, liveData: W) {
+    useCase.execute(params, liveData, viewModelScope)
+}
 
 /* Observers */
 

@@ -7,6 +7,7 @@ import com.gdavidpb.test.domain.usecase.GetLikedArtistsUseCase
 import com.gdavidpb.test.domain.usecase.UnlikeArtistUseCase
 import com.gdavidpb.test.utils.LiveCompletable
 import com.gdavidpb.test.utils.LiveResult
+import com.gdavidpb.test.utils.execute
 
 open class FavoritesViewModel(
     private val getLikedArtistsUseCase: GetLikedArtistsUseCase,
@@ -15,13 +16,15 @@ open class FavoritesViewModel(
     val liked = LiveResult<List<Artist>>()
     val like = LiveCompletable()
 
-    fun getLikedArtists() {
-        getLikedArtistsUseCase.execute(liveData = liked, params = Unit)
-    }
+    fun getLikedArtists() = execute(
+        useCase = getLikedArtistsUseCase,
+        liveData = liked,
+        params = Unit
+    )
 
-    fun unlikeArtist(artistId: Long) {
-        val request = LikeArtistsRequest(artistId = artistId)
-
-        unlikeArtistUseCase.execute(liveData = like, params = request)
-    }
+    fun unlikeArtist(artistId: Long) = execute(
+        useCase = unlikeArtistUseCase,
+        liveData = like,
+        params = LikeArtistsRequest(artistId = artistId)
+    )
 }

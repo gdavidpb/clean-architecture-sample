@@ -3,7 +3,7 @@ package com.gdavidpb.test.presentation.viewmodel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 
-abstract class StateViewModel<T>(private val initState: T) : ViewModel() {
+abstract class StateViewModel<T>(initState: T) : ViewModel() {
     val state = MutableLiveData<T>()
 
     init {
