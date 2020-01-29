@@ -9,7 +9,7 @@ data class TrackEntry(
     val trackName: String,
     val collectionCensoredName: String,
     val trackCensoredName: String,
-    val artistViewUrl: String,
+    val artistViewUrl: String?,
     val collectionViewUrl: String,
     val trackViewUrl: String,
     val previewUrl: String,

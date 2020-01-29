@@ -1,15 +1,15 @@
 package com.gdavidpb.test.data.source.local
 
+import com.gdavidpb.test.data.repository.iTunesDataStore
 import com.gdavidpb.test.domain.model.Album
 import com.gdavidpb.test.domain.model.Artist
 import com.gdavidpb.test.domain.model.Track
-import com.gdavidpb.test.domain.repository.MusicLocalRepository
 import com.gdavidpb.test.utils.extensions.normalize
 import com.gdavidpb.test.utils.mappers.*
 
-open class MusicCacheDataStore(
+open class iTunesLocalDataStore(
     private val musicDatabase: MusicDatabase
-) : MusicLocalRepository {
+) : iTunesDataStore {
     override suspend fun searchArtists(term: String): List<Artist> {
         return musicDatabase.artists.searchArtists(term = term.normalize()).map { it.toArtist() }
     }

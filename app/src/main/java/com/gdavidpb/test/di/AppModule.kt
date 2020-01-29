@@ -3,13 +3,14 @@ package com.gdavidpb.test.di
 import android.content.Context
 import android.net.ConnectivityManager
 import androidx.room.Room
+import com.gdavidpb.test.data.source.iTunesDataRepository
+import com.gdavidpb.test.data.source.iTunesDataStoreFactory
 import com.gdavidpb.test.data.source.local.LocalCacheDataStore
-import com.gdavidpb.test.data.source.local.MusicCacheDataStore
 import com.gdavidpb.test.data.source.local.MusicDatabase
-import com.gdavidpb.test.data.source.remote.MusicRemoteDataStore
+import com.gdavidpb.test.data.source.local.iTunesLocalDataStore
+import com.gdavidpb.test.data.source.remote.iTunesRemoteDataStore
 import com.gdavidpb.test.data.source.remote.iTunesSearchApi
-import com.gdavidpb.test.domain.repository.MusicLocalRepository
-import com.gdavidpb.test.domain.repository.MusicRemoteRepository
+import com.gdavidpb.test.domain.repository.MusicRepository
 import com.gdavidpb.test.domain.repository.StorageRepository
 import com.gdavidpb.test.domain.usecase.*
 import com.gdavidpb.test.presentation.viewmodel.ArtistDetailViewModel
@@ -83,11 +84,19 @@ val appModule = module {
     viewModel<ArtistViewModel>()
     viewModel<ArtistDetailViewModel>()
 
-    /* Factories */
+    /* Repositories */
 
-    factoryBy<MusicLocalRepository, MusicCacheDataStore>()
-    factoryBy<MusicRemoteRepository, MusicRemoteDataStore>()
+    factoryBy<MusicRepository, iTunesDataRepository>()
     factoryBy<StorageRepository, LocalCacheDataStore>()
+
+    /* Data stores */
+
+    factory<iTunesLocalDataStore>()
+    factory<iTunesRemoteDataStore>()
+
+    /* Factory */
+
+    factory<iTunesDataStoreFactory>()
 
     /* Use cases */
 

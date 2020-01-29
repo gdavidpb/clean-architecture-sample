@@ -1,10 +1,10 @@
-package com.gdavidpb.test.domain.repository
+package com.gdavidpb.test.data.repository
 
 import com.gdavidpb.test.domain.model.Album
 import com.gdavidpb.test.domain.model.Artist
 import com.gdavidpb.test.domain.model.Track
 
-interface MusicLocalRepository {
+interface iTunesDataStore {
     suspend fun searchArtists(term: String): List<Artist>
     suspend fun getLikedArtists(): List<Artist>
 

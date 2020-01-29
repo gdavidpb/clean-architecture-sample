@@ -6,7 +6,7 @@ data class AlbumEntry(
     val artistName: String,
     val collectionName: String,
     val collectionCensoredName: String,
-    val artistViewUrl: String,
+    val artistViewUrl: String?,
     val collectionViewUrl: String,
     val artworkUrl30: String?,
     val artworkUrl60: String?,
