@@ -3,7 +3,7 @@ package com.gdavidpb.test
 import com.gdavidpb.test.data.source.remote.iTunesSearchApi
 import com.gdavidpb.test.utils.URL_BASE_ITUNES_SEARCH_API
 import okhttp3.OkHttpClient
-import org.koin.dsl.module.module
+import org.koin.dsl.module
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit

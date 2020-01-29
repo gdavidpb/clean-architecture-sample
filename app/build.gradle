@@ -7,14 +7,22 @@ apply plugin: "kotlin-android-extensions"
 apply plugin: "kotlin-kapt"
 
 android {
-    compileSdkVersion 28
+    compileSdkVersion 29
     defaultConfig {
         applicationId "com.gdavidpb.test"
         minSdkVersion 21
-        targetSdkVersion 28
+        targetSdkVersion 29
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments = [
+                        "room.schemaLocation"  : "$projectDir/schemas".toString(),
+                        "room.incremental"     : "true",
+                        "room.expandProjection": "true"]
+            }
+        }
     }
     buildTypes {
         release {
@@ -25,6 +33,9 @@ android {
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = JavaVersion.VERSION_1_8
     }
     packagingOptions {
         exclude 'META-INF/atomicfu.kotlin_module'
@@ -38,22 +49,21 @@ dependencies {
     androidTestImplementation "androidx.test.espresso:espresso-core:3.2.0"
 
     /* AndroidX */
-    implementation "androidx.core:core-ktx:1.2.0-alpha01"
+    implementation "androidx.core:core-ktx:1.2.0-rc01"
 
     /* Architecture */
-    implementation "androidx.arch.core:core-runtime:2.0.1"
-    implementation "androidx.arch.core:core-common:2.0.1"
+    implementation "androidx.arch.core:core-runtime:2.1.0"
+    implementation "androidx.arch.core:core-common:2.1.0"
     implementation "androidx.lifecycle:lifecycle-runtime:$lifecycle_version"
     implementation "androidx.lifecycle:lifecycle-common-java8:$lifecycle_version"
     implementation "androidx.lifecycle:lifecycle-extensions:$lifecycle_version"
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version"
-    kapt "androidx.lifecycle:lifecycle-compiler:$lifecycle_version"
 
     /* Support */
-    implementation "com.google.android.material:material:1.1.0-alpha06"
-    implementation "androidx.recyclerview:recyclerview:1.1.0-alpha05"
-    implementation "androidx.appcompat:appcompat:1.1.0-alpha05"
-    implementation "androidx.constraintlayout:constraintlayout:2.0.0-beta1"
+    implementation "com.google.android.material:material:1.2.0-alpha04"
+    implementation "androidx.recyclerview:recyclerview:1.2.0-alpha01"
+    implementation "androidx.appcompat:appcompat:1.2.0-alpha01"
+    implementation "androidx.constraintlayout:constraintlayout:2.0.0-beta4"
 
     /* Kotlin */
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
@@ -62,6 +72,7 @@ dependencies {
     testImplementation "org.koin:koin-test:$koin_version"
 
     implementation "org.koin:koin-android:$koin_version"
+    implementation "org.koin:koin-androidx-ext:$koin_version"
     implementation "org.koin:koin-androidx-scope:$koin_version"
     implementation "org.koin:koin-androidx-viewmodel:$koin_version"
 

@@ -16,7 +16,8 @@ open class LocalCacheDataStore(
             val outputFile = File(context.filesDir, name)
 
             /* Create directories to */
-            outputFile.parentFile.mkdirs()
+            outputFile.parentFile?.mkdirs()
+                ?: throw RuntimeException("Unable to create directory for file '$outputFile'")
 
             val outputStream = FileOutputStream(outputFile)
 

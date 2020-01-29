@@ -21,8 +21,8 @@ import com.gdavidpb.test.utils.URL_BASE_ITUNES_SEARCH_API
 import com.squareup.picasso.Picasso
 import okhttp3.OkHttpClient
 import org.koin.android.ext.koin.androidContext
-import org.koin.androidx.viewmodel.experimental.builder.viewModel
-import org.koin.dsl.module.module
+import org.koin.androidx.experimental.dsl.viewModel
+import org.koin.dsl.module
 import org.koin.experimental.builder.factory
 import org.koin.experimental.builder.factoryBy
 import retrofit2.Retrofit

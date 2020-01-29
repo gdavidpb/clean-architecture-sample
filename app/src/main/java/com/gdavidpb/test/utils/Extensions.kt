@@ -1,6 +1,9 @@
 package com.gdavidpb.test.utils
 
+import android.annotation.SuppressLint
 import android.net.ConnectivityManager
+import android.net.NetworkCapabilities
+import android.os.Build
 import android.view.View
 import android.widget.CheckBox
 import android.widget.TextView
@@ -25,7 +28,27 @@ import kotlin.coroutines.suspendCoroutine
 
 /* Context */
 
-fun ConnectivityManager.isNetworkAvailable() = activeNetworkInfo?.isConnected == true
+fun ConnectivityManager.isNetworkAvailable(): Boolean {
+    return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+        getNetworkCapabilities(activeNetwork)?.run {
+            when {
+                hasTransport(NetworkCapabilities.TRANSPORT_WIFI) -> true
+                hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) -> true
+                hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET) -> true
+                else -> false
+            }
+        }
+    } else {
+        @Suppress("DEPRECATION")
+        activeNetworkInfo?.run {
+            when (type) {
+                ConnectivityManager.TYPE_WIFI -> true
+                ConnectivityManager.TYPE_MOBILE -> true
+                else -> false
+            }
+        }
+    } ?: false
+}
 
 /* Live data */
 
@@ -134,8 +157,9 @@ private val ISO8601format = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.
 private val yearFormat = SimpleDateFormat("yyyy", Locale.US)
 private val intervalFormat = SimpleDateFormat("mm:ss", Locale.US)
 
-fun String.parseISO8601Date(): Date = ISO8601format.parse(this)
+fun String.parseISO8601Date(): Date = ISO8601format.parse(this)!!
 
+@SuppressLint("DefaultLocale")
 fun String.normalize() = Normalizer.normalize(toLowerCase(), Normalizer.Form.NFD).replace("[^\\p{ASCII}]".toRegex(), "")
 
 fun Long.formatInterval(): String = intervalFormat.format(Date(this))

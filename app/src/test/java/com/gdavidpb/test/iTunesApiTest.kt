@@ -8,22 +8,24 @@ import org.junit.Assert.assertNotNull
 import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
-import org.koin.standalone.StandAloneContext.startKoin
-import org.koin.standalone.StandAloneContext.stopKoin
-import org.koin.standalone.inject
+import org.koin.core.context.startKoin
+import org.koin.core.context.stopKoin
 import org.koin.test.KoinTest
+import org.koin.test.inject
 
 class iTunesApiTest : KoinTest {
 
-    private val artistSearchQuery = "jack"
-    private val artistIdQuery = 909253L
-    private val albumIdQuery = 879716730L
+    private val artistSearchQuery = "Michael Jackson"
+    private val artistIdQuery = 32940L
+    private val albumIdQuery = 159292399L
 
     private val api: iTunesSearchApi by inject()
 
     @Before
     fun `start koin`() {
-        startKoin(listOf(testModule))
+        startKoin {
+            modules(listOf(testModule))
+        }
     }
 
     @Test
