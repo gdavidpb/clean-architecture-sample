@@ -12,7 +12,7 @@ import java.net.URI
 class WebViewActivity : AppCompatActivity() {
 
     private val extraUrl by lazy {
-        intent.getStringExtra(EXTRA_URL)
+        intent.getStringExtra(EXTRA_URL)!!
     }
 
     private val extraTitle by lazy {
