@@ -11,14 +11,11 @@ import com.gdavidpb.test.R
 import com.gdavidpb.test.domain.model.Artist
 import com.gdavidpb.test.domain.usecase.coroutines.Result
 import com.gdavidpb.test.presentation.viewmodel.FavoritesViewModel
-import com.gdavidpb.test.ui.activities.ArtistActivity
 import com.gdavidpb.test.ui.adapters.ArtistAdapter
-import com.gdavidpb.test.utils.EXTRA_ARTIST_ID
 import com.gdavidpb.test.utils.extensions.isNetworkAvailable
 import com.gdavidpb.test.utils.extensions.observe
+import com.gdavidpb.test.utils.extensions.toast
 import kotlinx.android.synthetic.main.fragment_favorites.*
-import org.jetbrains.anko.support.v4.longToast
-import org.jetbrains.anko.support.v4.startActivity
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -77,22 +74,24 @@ open class FavoritesFragment : Fragment() {
             is Result.OnError -> {
                 sRefreshFavorites.isRefreshing = false
 
-                if (connectionManager.isNetworkAvailable())
-                    longToast(R.string.toast_connection_failure)
+                val messageResource = if (connectionManager.isNetworkAvailable())
+                    R.string.toast_connection_failure
                 else
-                    longToast(R.string.toast_no_connection)
+                    R.string.toast_no_connection
+
+                requireContext().toast(messageResource)
             }
             else -> {
                 sRefreshFavorites.isRefreshing = false
 
-                longToast(R.string.toast_unexpected_failure)
+                requireContext().toast(R.string.toast_unexpected_failure)
             }
         }
     }
 
     inner class ArtistManager : ArtistAdapter.AdapterManager {
         override fun onArtistClicked(item: Artist, position: Int) {
-            startActivity<ArtistActivity>(EXTRA_ARTIST_ID to item.artistId)
+            // TODO startActivity<ArtistActivity>(EXTRA_ARTIST_ID to item.artistId)
         }
 
         override fun onArtistLikeChanged(item: Artist, position: Int, liked: Boolean) {

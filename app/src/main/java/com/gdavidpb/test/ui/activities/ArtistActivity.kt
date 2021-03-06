@@ -10,15 +10,12 @@ import com.gdavidpb.test.domain.model.Album
 import com.gdavidpb.test.domain.usecase.coroutines.Result
 import com.gdavidpb.test.presentation.viewmodel.ArtistViewModel
 import com.gdavidpb.test.ui.adapters.AlbumAdapter
-import com.gdavidpb.test.utils.EXTRA_ALBUM_ID
 import com.gdavidpb.test.utils.EXTRA_ARTIST_ID
 import com.gdavidpb.test.utils.extensions.isNetworkAvailable
 import com.gdavidpb.test.utils.extensions.observe
+import com.gdavidpb.test.utils.extensions.toast
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_artist.*
-import org.jetbrains.anko.longToast
-import org.jetbrains.anko.startActivity
-import org.jetbrains.anko.support.v4.onRefresh
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -53,7 +50,7 @@ class ArtistActivity : AppCompatActivity() {
 
             lookupAlbums(artistId = extraArtistId)
 
-            sRefreshAlbums.onRefresh {
+            sRefreshAlbums.setOnRefreshListener {
                 lookupAlbums(artistId = extraArtistId)
             }
         }
@@ -91,22 +88,24 @@ class ArtistActivity : AppCompatActivity() {
             is Result.OnError -> {
                 sRefreshAlbums.isRefreshing = false
 
-                if (connectionManager.isNetworkAvailable())
-                    longToast(R.string.toast_connection_failure)
+                val messageResource = if (connectionManager.isNetworkAvailable())
+                    R.string.toast_connection_failure
                 else
-                    longToast(R.string.toast_no_connection)
+                    R.string.toast_no_connection
+
+                toast(messageResource)
             }
             else -> {
                 sRefreshAlbums.isRefreshing = false
 
-                longToast(R.string.toast_unexpected_failure)
+                toast(R.string.toast_unexpected_failure)
             }
         }
     }
 
     inner class AlbumManager : AlbumAdapter.AdapterManager {
         override fun onAlbumClicked(item: Album, position: Int) {
-            startActivity<AlbumDetailActivity>(EXTRA_ALBUM_ID to item.collectionId)
+            // TODO startActivity<AlbumDetailActivity>(EXTRA_ALBUM_ID to item.collectionId)
         }
 
         override fun provideImageLoader(): Picasso {

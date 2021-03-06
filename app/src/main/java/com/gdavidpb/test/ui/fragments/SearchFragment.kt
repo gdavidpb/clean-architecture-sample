@@ -13,18 +13,14 @@ import com.gdavidpb.test.domain.model.Artist
 import com.gdavidpb.test.domain.usecase.coroutines.Result
 import com.gdavidpb.test.presentation.state.SearchState
 import com.gdavidpb.test.presentation.viewmodel.SearchViewModel
-import com.gdavidpb.test.ui.activities.ArtistActivity
 import com.gdavidpb.test.ui.adapters.ArtistAdapter
-import com.gdavidpb.test.utils.EXTRA_ARTIST_ID
 import com.gdavidpb.test.utils.IdempotentLocker
 import com.gdavidpb.test.utils.TIME_SEARCHER_LOCKER
 import com.gdavidpb.test.utils.extensions.drawables
 import com.gdavidpb.test.utils.extensions.isNetworkAvailable
 import com.gdavidpb.test.utils.extensions.observe
+import com.gdavidpb.test.utils.extensions.toast
 import kotlinx.android.synthetic.main.fragment_search.*
-import org.jetbrains.anko.support.v4.longToast
-import org.jetbrains.anko.support.v4.startActivity
-import org.jetbrains.anko.textResource
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -99,10 +95,10 @@ open class SearchFragment : Fragment() {
                     rViewSearch.visibility = View.VISIBLE
                 } else {
                     if (isSearch) {
-                        tViewSearch.textResource = R.string.text_search_no_results
+                        tViewSearch.setText(R.string.text_search_no_results)
                         tViewSearch.drawables(top = R.drawable.ic_search_no_results)
                     } else {
-                        tViewSearch.textResource = R.string.text_search_empty
+                        tViewSearch.setText(R.string.text_search_empty)
                         tViewSearch.drawables(top = R.drawable.ic_search_empty)
                     }
 
@@ -115,22 +111,24 @@ open class SearchFragment : Fragment() {
             is Result.OnError -> {
                 pBarSearch.visibility = View.GONE
 
-                if (connectionManager.isNetworkAvailable())
-                    longToast(R.string.toast_connection_failure)
+                val messageResource = if (connectionManager.isNetworkAvailable())
+                    R.string.toast_connection_failure
                 else
-                    longToast(R.string.toast_no_connection)
+                    R.string.toast_no_connection
+
+                requireContext().toast(messageResource)
             }
             else -> {
                 pBarSearch.visibility = View.GONE
 
-                longToast(R.string.toast_unexpected_failure)
+                requireContext().toast(R.string.toast_unexpected_failure)
             }
         }
     }
 
     inner class ArtistManager : ArtistAdapter.AdapterManager {
         override fun onArtistClicked(item: Artist, position: Int) {
-            startActivity<ArtistActivity>(EXTRA_ARTIST_ID to item.artistId)
+            // TODO startActivity<ArtistActivity>(EXTRA_ARTIST_ID to item.artistId)
         }
 
         override fun onArtistLikeChanged(item: Artist, position: Int, liked: Boolean) {

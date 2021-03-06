@@ -13,17 +13,13 @@ import com.gdavidpb.test.presentation.model.TrackItem
 import com.gdavidpb.test.presentation.viewmodel.ArtistDetailViewModel
 import com.gdavidpb.test.ui.adapters.TrackAdapter
 import com.gdavidpb.test.utils.EXTRA_ALBUM_ID
-import com.gdavidpb.test.utils.EXTRA_TITLE
-import com.gdavidpb.test.utils.EXTRA_URL
 import com.gdavidpb.test.utils.MediaPlayerManager
 import com.gdavidpb.test.utils.extensions.isNetworkAvailable
 import com.gdavidpb.test.utils.extensions.observe
+import com.gdavidpb.test.utils.extensions.toast
 import com.gdavidpb.test.utils.mappers.toTrack
 import com.gdavidpb.test.utils.mappers.toTrackItem
 import kotlinx.android.synthetic.main.activity_album_detail.*
-import org.jetbrains.anko.longToast
-import org.jetbrains.anko.startActivity
-import org.jetbrains.anko.support.v4.onRefresh
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -62,7 +58,7 @@ class AlbumDetailActivity : AppCompatActivity() {
 
             lookupTracks(albumId = extraAlbumId)
 
-            sRefreshAlbumDetail.onRefresh {
+            sRefreshAlbumDetail.setOnRefreshListener {
                 lookupTracks(albumId = extraAlbumId)
             }
         }
@@ -114,15 +110,17 @@ class AlbumDetailActivity : AppCompatActivity() {
             is Result.OnError -> {
                 sRefreshAlbumDetail.isRefreshing = false
 
-                if (connectionManager.isNetworkAvailable())
-                    longToast(R.string.toast_connection_failure)
+                val messageResource = if (connectionManager.isNetworkAvailable())
+                    R.string.toast_connection_failure
                 else
-                    longToast(R.string.toast_no_connection)
+                    R.string.toast_no_connection
+
+                toast(messageResource)
             }
             else -> {
                 sRefreshAlbumDetail.isRefreshing = false
 
-                longToast(R.string.toast_unexpected_failure)
+                toast(R.string.toast_unexpected_failure)
             }
         }
     }
@@ -161,10 +159,12 @@ class AlbumDetailActivity : AppCompatActivity() {
                 }
             }
             is Result.OnError -> {
-                if (connectionManager.isNetworkAvailable())
-                    longToast(R.string.toast_connection_failure)
+                val messageResource = if (connectionManager.isNetworkAvailable())
+                    R.string.toast_connection_failure
                 else
-                    longToast(R.string.toast_no_connection)
+                    R.string.toast_no_connection
+
+                toast(messageResource)
             }
         }
     }
@@ -206,10 +206,12 @@ class AlbumDetailActivity : AppCompatActivity() {
         }
 
         override fun onPreviewTrackClicked(track: TrackItem, position: Int) {
+            /* todo
             startActivity<WebViewActivity>(
                 EXTRA_TITLE to track.trackName,
                 EXTRA_URL to track.previewUrl
             )
+            */
         }
     }
 }

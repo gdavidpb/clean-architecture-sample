@@ -2,7 +2,6 @@
 
 buildscript {
     ext.koin_version = "2.1.6"
-    ext.anko_version = "0.10.8"
     ext.okhttp_version = "4.9.0"
     ext.kotlin_version = "1.4.31"
     ext.retrofit_version = "2.9.0"

@@ -8,7 +8,6 @@ import com.gdavidpb.test.utils.CircleTransform
 import com.gdavidpb.test.utils.extensions.drawables
 import com.gdavidpb.test.utils.extensions.formatYear
 import kotlinx.android.synthetic.main.item_album.view.*
-import org.jetbrains.anko.imageResource
 
 open class AlbumViewHolder(
     itemView: View,
@@ -35,7 +34,7 @@ open class AlbumViewHolder(
                         .into(iViewAlbumCover)
                 }
             else
-                iViewAlbumCover.imageResource = R.mipmap.ic_launcher_round
+                iViewAlbumCover.setImageResource(R.mipmap.ic_launcher_round)
         }
     }
 }
