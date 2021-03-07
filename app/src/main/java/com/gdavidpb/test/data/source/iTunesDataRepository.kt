@@ -69,6 +69,12 @@ open class iTunesDataRepository(
         local.unlikeArtist(artistId)
     }
 
+    override suspend fun markTrackAsDownloaded(trackId: Long) {
+        val local = factory.retrieveLocalDataStore()
+
+        local.markTrackAsDownloaded(trackId)
+    }
+
     /* Cache helper */
     private suspend fun <R> cacheOperation(
         fetch: suspend iTunesDataStore.() -> List<R>,

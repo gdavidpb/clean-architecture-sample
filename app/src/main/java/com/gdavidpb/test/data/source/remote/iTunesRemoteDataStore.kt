@@ -53,4 +53,8 @@ open class iTunesRemoteDataStore(
     override suspend fun unlikeArtist(artistId: Long) {
         throw NotImplementedError()
     }
+
+    override suspend fun markTrackAsDownloaded(trackId: Long) {
+        throw NotImplementedError()
+    }
 }

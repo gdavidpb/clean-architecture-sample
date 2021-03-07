@@ -1,8 +1,8 @@
 package com.gdavidpb.test.domain.usecase
 
-import com.gdavidpb.test.data.source.local.MusicDatabase
 import com.gdavidpb.test.domain.model.request.DownloadTrackRequest
 import com.gdavidpb.test.domain.model.response.DownloadTrackResponse
+import com.gdavidpb.test.domain.repository.MusicRepository
 import com.gdavidpb.test.domain.repository.NetworkRepository
 import com.gdavidpb.test.domain.repository.StorageRepository
 import com.gdavidpb.test.domain.usecase.coroutines.ResultUseCase
@@ -13,7 +13,7 @@ import java.io.IOException
 
 class DownloadTrackUseCase(
     private val storageRepository: StorageRepository,
-    private val musicDatabase: MusicDatabase,
+    private val musicRepository: MusicRepository,
     private val networkRepository: NetworkRepository
 ) : ResultUseCase<DownloadTrackRequest, DownloadTrackResponse, DownloadTrackError>() {
     override suspend fun executeOnBackground(params: DownloadTrackRequest): DownloadTrackResponse {
@@ -30,7 +30,7 @@ class DownloadTrackUseCase(
         val downloadedFile =
             storageRepository.download(url = track.previewUrl, name = localFile.path)
 
-        musicDatabase.tracks.markAsDownloaded(trackId = track.trackId)
+        musicRepository.markTrackAsDownloaded(trackId = track.trackId)
 
         return DownloadTrackResponse(track, downloadedFile)
     }

@@ -7,7 +7,7 @@ import com.gdavidpb.test.domain.model.Track
 import com.gdavidpb.test.utils.extensions.normalize
 import com.gdavidpb.test.utils.mappers.*
 
-open class iTunesLocalDataStore(
+class iTunesLocalDataStore(
     private val musicDatabase: MusicDatabase
 ) : iTunesDataStore {
     override suspend fun searchArtists(term: String): List<Artist> {
@@ -50,5 +50,9 @@ open class iTunesLocalDataStore(
 
     override suspend fun unlikeArtist(artistId: Long) {
         musicDatabase.artists.unlikeArtist(artistId = artistId)
+    }
+
+    override suspend fun markTrackAsDownloaded(trackId: Long) {
+        musicDatabase.tracks.markAsDownloaded(trackId = trackId)
     }
 }

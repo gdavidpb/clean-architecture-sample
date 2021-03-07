@@ -17,4 +17,6 @@ interface MusicRepository {
 
     suspend fun likeArtist(artistId: Long)
     suspend fun unlikeArtist(artistId: Long)
+
+    suspend fun markTrackAsDownloaded(trackId: Long)
 }
