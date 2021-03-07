@@ -1,68 +1,71 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
     <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/tInputSearch"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:layout_margin="@dimen/dp_16"
-            android:layout_marginBottom="@dimen/dp_16"
-            app:startIconDrawable="@drawable/ic_search"
-            android:hint="@string/hint_search">
+        android:id="@+id/tInputSearch"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/dp_16"
+        android:layout_marginBottom="@dimen/dp_16"
+        android:hint="@string/hint_search"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:startIconDrawable="@drawable/ic_search">
 
         <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/eTextSearch"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:imeOptions="actionDone"
-                android:inputType="text"
-                android:maxLines="1"
-                android:maxLength="32"/>
+            android:id="@+id/eTextSearch"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:imeOptions="actionDone"
+            android:inputType="text"
+            android:maxLength="32"
+            android:maxLines="1" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
     <ProgressBar
-            android:id="@+id/pBarSearch"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintEnd_toEndOf="@id/tInputSearch"
-            app:layout_constraintTop_toTopOf="@id/tInputSearch"
-            app:layout_constraintBottom_toBottomOf="@id/tInputSearch"
-            style="?android:attr/progressBarStyleSmall"
-            android:indeterminate="true"
-            android:visibility="gone"/>
+        android:id="@+id/pBarSearch"
+        style="?android:attr/progressBarStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:indeterminate="true"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@id/tInputSearch"
+        app:layout_constraintEnd_toEndOf="@id/tInputSearch"
+        app:layout_constraintTop_toTopOf="@id/tInputSearch" />
 
     <TextView
-            android:id="@+id/tViewSearch"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:drawablePadding="@dimen/dp_16"
-            android:gravity="center"
-            android:fontFamily="sans-serif-light"
-            android:drawableTop="@drawable/ic_search_empty"
-            android:text="@string/text_search_empty"
-            android:textAppearance="@style/TextAppearance.AppCompat.Medium"/>
+        android:id="@+id/tViewSearch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:drawablePadding="@dimen/dp_16"
+        android:fontFamily="sans-serif-light"
+        android:gravity="center"
+        android:text="@string/text_search_empty"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        app:drawableTopCompat="@drawable/ic_search_empty"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tInputSearch"
+        tools:visibility="gone" />
 
     <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rViewSearch"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            app:layout_constraintTop_toBottomOf="@id/tInputSearch"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginTop="@dimen/dp_16"
-            android:visibility="gone"/>
+        android:id="@+id/rViewSearch"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="@dimen/dp_16"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tInputSearch"
+        tools:listitem="@layout/item_artist"
+        tools:visibility="visible" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

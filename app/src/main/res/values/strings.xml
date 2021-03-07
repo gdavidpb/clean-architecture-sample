@@ -2,10 +2,11 @@
 
     <!-- App -->
     <string name="app_name">Test</string>
+    <string name="retry">Reintentar</string>
 
-    <string name="toast_no_connection">Are you connected to Internet?</string>
-    <string name="toast_connection_failure">Connection failure</string>
-    <string name="toast_unexpected_failure">Unexpected failure</string>
+    <string name="snack_bar_no_connection">Are you connected to Internet?</string>
+    <string name="snack_bar_connection_failure">Connection failure</string>
+    <string name="snack_bar_unexpected_failure">Unexpected failure</string>
 
     <!-- MainActivity -->
     <string name="nav_search">Discover</string>
@@ -13,7 +14,6 @@
 
     <!-- SearchFragment -->
     <string name="hint_search">Search for artists…</string>
-
     <string name="text_search_empty">Discover a new world, look for it!</string>
     <string name="text_search_no_results">It seems we couldn\'t find anything ;(</string>
 
@@ -23,9 +23,8 @@
         Give a like to your first artist
     </string>
 
-    <!-- ArtistActivity -->
+    <!-- ArtistFragment -->
     <string name="text_artist_no_albums">It seems we couldn\'t find any album ;(</string>
-
     <string name="text_album_genre_year">%1$s • %2$s</string>
 
 </resources>

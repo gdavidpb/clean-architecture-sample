@@ -13,6 +13,8 @@ open class SearchArtistsUseCase(
     foregroundContext = Dispatchers.Main
 ) {
     override suspend fun executeOnBackground(params: SearchArtistsRequest): List<Artist>? {
-        return musicRepository.searchArtists(term = params.query)
+        return musicRepository
+            .searchArtists(term = params.query)
+            .sortedBy { it.artistName }
     }
 }

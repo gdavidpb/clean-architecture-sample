@@ -1,51 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
-        android:layout_width="match_parent"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="?android:selectableItemBackground"
+    android:paddingStart="@dimen/dp_16"
+    android:paddingTop="@dimen/dp_8"
+    android:paddingEnd="@dimen/dp_16"
+    android:paddingBottom="@dimen/dp_8">
+
+    <TextView
+        android:id="@+id/tViewArtistName"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:paddingStart="@dimen/dp_16"
-        android:paddingEnd="@dimen/dp_16"
-        android:paddingTop="@dimen/dp_8"
-        android:paddingBottom="@dimen/dp_8"
-        android:background="?android:selectableItemBackground">
+        android:layout_marginEnd="@dimen/dp_16"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        android:textColor="@color/colorForegroundDark"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toStartOf="@id/cBoxLiked"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="Adele" />
 
     <TextView
-            android:id="@+id/tViewArtistName"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/cBoxLiked"
-            android:layout_marginEnd="@dimen/dp_16"
-            android:maxLines="1"
-            android:ellipsize="end"
-            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-            android:textColor="@color/colorForegroundDark"
-            android:textStyle="bold"
-            tools:text="Adele"/>
-
-    <TextView
-            android:id="@+id/tViewArtistGenre"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/tViewArtistName"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/cBoxLiked"
-            android:layout_marginEnd="@dimen/dp_16"
-            android:textColor="@color/colorForeground"
-            android:maxLines="1"
-            android:ellipsize="end"
-            tools:text="Pop"/>
+        android:id="@+id/tViewArtistGenre"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/dp_16"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:textColor="@color/colorForeground"
+        app:layout_constraintEnd_toStartOf="@id/cBoxLiked"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tViewArtistName"
+        tools:text="Pop" />
 
     <CheckBox
-            android:id="@+id/cBoxLiked"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:button="@drawable/sl_like"
-            tools:checked="true"/>
+        android:id="@+id/cBoxLiked"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:button="@drawable/sl_like"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:checked="true" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

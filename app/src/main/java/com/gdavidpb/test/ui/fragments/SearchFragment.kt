@@ -16,7 +16,6 @@ import com.gdavidpb.test.utils.TIME_SEARCHER_LOCKER
 import com.gdavidpb.test.utils.extensions.drawables
 import com.gdavidpb.test.utils.extensions.isNetworkAvailable
 import com.gdavidpb.test.utils.extensions.observe
-import com.gdavidpb.test.utils.extensions.toast
 import kotlinx.android.synthetic.main.fragment_search.*
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -37,17 +36,22 @@ open class SearchFragment : NavigationFragment() {
         super.onViewCreated(view, savedInstanceState)
 
         with(rViewSearch) {
-            layoutManager = LinearLayoutManager(requireContext())
+            layoutManager = LinearLayoutManager(context)
             adapter = artistAdapter
 
             setHasFixedSize(true)
         }
 
         eTextSearch.doOnTextChanged { text, _, _, _ ->
-            if (eTextSearch.isFocused) {
-                locker.executeLast(TIME_SEARCHER_LOCKER) {
-                    viewModel.setState {
-                        copy(query = "$text")
+            when {
+                text.isNullOrEmpty() -> {
+                    viewModel.resetSearch()
+                }
+                eTextSearch.isFocused -> {
+                    locker.executeLast(TIME_SEARCHER_LOCKER) {
+                        viewModel.setState {
+                            copy(query = "$text")
+                        }
                     }
                 }
             }
@@ -55,7 +59,7 @@ open class SearchFragment : NavigationFragment() {
 
         with(viewModel) {
             observe(state, ::stateObserver)
-            observe(artists, ::artistsObserver)
+            observe(artists, ::onGetArtists)
         }
     }
 
@@ -72,53 +76,60 @@ open class SearchFragment : NavigationFragment() {
             viewModel.resetSearch()
     }
 
-    private fun artistsObserver(result: Result<List<Artist>>?) {
+    private fun onGetArtists(result: Result<List<Artist>>?) {
         when (result) {
             is Result.OnLoading -> {
                 pBarSearch.visibility = View.VISIBLE
             }
             is Result.OnSuccess -> {
-                pBarSearch.visibility = View.GONE
-
-                val artists = result.value
-                    .sortedBy { it.artistName }
-
-                val isSearch = eTextSearch.text.toString().isNotBlank()
-
-                if (artists.isNotEmpty()) {
-                    tViewSearch.visibility = View.GONE
-                    rViewSearch.visibility = View.VISIBLE
-                } else {
-                    if (isSearch) {
-                        tViewSearch.setText(R.string.text_search_no_results)
-                        tViewSearch.drawables(top = R.drawable.ic_search_no_results)
-                    } else {
-                        tViewSearch.setText(R.string.text_search_empty)
-                        tViewSearch.drawables(top = R.drawable.ic_search_empty)
-                    }
-
-                    rViewSearch.visibility = View.GONE
-                    tViewSearch.visibility = View.VISIBLE
-                }
-
-                artistAdapter.swapItems(new = artists)
+                handleOnGetArtistsSuccess(artists = result.value)
             }
             is Result.OnError -> {
-                pBarSearch.visibility = View.GONE
-
-                val messageResource = if (connectionManager.isNetworkAvailable())
-                    R.string.toast_connection_failure
-                else
-                    R.string.toast_no_connection
-
-                requireContext().toast(messageResource)
+                handleOnGetArtistsError()
             }
             else -> {
                 pBarSearch.visibility = View.GONE
 
-                requireContext().toast(R.string.toast_unexpected_failure)
+                snackBar {
+                    messageResource = R.string.snack_bar_unexpected_failure
+                }
             }
         }
+    }
+
+    private fun handleOnGetArtistsSuccess(artists: List<Artist>) {
+        pBarSearch.visibility = View.GONE
+
+        artistAdapter.swapItems(new = artists)
+
+        val isSearch = eTextSearch.text.toString().isNotBlank()
+
+        when {
+            artists.isNotEmpty() -> {
+                tViewSearch.visibility = View.GONE
+                rViewSearch.visibility = View.VISIBLE
+            }
+            isSearch -> {
+                tViewSearch.setText(R.string.text_search_no_results)
+                tViewSearch.drawables(top = R.drawable.ic_search_no_results)
+
+                rViewSearch.visibility = View.GONE
+                tViewSearch.visibility = View.VISIBLE
+            }
+            !isSearch -> {
+                tViewSearch.setText(R.string.text_search_empty)
+                tViewSearch.drawables(top = R.drawable.ic_search_empty)
+
+                rViewSearch.visibility = View.GONE
+                tViewSearch.visibility = View.VISIBLE
+            }
+        }
+    }
+
+    private fun handleOnGetArtistsError() {
+        pBarSearch.visibility = View.GONE
+
+        noConnectionSnackBar(isNetworkAvailable = connectionManager.isNetworkAvailable())
     }
 
     inner class ArtistManager : ArtistAdapter.AdapterManager {

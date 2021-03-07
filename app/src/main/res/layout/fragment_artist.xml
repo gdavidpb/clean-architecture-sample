@@ -21,18 +21,18 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:visibility="visible" />
+        tools:visibility="gone" />
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-            android:id="@+id/sRefreshAlbums"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+        android:id="@+id/sRefreshAlbums"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
         <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rViewAlbums"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                tools:visibility="gone"/>
+            android:id="@+id/rViewAlbums"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:listitem="@layout/item_album" />
 
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 

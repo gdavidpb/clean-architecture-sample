@@ -12,7 +12,6 @@ import com.gdavidpb.test.presentation.viewmodel.ArtistViewModel
 import com.gdavidpb.test.ui.adapters.AlbumAdapter
 import com.gdavidpb.test.utils.extensions.isNetworkAvailable
 import com.gdavidpb.test.utils.extensions.observe
-import com.gdavidpb.test.utils.extensions.toast
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.fragment_artist.*
 import org.koin.android.ext.android.inject
@@ -76,17 +75,14 @@ class ArtistFragment : NavigationFragment() {
             is Result.OnError -> {
                 sRefreshAlbums.isRefreshing = false
 
-                val messageResource = if (connectionManager.isNetworkAvailable())
-                    R.string.toast_connection_failure
-                else
-                    R.string.toast_no_connection
-
-                requireContext().toast(messageResource)
+                noConnectionSnackBar(isNetworkAvailable = connectionManager.isNetworkAvailable())
             }
             else -> {
                 sRefreshAlbums.isRefreshing = false
 
-                requireContext().toast(R.string.toast_unexpected_failure)
+                snackBar {
+                    messageResource = R.string.snack_bar_unexpected_failure
+                }
             }
         }
     }

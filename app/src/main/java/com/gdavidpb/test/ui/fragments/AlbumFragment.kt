@@ -16,7 +16,6 @@ import com.gdavidpb.test.ui.adapters.TrackAdapter
 import com.gdavidpb.test.utils.MediaPlayerManager
 import com.gdavidpb.test.utils.extensions.isNetworkAvailable
 import com.gdavidpb.test.utils.extensions.observe
-import com.gdavidpb.test.utils.extensions.toast
 import com.gdavidpb.test.utils.mappers.toTrack
 import com.gdavidpb.test.utils.mappers.toTrackItem
 import kotlinx.android.synthetic.main.fragment_album.*
@@ -40,9 +39,9 @@ class AlbumFragment : NavigationFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        sRefreshAlbum.isEnabled = false
+        sRefreshTracks.isEnabled = false
 
-        with(rViewAlbum) {
+        with(rViewTracks) {
             layoutManager = LinearLayoutManager(context)
             addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
             adapter = trackAdapter
@@ -55,7 +54,7 @@ class AlbumFragment : NavigationFragment() {
 
             lookupTracks(albumId = args.albumId)
 
-            sRefreshAlbum.setOnRefreshListener {
+            sRefreshTracks.setOnRefreshListener {
                 lookupTracks(albumId = args.albumId)
             }
         }
@@ -84,10 +83,10 @@ class AlbumFragment : NavigationFragment() {
     private fun tracksObserver(result: Result<List<Track>>?) {
         when (result) {
             is Result.OnLoading -> {
-                sRefreshAlbum.isRefreshing = true
+                sRefreshTracks.isRefreshing = true
             }
             is Result.OnSuccess -> {
-                sRefreshAlbum.isRefreshing = false
+                sRefreshTracks.isRefreshing = false
 
                 val tracks = result.value
 
@@ -96,19 +95,16 @@ class AlbumFragment : NavigationFragment() {
                 trackAdapter.swapItems(new = items)
             }
             is Result.OnError -> {
-                sRefreshAlbum.isRefreshing = false
+                sRefreshTracks.isRefreshing = false
 
-                val messageResource = if (connectionManager.isNetworkAvailable())
-                    R.string.toast_connection_failure
-                else
-                    R.string.toast_no_connection
-
-                requireContext().toast(messageResource)
+                noConnectionSnackBar(isNetworkAvailable = connectionManager.isNetworkAvailable())
             }
             else -> {
-                sRefreshAlbum.isRefreshing = false
+                sRefreshTracks.isRefreshing = false
 
-                requireContext().toast(R.string.toast_unexpected_failure)
+                snackBar {
+                    messageResource = R.string.snack_bar_unexpected_failure
+                }
             }
         }
     }
@@ -116,7 +112,6 @@ class AlbumFragment : NavigationFragment() {
     private fun downloadObserver(result: Result<DownloadTrackResponse>?) {
         when (result) {
             is Result.OnLoading -> {
-
             }
             is Result.OnSuccess -> {
                 val response = result.value
@@ -147,12 +142,7 @@ class AlbumFragment : NavigationFragment() {
                 }
             }
             is Result.OnError -> {
-                val messageResource = if (connectionManager.isNetworkAvailable())
-                    R.string.toast_connection_failure
-                else
-                    R.string.toast_no_connection
-
-                requireContext().toast(messageResource)
+                noConnectionSnackBar(isNetworkAvailable = connectionManager.isNetworkAvailable())
             }
         }
     }

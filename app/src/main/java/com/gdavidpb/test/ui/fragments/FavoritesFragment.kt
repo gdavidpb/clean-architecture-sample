@@ -11,7 +11,6 @@ import com.gdavidpb.test.presentation.viewmodel.FavoritesViewModel
 import com.gdavidpb.test.ui.adapters.ArtistAdapter
 import com.gdavidpb.test.utils.extensions.isNetworkAvailable
 import com.gdavidpb.test.utils.extensions.observe
-import com.gdavidpb.test.utils.extensions.toast
 import kotlinx.android.synthetic.main.fragment_favorites.*
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -69,17 +68,14 @@ class FavoritesFragment : NavigationFragment() {
             is Result.OnError -> {
                 sRefreshFavorites.isRefreshing = false
 
-                val messageResource = if (connectionManager.isNetworkAvailable())
-                    R.string.toast_connection_failure
-                else
-                    R.string.toast_no_connection
-
-                requireContext().toast(messageResource)
+                noConnectionSnackBar(isNetworkAvailable = connectionManager.isNetworkAvailable())
             }
             else -> {
                 sRefreshFavorites.isRefreshing = false
 
-                requireContext().toast(R.string.toast_unexpected_failure)
+                snackBar {
+                    messageResource = R.string.snack_bar_unexpected_failure
+                }
             }
         }
     }

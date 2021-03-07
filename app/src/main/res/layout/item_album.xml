@@ -1,70 +1,73 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingStart="@dimen/dp_16"
-        android:paddingEnd="@dimen/dp_16"
-        android:paddingTop="@dimen/dp_8"
-        android:paddingBottom="@dimen/dp_8"
-        android:background="?android:selectableItemBackground">
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="?android:selectableItemBackground"
+    android:paddingStart="@dimen/dp_16"
+    android:paddingTop="@dimen/dp_8"
+    android:paddingEnd="@dimen/dp_16"
+    android:paddingBottom="@dimen/dp_8">
 
     <ImageView
-            android:id="@+id/iViewAlbumCover"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@id/tViewAlbumName"
-            app:layout_constraintBottom_toBottomOf="parent"
-            tools:src="@mipmap/ic_launcher_round"
-            tools:ignore="ContentDescription"/>
+        android:id="@+id/iViewAlbumCover"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/tViewAlbumName"
+        tools:ignore="ContentDescription"
+        tools:src="@mipmap/ic_launcher_round" />
 
     <TextView
-            android:id="@+id/tViewAlbumName"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toEndOf="@id/iViewAlbumCover"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginStart="@dimen/dp_16"
-            android:drawablePadding="@dimen/dp_4"
-            android:gravity="center_vertical"
-            android:textColor="@color/colorForegroundDark"
-            android:textStyle="bold"
-            android:maxLines="1"
-            android:ellipsize="end"
-            tools:drawableEnd="@drawable/ic_explicit"
-            tools:text="21"/>
+        android:id="@+id/tViewAlbumName"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/dp_16"
+        android:drawablePadding="@dimen/dp_4"
+        android:ellipsize="end"
+        android:gravity="center_vertical"
+        android:maxLines="1"
+        android:textColor="@color/colorForegroundDark"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/iViewAlbumCover"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:drawableEnd="@drawable/ic_explicit"
+        tools:text="21" />
 
     <TextView
-            android:id="@+id/tViewAlbumArtistName"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            app:layout_constraintStart_toStartOf="@id/tViewAlbumName"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tViewAlbumName"
-            android:maxLines="1"
-            android:ellipsize="end"
-            android:textColor="@color/colorPrimary"
-            tools:text="Adele"/>
+        android:id="@+id/tViewAlbumArtistName"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:textColor="@color/colorPrimary"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@id/tViewAlbumName"
+        app:layout_constraintTop_toBottomOf="@id/tViewAlbumName"
+        tools:text="Adele" />
 
     <TextView
-            android:id="@+id/tViewAlbumGenreAndYear"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintStart_toStartOf="@id/tViewAlbumName"
-            app:layout_constraintTop_toBottomOf="@id/tViewAlbumArtistName"
-            android:textColor="@color/colorForeground"
-            tools:text="Pop • 2011"/>
+        android:id="@+id/tViewAlbumGenreAndYear"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:textColor="@color/colorForeground"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@id/tViewAlbumName"
+        app:layout_constraintTop_toBottomOf="@id/tViewAlbumArtistName"
+        tools:text="Pop • 2011" />
 
     <TextView
-            android:id="@+id/tViewAlbumCopyright"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintStart_toStartOf="@id/tViewAlbumName"
-            app:layout_constraintTop_toBottomOf="@id/tViewAlbumArtistName"
-            android:textColor="@color/colorForeground"
-            tools:text="Pop • 2011"/>
+        android:id="@+id/tViewAlbumCopyright"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/colorForeground"
+        app:layout_constraintStart_toStartOf="@id/tViewAlbumName"
+        app:layout_constraintTop_toBottomOf="@id/tViewAlbumArtistName"
+        tools:text="Pop • 2011" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
