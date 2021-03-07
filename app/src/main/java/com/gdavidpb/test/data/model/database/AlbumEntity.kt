@@ -2,9 +2,8 @@ package com.gdavidpb.test.data.model.database
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.gdavidpb.test.utils.TABLE_ALBUMS
 
-@Entity(tableName = TABLE_ALBUMS)
+@Entity(tableName = DatabaseModel.TABLE_ALBUMS)
 data class AlbumEntity(
     @PrimaryKey val collectionId: Long,
     val artistId: Long,

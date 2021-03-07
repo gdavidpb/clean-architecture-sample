@@ -20,7 +20,7 @@ import com.gdavidpb.test.presentation.viewmodel.AlbumViewModel
 import com.gdavidpb.test.presentation.viewmodel.ArtistViewModel
 import com.gdavidpb.test.presentation.viewmodel.FavoritesViewModel
 import com.gdavidpb.test.presentation.viewmodel.SearchViewModel
-import com.gdavidpb.test.utils.DATABASE_NAME
+import com.gdavidpb.test.data.model.database.DatabaseModel
 import com.squareup.picasso.Picasso
 import okhttp3.OkHttpClient
 import org.koin.android.ext.koin.androidContext
@@ -70,7 +70,7 @@ val appModule = module {
         Room.databaseBuilder(
             androidContext(),
             MusicDatabase::class.java,
-            DATABASE_NAME
+            DatabaseModel.NAME
         ).build()
     }
 

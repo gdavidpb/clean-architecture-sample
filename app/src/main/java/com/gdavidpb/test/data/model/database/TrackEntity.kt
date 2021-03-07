@@ -2,9 +2,8 @@ package com.gdavidpb.test.data.model.database
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.gdavidpb.test.utils.TABLE_TRACKS
 
-@Entity(tableName = TABLE_TRACKS)
+@Entity(tableName = DatabaseModel.TABLE_TRACKS)
 data class TrackEntity(
     @PrimaryKey
     val trackId: Long,

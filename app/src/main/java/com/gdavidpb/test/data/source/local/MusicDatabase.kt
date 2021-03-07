@@ -8,7 +8,7 @@ import com.gdavidpb.test.data.model.database.TrackEntity
 import com.gdavidpb.test.data.source.local.dao.AlbumDao
 import com.gdavidpb.test.data.source.local.dao.ArtistDao
 import com.gdavidpb.test.data.source.local.dao.TrackDao
-import com.gdavidpb.test.utils.DATABASE_VERSION
+import com.gdavidpb.test.data.model.database.DatabaseModel
 
 @Database(
     entities = [
@@ -16,7 +16,7 @@ import com.gdavidpb.test.utils.DATABASE_VERSION
         AlbumEntity::class,
         TrackEntity::class
     ],
-    version = DATABASE_VERSION,
+    version = DatabaseModel.VERSION,
     exportSchema = false
 )
 abstract class MusicDatabase : RoomDatabase() {
