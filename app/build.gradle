@@ -23,9 +23,16 @@ android {
         }
     }
     buildTypes {
-        release {
+        debug {
             minifyEnabled false
+            buildConfigField "String", "API_BASE", "\"https://itunes.apple.com/\""
+        }
+        release {
+            debuggable false
+            minifyEnabled true
             proguardFiles getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro"
+
+            buildConfigField "String", "API_BASE", "\"https://itunes.apple.com/\""
         }
     }
     compileOptions {

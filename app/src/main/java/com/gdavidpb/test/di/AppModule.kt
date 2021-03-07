@@ -3,6 +3,7 @@ package com.gdavidpb.test.di
 import android.content.Context
 import android.net.ConnectivityManager
 import androidx.room.Room
+import com.gdavidpb.test.BuildConfig
 import com.gdavidpb.test.data.source.iTunesDataRepository
 import com.gdavidpb.test.data.source.iTunesDataStoreFactory
 import com.gdavidpb.test.data.source.local.LocalCacheDataStore
@@ -18,7 +19,6 @@ import com.gdavidpb.test.presentation.viewmodel.ArtistViewModel
 import com.gdavidpb.test.presentation.viewmodel.FavoritesViewModel
 import com.gdavidpb.test.presentation.viewmodel.SearchViewModel
 import com.gdavidpb.test.utils.DATABASE_NAME
-import com.gdavidpb.test.utils.URL_BASE_ITUNES_SEARCH_API
 import com.squareup.picasso.Picasso
 import okhttp3.OkHttpClient
 import org.koin.android.ext.koin.androidContext
@@ -51,7 +51,7 @@ val appModule = module {
 
     single {
         Retrofit.Builder()
-            .baseUrl(URL_BASE_ITUNES_SEARCH_API)
+            .baseUrl(BuildConfig.API_BASE)
             .client(get())
             .addConverterFactory(GsonConverterFactory.create())
             .build()
