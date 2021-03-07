@@ -54,15 +54,15 @@
             app:argType="string" />
 
         <action
-            android:id="@+id/nav_to_track_player"
-            app:destination="@id/fragment_track_player" />
+            android:id="@+id/nav_to_preview"
+            app:destination="@id/fragment_preview" />
     </fragment>
 
     <fragment
-        android:id="@+id/fragment_track_player"
-        android:name="com.gdavidpb.test.ui.fragments.TrackPlayerFragment"
+        android:id="@+id/fragment_preview"
+        android:name="com.gdavidpb.test.ui.fragments.PreviewFragment"
         android:label="{title}"
-        tools:layout="@layout/fragment_track_player">
+        tools:layout="@layout/fragment_preview">
         <argument
             android:name="url"
             app:argType="string" />

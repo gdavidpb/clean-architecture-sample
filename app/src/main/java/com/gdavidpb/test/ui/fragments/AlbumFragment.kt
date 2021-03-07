@@ -191,7 +191,7 @@ class AlbumFragment : NavigationFragment() {
         }
 
         override fun onPreviewTrackClicked(track: TrackItem, position: Int) {
-            val destination = AlbumFragmentDirections.navToTrackPlayer(
+            val destination = AlbumFragmentDirections.navToPreview(
                 url = track.previewUrl,
                 title = track.trackName
             )

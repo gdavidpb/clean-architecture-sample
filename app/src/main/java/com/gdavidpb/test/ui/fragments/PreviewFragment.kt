@@ -6,14 +6,14 @@ import android.view.View
 import android.webkit.WebChromeClient
 import androidx.navigation.fragment.navArgs
 import com.gdavidpb.test.R
-import kotlinx.android.synthetic.main.fragment_track_player.*
+import kotlinx.android.synthetic.main.fragment_preview.*
 import java.net.URI
 
-class TrackPlayerFragment : NavigationFragment() {
+class PreviewFragment : NavigationFragment() {
 
-    private val args by navArgs<TrackPlayerFragmentArgs>()
+    private val args by navArgs<PreviewFragmentArgs>()
 
-    override fun onCreateView() = R.layout.fragment_track_player
+    override fun onCreateView() = R.layout.fragment_preview
 
     @SuppressLint("SetJavaScriptEnabled")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
