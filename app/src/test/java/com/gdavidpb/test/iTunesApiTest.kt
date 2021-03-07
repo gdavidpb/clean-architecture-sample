@@ -34,7 +34,7 @@ class iTunesApiTest : KoinTest {
             api.searchArtists(terms = artistSearchQuery).getOrThrow()
         }
 
-        assertNotNull(result); result ?: return
+        assertNotNull(result)
 
         assertTrue(result.resultCount > 0)
     }
@@ -45,7 +45,7 @@ class iTunesApiTest : KoinTest {
             api.lookupAlbums(artistId = artistIdQuery).getOrThrow()
         }
 
-        assertNotNull(result); result ?: return
+        assertNotNull(result)
 
         assertTrue(result.resultCount > 0)
     }
@@ -56,7 +56,7 @@ class iTunesApiTest : KoinTest {
             api.lookupTracks(albumId = albumIdQuery).getOrThrow()
         }
 
-        assertNotNull(result); result ?: return
+        assertNotNull(result)
 
         assertTrue(result.resultCount > 0)
     }
