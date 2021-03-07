@@ -2,11 +2,8 @@ package com.gdavidpb.test.ui.fragments
 
 import android.net.ConnectivityManager
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.core.widget.doOnTextChanged
-import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.gdavidpb.test.R
 import com.gdavidpb.test.domain.model.Artist
@@ -24,7 +21,7 @@ import kotlinx.android.synthetic.main.fragment_search.*
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-open class SearchFragment : Fragment() {
+open class SearchFragment : NavigationFragment() {
 
     private val viewModel: SearchViewModel by viewModel()
 
@@ -34,9 +31,7 @@ open class SearchFragment : Fragment() {
 
     private val locker = IdempotentLocker()
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.fragment_search, container, false)
-    }
+    override fun onCreateView() = R.layout.fragment_search
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -128,7 +123,12 @@ open class SearchFragment : Fragment() {
 
     inner class ArtistManager : ArtistAdapter.AdapterManager {
         override fun onArtistClicked(item: Artist, position: Int) {
-            // TODO startActivity<ArtistActivity>(EXTRA_ARTIST_ID to item.artistId)
+            val destination = SearchFragmentDirections.navToArtist(
+                artistId = item.artistId,
+                artistName = item.artistName
+            )
+
+            navigate(destination)
         }
 
         override fun onArtistLikeChanged(item: Artist, position: Int, liked: Boolean) {

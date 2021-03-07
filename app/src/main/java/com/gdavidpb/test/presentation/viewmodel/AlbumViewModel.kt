@@ -10,7 +10,7 @@ import com.gdavidpb.test.domain.usecase.LookupTracksUseCase
 import com.gdavidpb.test.utils.extensions.LiveResult
 import com.gdavidpb.test.utils.extensions.execute
 
-open class ArtistDetailViewModel(
+open class AlbumViewModel(
     private val lookupTracksUseCase: LookupTracksUseCase,
     private val downloadTrackUseCase: DownloadTrackUseCase
 ) : ViewModel() {

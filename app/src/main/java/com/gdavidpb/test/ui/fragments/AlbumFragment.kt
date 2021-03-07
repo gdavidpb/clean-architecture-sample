@@ -1,8 +1,9 @@
-package com.gdavidpb.test.ui.activities
+package com.gdavidpb.test.ui.fragments
 
 import android.net.ConnectivityManager
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
+import android.view.View
+import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.gdavidpb.test.R
@@ -10,22 +11,21 @@ import com.gdavidpb.test.domain.model.Track
 import com.gdavidpb.test.domain.model.response.DownloadTrackResponse
 import com.gdavidpb.test.domain.usecase.coroutines.Result
 import com.gdavidpb.test.presentation.model.TrackItem
-import com.gdavidpb.test.presentation.viewmodel.ArtistDetailViewModel
+import com.gdavidpb.test.presentation.viewmodel.AlbumViewModel
 import com.gdavidpb.test.ui.adapters.TrackAdapter
-import com.gdavidpb.test.utils.EXTRA_ALBUM_ID
 import com.gdavidpb.test.utils.MediaPlayerManager
 import com.gdavidpb.test.utils.extensions.isNetworkAvailable
 import com.gdavidpb.test.utils.extensions.observe
 import com.gdavidpb.test.utils.extensions.toast
 import com.gdavidpb.test.utils.mappers.toTrack
 import com.gdavidpb.test.utils.mappers.toTrackItem
-import kotlinx.android.synthetic.main.activity_album_detail.*
+import kotlinx.android.synthetic.main.fragment_album.*
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class AlbumDetailActivity : AppCompatActivity() {
+class AlbumFragment : NavigationFragment() {
 
-    private val viewModel: ArtistDetailViewModel by viewModel()
+    private val viewModel: AlbumViewModel by viewModel()
 
     private val connectionManager: ConnectivityManager by inject()
 
@@ -33,19 +33,16 @@ class AlbumDetailActivity : AppCompatActivity() {
 
     private lateinit var mediaPlayerManager: MediaPlayerManager
 
-    private val extraAlbumId by lazy {
-        intent.getLongExtra(EXTRA_ALBUM_ID, 0)
-    }
+    private val args by navArgs<AlbumFragmentArgs>()
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_album_detail)
+    override fun onCreateView() = R.layout.fragment_album
 
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
-        sRefreshAlbumDetail.isEnabled = false
+        sRefreshAlbum.isEnabled = false
 
-        with(rViewAlbumDetail) {
+        with(rViewAlbum) {
             layoutManager = LinearLayoutManager(context)
             addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
             adapter = trackAdapter
@@ -56,24 +53,18 @@ class AlbumDetailActivity : AppCompatActivity() {
             observe(tracks, ::tracksObserver)
             observe(download, ::downloadObserver)
 
-            lookupTracks(albumId = extraAlbumId)
+            lookupTracks(albumId = args.albumId)
 
-            sRefreshAlbumDetail.setOnRefreshListener {
-                lookupTracks(albumId = extraAlbumId)
+            sRefreshAlbum.setOnRefreshListener {
+                lookupTracks(albumId = args.albumId)
             }
         }
-    }
-
-    override fun onSupportNavigateUp(): Boolean {
-        onBackPressed()
-
-        return true
     }
 
     override fun onResume() {
         super.onResume()
 
-        mediaPlayerManager = MediaPlayerManager(this)
+        mediaPlayerManager = MediaPlayerManager(requireContext())
     }
 
     override fun onPause() {
@@ -93,34 +84,31 @@ class AlbumDetailActivity : AppCompatActivity() {
     private fun tracksObserver(result: Result<List<Track>>?) {
         when (result) {
             is Result.OnLoading -> {
-                sRefreshAlbumDetail.isRefreshing = true
+                sRefreshAlbum.isRefreshing = true
             }
             is Result.OnSuccess -> {
-                sRefreshAlbumDetail.isRefreshing = false
+                sRefreshAlbum.isRefreshing = false
 
                 val tracks = result.value
-
-                if (tracks.isNotEmpty())
-                    supportActionBar?.title = tracks.first().collectionName
 
                 val items = tracks.map(Track::toTrackItem)
 
                 trackAdapter.swapItems(new = items)
             }
             is Result.OnError -> {
-                sRefreshAlbumDetail.isRefreshing = false
+                sRefreshAlbum.isRefreshing = false
 
                 val messageResource = if (connectionManager.isNetworkAvailable())
                     R.string.toast_connection_failure
                 else
                     R.string.toast_no_connection
 
-                toast(messageResource)
+                requireContext().toast(messageResource)
             }
             else -> {
-                sRefreshAlbumDetail.isRefreshing = false
+                sRefreshAlbum.isRefreshing = false
 
-                toast(R.string.toast_unexpected_failure)
+                requireContext().toast(R.string.toast_unexpected_failure)
             }
         }
     }
@@ -164,7 +152,7 @@ class AlbumDetailActivity : AppCompatActivity() {
                 else
                     R.string.toast_no_connection
 
-                toast(messageResource)
+                requireContext().toast(messageResource)
             }
         }
     }
@@ -206,12 +194,12 @@ class AlbumDetailActivity : AppCompatActivity() {
         }
 
         override fun onPreviewTrackClicked(track: TrackItem, position: Int) {
-            /* todo
-            startActivity<WebViewActivity>(
-                EXTRA_TITLE to track.trackName,
-                EXTRA_URL to track.previewUrl
+            val destination = AlbumFragmentDirections.navToTrackPlayer(
+                url = track.previewUrl,
+                title = track.trackName
             )
-            */
+
+            navigate(destination)
         }
     }
 }

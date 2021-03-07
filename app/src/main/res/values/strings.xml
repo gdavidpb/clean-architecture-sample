@@ -18,14 +18,12 @@
     <string name="text_search_no_results">It seems we couldn\'t find anything ;(</string>
 
     <!-- FavoritesFragment -->
-
     <string name="text_favorites_empty">
         What are you waiting for?\n
         Give a like to your first artist
     </string>
 
     <!-- ArtistActivity -->
-
     <string name="text_artist_no_albums">It seems we couldn\'t find any album ;(</string>
 
     <string name="text_album_genre_year">%1$s • %2$s</string>

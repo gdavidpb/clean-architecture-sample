@@ -2,10 +2,7 @@ package com.gdavidpb.test.ui.fragments
 
 import android.net.ConnectivityManager
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
-import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.gdavidpb.test.R
 import com.gdavidpb.test.domain.model.Artist
@@ -19,7 +16,7 @@ import kotlinx.android.synthetic.main.fragment_favorites.*
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-open class FavoritesFragment : Fragment() {
+class FavoritesFragment : NavigationFragment() {
 
     private val viewModel: FavoritesViewModel by viewModel()
 
@@ -27,9 +24,7 @@ open class FavoritesFragment : Fragment() {
 
     private val artistAdapter = ArtistAdapter(manager = ArtistManager())
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.fragment_favorites, container, false)
-    }
+    override fun onCreateView() = R.layout.fragment_favorites
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -91,7 +86,12 @@ open class FavoritesFragment : Fragment() {
 
     inner class ArtistManager : ArtistAdapter.AdapterManager {
         override fun onArtistClicked(item: Artist, position: Int) {
-            // TODO startActivity<ArtistActivity>(EXTRA_ARTIST_ID to item.artistId)
+            val destination = FavoritesFragmentDirections.navToArtist(
+                artistId = item.artistId,
+                artistName = item.artistName
+            )
+
+            navigate(destination)
         }
 
         override fun onArtistLikeChanged(item: Artist, position: Int, liked: Boolean) {

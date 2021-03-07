@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_navigation"
+    app:startDestination="@id/fragment_search">
+
+    <fragment
+        android:id="@+id/fragment_search"
+        android:name="com.gdavidpb.test.ui.fragments.SearchFragment"
+        android:label="@string/app_name"
+        tools:layout="@layout/fragment_search">
+        <action
+            android:id="@+id/nav_to_artist"
+            app:destination="@id/fragment_artist" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/fragment_favorites"
+        android:name="com.gdavidpb.test.ui.fragments.FavoritesFragment"
+        android:label="@string/app_name"
+        tools:layout="@layout/fragment_favorites">
+        <action
+            android:id="@+id/nav_to_artist"
+            app:destination="@id/fragment_artist" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/fragment_artist"
+        android:name="com.gdavidpb.test.ui.fragments.ArtistFragment"
+        android:label="{artistName}"
+        tools:layout="@layout/fragment_artist">
+        <argument
+            android:name="artistId"
+            app:argType="long" />
+        <argument
+            android:name="artistName"
+            app:argType="string" />
+        <action
+            android:id="@+id/nav_to_album"
+            app:destination="@id/fragment_album" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/fragment_album"
+        android:name="com.gdavidpb.test.ui.fragments.AlbumFragment"
+        android:label="{albumName}"
+        tools:layout="@layout/fragment_album">
+        <argument
+            android:name="albumId"
+            app:argType="long" />
+        <argument
+            android:name="albumName"
+            app:argType="string" />
+
+        <action
+            android:id="@+id/nav_to_track_player"
+            app:destination="@id/fragment_track_player" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/fragment_track_player"
+        android:name="com.gdavidpb.test.ui.fragments.TrackPlayerFragment"
+        android:label="{title}"
+        tools:layout="@layout/fragment_track_player">
+        <argument
+            android:name="url"
+            app:argType="string" />
+        <argument
+            android:name="title"
+            app:argType="string" />
+    </fragment>
+
+</navigation>

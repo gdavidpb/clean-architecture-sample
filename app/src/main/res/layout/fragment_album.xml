@@ -4,15 +4,15 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".ui.activities.AlbumDetailActivity">
+        tools:context=".ui.fragments.AlbumFragment">
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-            android:id="@+id/sRefreshAlbumDetail"
+            android:id="@+id/sRefreshAlbum"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
         <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rViewAlbumDetail"
+                android:id="@+id/rViewAlbum"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 

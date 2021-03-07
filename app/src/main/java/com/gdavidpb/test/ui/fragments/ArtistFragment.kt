@@ -1,25 +1,24 @@
-package com.gdavidpb.test.ui.activities
+package com.gdavidpb.test.ui.fragments
 
 import android.net.ConnectivityManager
 import android.os.Bundle
 import android.view.View
-import androidx.appcompat.app.AppCompatActivity
+import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.gdavidpb.test.R
 import com.gdavidpb.test.domain.model.Album
 import com.gdavidpb.test.domain.usecase.coroutines.Result
 import com.gdavidpb.test.presentation.viewmodel.ArtistViewModel
 import com.gdavidpb.test.ui.adapters.AlbumAdapter
-import com.gdavidpb.test.utils.EXTRA_ARTIST_ID
 import com.gdavidpb.test.utils.extensions.isNetworkAvailable
 import com.gdavidpb.test.utils.extensions.observe
 import com.gdavidpb.test.utils.extensions.toast
 import com.squareup.picasso.Picasso
-import kotlinx.android.synthetic.main.activity_artist.*
+import kotlinx.android.synthetic.main.fragment_artist.*
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class ArtistActivity : AppCompatActivity() {
+class ArtistFragment : NavigationFragment() {
 
     private val viewModel: ArtistViewModel by viewModel()
 
@@ -29,15 +28,12 @@ class ArtistActivity : AppCompatActivity() {
 
     private val albumAdapter = AlbumAdapter(manager = AlbumManager())
 
-    private val extraArtistId by lazy {
-        intent.getLongExtra(EXTRA_ARTIST_ID, 0)
-    }
+    private val args by navArgs<ArtistFragmentArgs>()
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_artist)
+    override fun onCreateView() = R.layout.fragment_artist
 
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
         with(rViewAlbums) {
             layoutManager = LinearLayoutManager(context)
@@ -48,18 +44,12 @@ class ArtistActivity : AppCompatActivity() {
         with(viewModel) {
             observe(albums, ::albumsObserver)
 
-            lookupAlbums(artistId = extraArtistId)
+            lookupAlbums(artistId = args.artistId)
 
             sRefreshAlbums.setOnRefreshListener {
-                lookupAlbums(artistId = extraArtistId)
+                lookupAlbums(artistId = args.artistId)
             }
         }
-    }
-
-    override fun onSupportNavigateUp(): Boolean {
-        onBackPressed()
-
-        return true
     }
 
     private fun albumsObserver(result: Result<List<Album>>?) {
@@ -74,8 +64,6 @@ class ArtistActivity : AppCompatActivity() {
                     .sortedByDescending { it.releaseDate }
 
                 if (albums.isNotEmpty()) {
-                    supportActionBar?.title = albums.first().artistName
-
                     tViewAlbums.visibility = View.GONE
                     rViewAlbums.visibility = View.VISIBLE
                 } else {
@@ -93,19 +81,24 @@ class ArtistActivity : AppCompatActivity() {
                 else
                     R.string.toast_no_connection
 
-                toast(messageResource)
+                requireContext().toast(messageResource)
             }
             else -> {
                 sRefreshAlbums.isRefreshing = false
 
-                toast(R.string.toast_unexpected_failure)
+                requireContext().toast(R.string.toast_unexpected_failure)
             }
         }
     }
 
     inner class AlbumManager : AlbumAdapter.AdapterManager {
         override fun onAlbumClicked(item: Album, position: Int) {
-            // TODO startActivity<AlbumDetailActivity>(EXTRA_ALBUM_ID to item.collectionId)
+            val destination = ArtistFragmentDirections.navToAlbum(
+                albumId = item.collectionId,
+                albumName = item.collectionName
+            )
+
+            navigate(destination)
         }
 
         override fun provideImageLoader(): Picasso {

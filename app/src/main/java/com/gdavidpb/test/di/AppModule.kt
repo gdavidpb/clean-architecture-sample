@@ -13,7 +13,7 @@ import com.gdavidpb.test.data.source.remote.iTunesSearchApi
 import com.gdavidpb.test.domain.repository.MusicRepository
 import com.gdavidpb.test.domain.repository.StorageRepository
 import com.gdavidpb.test.domain.usecase.*
-import com.gdavidpb.test.presentation.viewmodel.ArtistDetailViewModel
+import com.gdavidpb.test.presentation.viewmodel.AlbumViewModel
 import com.gdavidpb.test.presentation.viewmodel.ArtistViewModel
 import com.gdavidpb.test.presentation.viewmodel.FavoritesViewModel
 import com.gdavidpb.test.presentation.viewmodel.SearchViewModel
@@ -82,7 +82,7 @@ val appModule = module {
     viewModel<SearchViewModel>()
     viewModel<FavoritesViewModel>()
     viewModel<ArtistViewModel>()
-    viewModel<ArtistDetailViewModel>()
+    viewModel<AlbumViewModel>()
 
     /* Repositories */
 
