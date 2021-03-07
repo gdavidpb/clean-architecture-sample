@@ -2,10 +2,7 @@ package com.gdavidpb.test.data.source.local
 
 import android.content.Context
 import com.gdavidpb.test.domain.repository.StorageRepository
-import java.io.File
-import java.io.FileNotFoundException
-import java.io.FileOutputStream
-import java.io.InputStream
+import java.io.*
 import java.net.URL
 
 class LocalCacheDataStore(
@@ -18,7 +15,7 @@ class LocalCacheDataStore(
 
             /* Create directories to */
             outputFile.parentFile?.mkdirs()
-                ?: throw RuntimeException("Unable to create directory for file '$outputFile'")
+                ?: throw IOException("Unable to create directory for file '$outputFile'")
 
             val outputStream = FileOutputStream(outputFile)
 
