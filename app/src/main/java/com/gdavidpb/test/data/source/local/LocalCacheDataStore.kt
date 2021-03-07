@@ -11,6 +11,7 @@ import java.net.URL
 class LocalCacheDataStore(
     private val context: Context
 ) : StorageRepository {
+    @Suppress("BlockingMethodInNonBlockingContext")
     override suspend fun download(url: String, name: String): File {
         return URL(url).openStream().use { inputStream ->
             val outputFile = File(context.filesDir, name)
