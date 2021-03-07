@@ -27,7 +27,9 @@ class AlbumFragment : NavigationFragment() {
 
     private val trackAdapter = TrackAdapter(manager = TrackManager())
 
-    private lateinit var mediaPlayerManager: MediaPlayerManager
+    private val managedMediaPlayer by lazy {
+        MediaPlayerManager(lifecycleOwner = this)
+    }
 
     private val args by navArgs<AlbumFragmentArgs>()
 
@@ -57,24 +59,10 @@ class AlbumFragment : NavigationFragment() {
         }
     }
 
-    override fun onResume() {
-        super.onResume()
-
-        mediaPlayerManager = MediaPlayerManager(requireContext())
-    }
-
     override fun onPause() {
-        mediaPlayerManager.release()
-
         trackAdapter.resetStates()
 
         super.onPause()
-    }
-
-    override fun onStop() {
-        mediaPlayerManager.release()
-
-        super.onStop()
     }
 
     private fun onGetTracks(result: Result<List<Track>, LookupTracksError>?) {
@@ -135,7 +123,7 @@ class AlbumFragment : NavigationFragment() {
                 )
             }
 
-            mediaPlayerManager.play(source = response.file) {
+            managedMediaPlayer.play(source = response.file) {
                 trackAdapter.updateItem(track) {
                     copy(
                         isPlaying = false,
@@ -156,7 +144,7 @@ class AlbumFragment : NavigationFragment() {
 
     inner class TrackManager : TrackAdapter.AdapterManager {
         override fun onPlayTrackClicked(track: TrackItem, position: Int) {
-            mediaPlayerManager.stop()
+            managedMediaPlayer.stop()
 
             if (track.isDownloaded)
                 trackAdapter.updateItem(position = position) {
@@ -179,7 +167,7 @@ class AlbumFragment : NavigationFragment() {
         }
 
         override fun onPauseTrackClicked(track: TrackItem, position: Int) {
-            mediaPlayerManager.pause()
+            managedMediaPlayer.pause()
 
             trackAdapter.updateItem(position = position) {
                 copy(

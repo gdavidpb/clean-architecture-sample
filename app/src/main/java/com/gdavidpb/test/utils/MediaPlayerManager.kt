@@ -1,60 +1,47 @@
 package com.gdavidpb.test.utils
 
-import android.content.Context
-import android.media.MediaPlayer
-import android.net.Uri
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleObserver
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.OnLifecycleEvent
 import java.io.File
+import java.util.concurrent.atomic.AtomicReference
 
 class MediaPlayerManager(
-    private val context: Context
+    private val lifecycleOwner: LifecycleOwner
 ) {
-    private val mediaPlayer = MediaPlayer()
+    private val mediaPlayer = AtomicReference<ManagedMediaPlayer>()
 
-    private var currentSource = ""
-
-    fun play(source: File, done: () -> Unit) {
-        with(mediaPlayer) {
-            when {
-                currentSource == source.path && isPaused() -> start()
-                else -> {
-                    currentSource = source.path
-
-                    reset()
-
-                    setOnPreparedListener {
-                        start()
-                    }
-
-                    setOnCompletionListener {
-                        reset()
-
-                        done()
-                    }
-
-                    setDataSource(context, Uri.fromFile(source))
-                    prepareAsync()
-                }
-            }
-        }
+    init {
+        lifecycleOwner.lifecycle.addObserver(MediaPlayerObserver())
     }
 
-    fun stop() {
-        with(mediaPlayer) {
-            if (isPlaying) stop()
-        }
+    fun play(source: File, onComplete: () -> Unit) {
+        mediaPlayer.get().play(source, onComplete)
     }
 
     fun pause() {
-        with(mediaPlayer) {
-            if (isPlaying) pause()
+        mediaPlayer.get().pause()
+    }
+
+    fun stop() {
+        mediaPlayer.get().stop()
+    }
+
+    private inner class MediaPlayerObserver : LifecycleObserver {
+        @OnLifecycleEvent(Lifecycle.Event.ON_RESUME)
+        fun onResume() {
+            mediaPlayer.set(ManagedMediaPlayer(lifecycleOwner))
         }
-    }
 
-    fun release() {
-        mediaPlayer.release()
-    }
+        @OnLifecycleEvent(Lifecycle.Event.ON_PAUSE)
+        fun onPause() {
+            mediaPlayer.get().release()
+        }
 
-    private fun MediaPlayer.isPaused(): Boolean {
-        return !isPlaying && currentPosition > 0
+        @OnLifecycleEvent(Lifecycle.Event.ON_STOP)
+        fun onStop() {
+            mediaPlayer.get().release()
+        }
     }
 }
