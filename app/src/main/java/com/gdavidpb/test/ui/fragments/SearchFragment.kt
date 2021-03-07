@@ -21,7 +21,7 @@ import kotlinx.android.synthetic.main.fragment_search.*
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-open class SearchFragment : NavigationFragment() {
+class SearchFragment : NavigationFragment() {
 
     private val viewModel: SearchViewModel by viewModel()
 

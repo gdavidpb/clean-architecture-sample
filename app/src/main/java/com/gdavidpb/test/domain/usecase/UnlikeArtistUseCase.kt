@@ -7,7 +7,7 @@ import com.gdavidpb.test.domain.usecase.coroutines.CompletableUseCase
 import com.gdavidpb.test.domain.usecase.errors.LikeArtistError
 import com.gdavidpb.test.utils.extensions.isConnectionIssue
 
-open class UnlikeArtistUseCase(
+class UnlikeArtistUseCase(
     private val musicRepository: MusicRepository,
     private val networkRepository: NetworkRepository
 ) : CompletableUseCase<LikeArtistsRequest, LikeArtistError>() {

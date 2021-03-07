@@ -7,7 +7,7 @@ import com.gdavidpb.test.utils.extensions.drawables
 import com.gdavidpb.test.utils.extensions.visible
 import kotlinx.android.synthetic.main.item_track.view.*
 
-open class TrackViewHolder(
+class TrackViewHolder(
     itemView: View
 ) : BaseViewHolder<TrackItem>(itemView) {
     override fun bindView(item: TrackItem) {

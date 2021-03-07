@@ -9,7 +9,7 @@ import com.gdavidpb.test.utils.mappers.toAlbum
 import com.gdavidpb.test.utils.mappers.toArtist
 import com.gdavidpb.test.utils.mappers.toTrack
 
-open class iTunesRemoteDataStore(
+class iTunesRemoteDataStore(
     private val iTunesSearchApi: iTunesSearchApi
 ) : iTunesDataStore {
     override suspend fun searchArtists(term: String): List<Artist> {

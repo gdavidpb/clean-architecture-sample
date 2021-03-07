@@ -8,7 +8,7 @@ import com.gdavidpb.test.domain.usecase.errors.LookupAlbumsError
 import com.gdavidpb.test.utils.extensions.LiveResult
 import com.gdavidpb.test.utils.extensions.execute
 
-open class ArtistViewModel(
+class ArtistViewModel(
     private val lookupAlbumsUseCase: LookupAlbumsUseCase
 ) : ViewModel() {
     val albums = LiveResult<List<Album>, LookupAlbumsError>()

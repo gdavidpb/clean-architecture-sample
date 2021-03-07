@@ -8,7 +8,7 @@ import org.koin.android.ext.koin.androidLogger
 import org.koin.core.context.startKoin
 import org.koin.core.logger.Level
 
-open class TestApp : Application() {
+class TestApp : Application() {
     override fun onCreate() {
         super.onCreate()
 

@@ -5,7 +5,7 @@ import com.gdavidpb.test.domain.model.Artist
 import com.gdavidpb.test.utils.extensions.setSafeChecked
 import kotlinx.android.synthetic.main.item_artist.view.*
 
-open class ArtistViewHolder(
+class ArtistViewHolder(
     itemView: View
 ) :
     BaseViewHolder<Artist>(itemView) {

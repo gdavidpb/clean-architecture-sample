@@ -8,7 +8,7 @@ import com.gdavidpb.test.ui.viewholders.BaseViewHolder
 import com.gdavidpb.test.ui.viewholders.TrackViewHolder
 import com.gdavidpb.test.utils.extensions.onClickOnce
 
-open class TrackAdapter(
+class TrackAdapter(
     private val manager: AdapterManager
 ) : BaseAdapter<TrackItem>() {
 

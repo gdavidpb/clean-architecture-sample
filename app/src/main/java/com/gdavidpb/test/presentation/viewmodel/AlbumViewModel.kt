@@ -12,7 +12,7 @@ import com.gdavidpb.test.domain.usecase.errors.LookupTracksError
 import com.gdavidpb.test.utils.extensions.LiveResult
 import com.gdavidpb.test.utils.extensions.execute
 
-open class AlbumViewModel(
+class AlbumViewModel(
     private val lookupTracksUseCase: LookupTracksUseCase,
     private val downloadTrackUseCase: DownloadTrackUseCase
 ) : ViewModel() {

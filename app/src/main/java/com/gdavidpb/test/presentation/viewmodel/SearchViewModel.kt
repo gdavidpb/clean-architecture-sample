@@ -14,7 +14,7 @@ import com.gdavidpb.test.utils.extensions.LiveResult
 import com.gdavidpb.test.utils.extensions.execute
 import com.gdavidpb.test.utils.extensions.postSuccess
 
-open class SearchViewModel(
+class SearchViewModel(
     private val searchArtistsUseCase: SearchArtistsUseCase,
     private val likeArtistUseCase: LikeArtistUseCase,
     private val unlikeArtistUseCase: UnlikeArtistUseCase

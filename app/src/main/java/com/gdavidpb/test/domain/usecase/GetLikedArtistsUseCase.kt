@@ -7,7 +7,7 @@ import com.gdavidpb.test.domain.usecase.coroutines.ResultUseCase
 import com.gdavidpb.test.domain.usecase.errors.GetLikedArtistsError
 import com.gdavidpb.test.utils.extensions.isConnectionIssue
 
-open class GetLikedArtistsUseCase(
+class GetLikedArtistsUseCase(
     private val musicRepository: MusicRepository,
     private val networkRepository: NetworkRepository
 ) : ResultUseCase<Unit, List<Artist>, GetLikedArtistsError>() {

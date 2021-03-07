@@ -11,7 +11,7 @@ import com.gdavidpb.test.utils.extensions.LiveCompletable
 import com.gdavidpb.test.utils.extensions.LiveResult
 import com.gdavidpb.test.utils.extensions.execute
 
-open class FavoritesViewModel(
+class FavoritesViewModel(
     private val getLikedArtistsUseCase: GetLikedArtistsUseCase,
     private val unlikeArtistUseCase: UnlikeArtistUseCase
 ) : ViewModel() {

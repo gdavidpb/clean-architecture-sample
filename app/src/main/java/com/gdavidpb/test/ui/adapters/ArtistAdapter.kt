@@ -9,7 +9,7 @@ import com.gdavidpb.test.ui.viewholders.BaseViewHolder
 import com.gdavidpb.test.utils.extensions.onClickOnce
 import kotlinx.android.synthetic.main.item_artist.view.*
 
-open class ArtistAdapter(
+class ArtistAdapter(
     private val manager: AdapterManager
 ) : BaseAdapter<Artist>() {
 

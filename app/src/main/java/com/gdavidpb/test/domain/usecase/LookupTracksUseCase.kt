@@ -8,7 +8,7 @@ import com.gdavidpb.test.domain.usecase.coroutines.ResultUseCase
 import com.gdavidpb.test.domain.usecase.errors.LookupTracksError
 import com.gdavidpb.test.utils.extensions.isConnectionIssue
 
-open class LookupTracksUseCase(
+class LookupTracksUseCase(
     private val musicRepository: MusicRepository,
     private val networkRepository: NetworkRepository
 ) : ResultUseCase<LookupTracksRequest, List<Track>, LookupTracksError>() {

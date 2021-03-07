@@ -12,7 +12,7 @@ import com.gdavidpb.test.utils.extensions.onClickOnce
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.item_album.view.*
 
-open class AlbumAdapter(
+class AlbumAdapter(
     private val manager: AdapterManager
 ) : BaseAdapter<Album>() {
 

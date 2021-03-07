@@ -8,7 +8,7 @@ import java.io.FileOutputStream
 import java.io.InputStream
 import java.net.URL
 
-open class LocalCacheDataStore(
+class LocalCacheDataStore(
     private val context: Context
 ) : StorageRepository {
     override suspend fun download(url: String, name: String): File {

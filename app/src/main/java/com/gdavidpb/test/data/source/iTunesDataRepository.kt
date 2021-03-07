@@ -6,7 +6,7 @@ import com.gdavidpb.test.domain.model.Artist
 import com.gdavidpb.test.domain.model.Track
 import com.gdavidpb.test.domain.repository.MusicRepository
 
-open class iTunesDataRepository(
+class iTunesDataRepository(
     private val factory: iTunesDataStoreFactory
 ) : MusicRepository {
     override suspend fun searchArtists(term: String): List<Artist> {

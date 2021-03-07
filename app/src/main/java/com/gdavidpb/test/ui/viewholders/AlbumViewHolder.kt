@@ -9,7 +9,7 @@ import com.gdavidpb.test.utils.extensions.drawables
 import com.gdavidpb.test.utils.extensions.formatYear
 import kotlinx.android.synthetic.main.item_album.view.*
 
-open class AlbumViewHolder(
+class AlbumViewHolder(
     itemView: View,
     private val manager: AlbumAdapter.AdapterManager
 ) : BaseViewHolder<Album>(itemView) {

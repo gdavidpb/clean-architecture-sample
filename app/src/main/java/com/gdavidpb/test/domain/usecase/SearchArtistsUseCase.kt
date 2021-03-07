@@ -8,7 +8,7 @@ import com.gdavidpb.test.domain.usecase.coroutines.ResultUseCase
 import com.gdavidpb.test.domain.usecase.errors.SearchArtistsError
 import com.gdavidpb.test.utils.extensions.isConnectionIssue
 
-open class SearchArtistsUseCase(
+class SearchArtistsUseCase(
     private val musicRepository: MusicRepository,
     private val networkRepository: NetworkRepository
 ) : ResultUseCase<SearchArtistsRequest, List<Artist>, SearchArtistsError>() {
