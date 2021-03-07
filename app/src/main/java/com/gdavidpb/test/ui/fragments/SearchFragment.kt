@@ -101,7 +101,7 @@ class SearchFragment : NavigationFragment() {
     private fun handleOnGetArtistsSuccess(artists: List<Artist>) {
         pBarSearch.visibility = View.GONE
 
-        artistAdapter.swapItems(new = artists)
+        artistAdapter.submitList(artists)
 
         val isSearch = eTextSearch.text.toString().isNotBlank()
 
@@ -137,7 +137,7 @@ class SearchFragment : NavigationFragment() {
     }
 
     inner class ArtistManager : ArtistAdapter.AdapterManager {
-        override fun onArtistClicked(item: Artist, position: Int) {
+        override fun onArtistClicked(item: Artist) {
             val destination = SearchFragmentDirections.navToArtist(
                 artistId = item.artistId,
                 artistName = item.artistName
@@ -146,8 +146,8 @@ class SearchFragment : NavigationFragment() {
             navigate(destination)
         }
 
-        override fun onArtistLikeChanged(item: Artist, position: Int, liked: Boolean) {
-            artistAdapter.setArtistLiked(liked, position)
+        override fun onArtistLikeChanged(item: Artist, liked: Boolean) {
+            artistAdapter.setArtistLiked(item, liked)
 
             if (liked)
                 viewModel.likeArtist(artistId = item.artistId)

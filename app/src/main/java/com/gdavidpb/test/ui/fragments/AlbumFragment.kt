@@ -96,7 +96,7 @@ class AlbumFragment : NavigationFragment() {
 
         val items = tracks.map(Track::toTrackItem)
 
-        trackAdapter.swapItems(new = items)
+        trackAdapter.submitList(items)
     }
 
     private fun handleOnGetTracksError(error: LookupTracksError?) {
@@ -143,11 +143,11 @@ class AlbumFragment : NavigationFragment() {
     }
 
     inner class TrackManager : TrackAdapter.AdapterManager {
-        override fun onPlayTrackClicked(track: TrackItem, position: Int) {
+        override fun onPlayTrackClicked(item: TrackItem) {
             managedMediaPlayer.stop()
 
-            if (track.isDownloaded)
-                trackAdapter.updateItem(position = position) {
+            if (item.isDownloaded)
+                trackAdapter.updateItem(item) {
                     copy(
                         isPlaying = true,
                         isPaused = false,
@@ -155,7 +155,7 @@ class AlbumFragment : NavigationFragment() {
                     )
                 }
             else
-                trackAdapter.updateItem(position = position) {
+                trackAdapter.updateItem(item) {
                     copy(
                         isPlaying = false,
                         isPaused = false,
@@ -163,13 +163,13 @@ class AlbumFragment : NavigationFragment() {
                     )
                 }
 
-            viewModel.downloadTrack(track = track.let(TrackItem::toTrack))
+            viewModel.downloadTrack(track = item.let(TrackItem::toTrack))
         }
 
-        override fun onPauseTrackClicked(track: TrackItem, position: Int) {
+        override fun onPauseTrackClicked(item: TrackItem) {
             managedMediaPlayer.pause()
 
-            trackAdapter.updateItem(position = position) {
+            trackAdapter.updateItem(item) {
                 copy(
                     isPlaying = false,
                     isPaused = true,
@@ -178,10 +178,10 @@ class AlbumFragment : NavigationFragment() {
             }
         }
 
-        override fun onPreviewTrackClicked(track: TrackItem, position: Int) {
+        override fun onPreviewTrackClicked(item: TrackItem) {
             val destination = AlbumFragmentDirections.navToPreview(
-                url = track.previewUrl,
-                title = track.trackName
+                url = item.previewUrl,
+                title = item.trackName
             )
 
             navigate(destination)

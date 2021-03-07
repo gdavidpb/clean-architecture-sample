@@ -10,43 +10,38 @@ import com.gdavidpb.test.utils.extensions.onClickOnce
 
 class TrackAdapter(
     private val manager: AdapterManager
-) : BaseAdapter<TrackItem>() {
+) : BaseAdapter<TrackItem>(AdapterComparator.comparator) {
 
-    interface AdapterManager {
-        fun onPlayTrackClicked(track: TrackItem, position: Int)
-        fun onPauseTrackClicked(track: TrackItem, position: Int)
-        fun onPreviewTrackClicked(track: TrackItem, position: Int)
+    object AdapterComparator {
+        val comparator = compareBy(TrackItem::trackId)
     }
 
-    override fun provideComparator() = compareBy(TrackItem::trackId)
+    interface AdapterManager {
+        fun onPlayTrackClicked(item: TrackItem)
+        fun onPauseTrackClicked(item: TrackItem)
+        fun onPreviewTrackClicked(item: TrackItem)
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder<TrackItem> {
-        val itemView = LayoutInflater.from(parent.context).inflate(R.layout.item_track, parent, false)
+        val itemView = LayoutInflater
+            .from(parent.context)
+            .inflate(R.layout.item_track, parent, false)
 
         return TrackViewHolder(itemView).also {
             with(itemView) {
                 onClickOnce {
-                    val item = it.resolveItem()
+                    val item = it.getItem()
 
                     if (item != null)
                         when {
                             item.isMusic -> {
                                 if (item.isPlaying)
-                                    manager.onPauseTrackClicked(
-                                        track = item,
-                                        position = it.bindingAdapterPosition
-                                    )
+                                    manager.onPauseTrackClicked(item)
                                 else
-                                    manager.onPlayTrackClicked(
-                                        track = item,
-                                        position = it.bindingAdapterPosition
-                                    )
+                                    manager.onPlayTrackClicked(item)
                             }
                             item.isVideo -> {
-                                manager.onPreviewTrackClicked(
-                                    track = item,
-                                    position = it.bindingAdapterPosition
-                                )
+                                manager.onPreviewTrackClicked(item)
                             }
                         }
                 }
@@ -54,20 +49,20 @@ class TrackAdapter(
         }
     }
 
-    override fun updateItem(position: Int, update: TrackItem.() -> TrackItem) {
+    override fun updateItem(item: TrackItem, update: TrackItem.() -> TrackItem) {
         resetStates()
 
-        super.updateItem(position, update)
+        super.updateItem(item, update)
     }
 
     fun resetStates() {
-        items.mapIndexedNotNull { index, track ->
+        currentList.mapIndexedNotNull { index, track ->
             if (track.isPlaying || track.isPaused || track.isDownloading)
                 index
             else
                 null
         }.forEach { index ->
-            items[index] = items[index].copy(
+            currentList[index] = currentList[index].copy(
                 isPlaying = false,
                 isPaused = false,
                 isDownloading = false

@@ -11,17 +11,21 @@ import kotlinx.android.synthetic.main.item_artist.view.*
 
 class ArtistAdapter(
     private val manager: AdapterManager
-) : BaseAdapter<Artist>() {
+) : BaseAdapter<Artist>(AdapterComparator.comparator) {
 
-    interface AdapterManager {
-        fun onArtistClicked(item: Artist, position: Int)
-        fun onArtistLikeChanged(item: Artist, position: Int, liked: Boolean)
+    object AdapterComparator {
+        val comparator = compareBy(Artist::artistId)
     }
 
-    override fun provideComparator() = compareBy(Artist::artistId)
+    interface AdapterManager {
+        fun onArtistClicked(item: Artist)
+        fun onArtistLikeChanged(item: Artist, liked: Boolean)
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder<Artist> {
-        val itemView = LayoutInflater.from(parent.context).inflate(R.layout.item_artist, parent, false)
+        val itemView = LayoutInflater
+            .from(parent.context)
+            .inflate(R.layout.item_artist, parent, false)
 
         return ArtistViewHolder(itemView).also {
             with(itemView) {
@@ -29,33 +33,25 @@ class ArtistAdapter(
                     /* Ignore event when it's disabled */
                     if (!buttonView.isEnabled) return@setOnCheckedChangeListener
 
-                    val item = it.resolveItem()
+                    val item = it.getItem()
 
                     if (item != null)
-                        manager.onArtistLikeChanged(item, it.bindingAdapterPosition, isChecked)
+                        manager.onArtistLikeChanged(item, isChecked)
                 }
 
                 onClickOnce {
-                    val item = it.resolveItem()
+                    val item = it.getItem()
 
                     if (item != null)
-                        manager.onArtistClicked(item, it.bindingAdapterPosition)
+                        manager.onArtistClicked(item)
                 }
             }
         }
     }
 
-    fun setArtistLiked(liked: Boolean, position: Int) {
-        items[position] = items[position].copy(isLiked = liked)
-
-        notifyItemChanged(position)
+    fun setArtistLiked(item: Artist, liked: Boolean) {
+        updateItem(item) {
+            copy(isLiked = liked)
+        }
     }
-
-    fun removeLikedArtist(position: Int) {
-        items.removeAt(position)
-
-        notifyItemRemoved(position)
-    }
-
-    fun isEmpty() = items.isEmpty()
 }

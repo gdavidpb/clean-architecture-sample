@@ -80,7 +80,7 @@ class ArtistFragment : NavigationFragment() {
             tViewAlbums.visibility = View.VISIBLE
         }
 
-        albumAdapter.swapItems(new = albums)
+        albumAdapter.submitList(albums)
     }
 
     private fun handleOnGetAlbumsError(error: LookupAlbumsError?) {
@@ -93,7 +93,7 @@ class ArtistFragment : NavigationFragment() {
     }
 
     inner class AlbumManager : AlbumAdapter.AdapterManager {
-        override fun onAlbumClicked(item: Album, position: Int) {
+        override fun onAlbumClicked(item: Album) {
             val destination = ArtistFragmentDirections.navToAlbum(
                 albumId = item.collectionId,
                 albumName = item.collectionName

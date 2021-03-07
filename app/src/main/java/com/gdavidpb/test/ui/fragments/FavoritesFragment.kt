@@ -72,7 +72,7 @@ class FavoritesFragment : NavigationFragment() {
             tViewFavorites.visibility = View.VISIBLE
         }
 
-        artistAdapter.swapItems(new = artists)
+        artistAdapter.submitList(artists)
     }
 
     private fun handleOnGetLikedArtistsError(error: GetLikedArtistsError?) {
@@ -85,7 +85,7 @@ class FavoritesFragment : NavigationFragment() {
     }
 
     inner class ArtistManager : ArtistAdapter.AdapterManager {
-        override fun onArtistClicked(item: Artist, position: Int) {
+        override fun onArtistClicked(item: Artist) {
             val destination = FavoritesFragmentDirections.navToArtist(
                 artistId = item.artistId,
                 artistName = item.artistName
@@ -94,9 +94,9 @@ class FavoritesFragment : NavigationFragment() {
             navigate(destination)
         }
 
-        override fun onArtistLikeChanged(item: Artist, position: Int, liked: Boolean) {
+        override fun onArtistLikeChanged(item: Artist, liked: Boolean) {
             if (!liked) {
-                artistAdapter.removeLikedArtist(position)
+                artistAdapter.removeItem(item)
 
                 viewModel.unlikeArtist(artistId = item.artistId)
 

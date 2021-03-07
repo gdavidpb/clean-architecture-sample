@@ -14,18 +14,21 @@ import kotlinx.android.synthetic.main.item_album.view.*
 
 class AlbumAdapter(
     private val manager: AdapterManager
-) : BaseAdapter<Album>() {
+) : BaseAdapter<Album>(AdapterComparator.comparator) {
+
+    object AdapterComparator {
+        val comparator = compareBy(Album::collectionId)
+    }
 
     interface AdapterManager {
-        fun onAlbumClicked(item: Album, position: Int)
-
+        fun onAlbumClicked(item: Album)
         fun provideImageLoader(): Picasso
     }
 
-    override fun provideComparator() = compareBy(Album::collectionId)
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder<Album> {
-        val itemView = LayoutInflater.from(parent.context).inflate(R.layout.item_album, parent, false)
+        val itemView = LayoutInflater
+            .from(parent.context)
+            .inflate(R.layout.item_album, parent, false)
 
         with(itemView) {
             iViewAlbumCover.updateLayoutParams<ViewGroup.LayoutParams> {
@@ -37,10 +40,10 @@ class AlbumAdapter(
         return AlbumViewHolder(itemView, manager).also {
             with(itemView) {
                 onClickOnce {
-                    val item = it.resolveItem()
+                    val item = it.getItem()
 
                     if (item != null)
-                        manager.onAlbumClicked(item, it.bindingAdapterPosition)
+                        manager.onAlbumClicked(item)
                 }
             }
         }
