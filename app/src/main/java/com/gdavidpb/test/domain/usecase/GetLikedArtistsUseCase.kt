@@ -12,6 +12,8 @@ open class GetLikedArtistsUseCase(
     foregroundContext = Dispatchers.Main
 ) {
     override suspend fun executeOnBackground(params: Unit): List<Artist>? {
-        return musicRepository.getLikedArtists()
+        return musicRepository
+            .getLikedArtists()
+            .sortedBy { it.artistName }
     }
 }

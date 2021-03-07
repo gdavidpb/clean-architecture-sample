@@ -13,6 +13,8 @@ open class LookupAlbumsUseCase(
     foregroundContext = Dispatchers.Main
 ) {
     override suspend fun executeOnBackground(params: LookupAlbumsRequest): List<Album>? {
-        return musicRepository.lookupAlbums(artistId = params.artistId)
+        return musicRepository
+            .lookupAlbums(artistId = params.artistId)
+            .sortedByDescending { it.releaseDate }
     }
 }

@@ -58,12 +58,12 @@ open class SearchFragment : NavigationFragment() {
         }
 
         with(viewModel) {
-            observe(state, ::stateObserver)
+            observe(state, ::onStateChanged)
             observe(artists, ::onGetArtists)
         }
     }
 
-    private fun stateObserver(state: SearchState?) {
+    private fun onStateChanged(state: SearchState?) {
         state ?: return
 
         pBarSearch.visibility = View.VISIBLE

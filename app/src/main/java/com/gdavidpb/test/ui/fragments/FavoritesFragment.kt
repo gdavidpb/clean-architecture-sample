@@ -31,44 +31,29 @@ class FavoritesFragment : NavigationFragment() {
         sRefreshFavorites.isEnabled = false
 
         with(rViewFavorites) {
-            layoutManager = LinearLayoutManager(requireContext())
+            layoutManager = LinearLayoutManager(context)
             adapter = artistAdapter
 
             setHasFixedSize(true)
         }
 
         with(viewModel) {
-            observe(liked, ::likedObserver)
+            observe(liked, ::onGetLikedArtists)
 
             getLikedArtists()
         }
     }
 
-    private fun likedObserver(result: Result<List<Artist>>?) {
+    private fun onGetLikedArtists(result: Result<List<Artist>>?) {
         when (result) {
             is Result.OnLoading -> {
                 sRefreshFavorites.isRefreshing = true
             }
             is Result.OnSuccess -> {
-                sRefreshFavorites.isRefreshing = false
-
-                val artists = result.value
-                    .sortedBy { it.artistName }
-
-                if (artists.isNotEmpty()) {
-                    tViewFavorites.visibility = View.GONE
-                    rViewFavorites.visibility = View.VISIBLE
-                } else {
-                    rViewFavorites.visibility = View.GONE
-                    tViewFavorites.visibility = View.VISIBLE
-                }
-
-                artistAdapter.swapItems(new = artists)
+                handleOnGetLikedArtistsSuccess(artists = result.value)
             }
             is Result.OnError -> {
-                sRefreshFavorites.isRefreshing = false
-
-                noConnectionSnackBar(isNetworkAvailable = connectionManager.isNetworkAvailable())
+                handleOnGetLikedArtistsError()
             }
             else -> {
                 sRefreshFavorites.isRefreshing = false
@@ -78,6 +63,26 @@ class FavoritesFragment : NavigationFragment() {
                 }
             }
         }
+    }
+
+    private fun handleOnGetLikedArtistsSuccess(artists: List<Artist>) {
+        sRefreshFavorites.isRefreshing = false
+
+        if (artists.isNotEmpty()) {
+            tViewFavorites.visibility = View.GONE
+            rViewFavorites.visibility = View.VISIBLE
+        } else {
+            rViewFavorites.visibility = View.GONE
+            tViewFavorites.visibility = View.VISIBLE
+        }
+
+        artistAdapter.swapItems(new = artists)
+    }
+
+    private fun handleOnGetLikedArtistsError() {
+        sRefreshFavorites.isRefreshing = false
+
+        noConnectionSnackBar(isNetworkAvailable = connectionManager.isNetworkAvailable())
     }
 
     inner class ArtistManager : ArtistAdapter.AdapterManager {

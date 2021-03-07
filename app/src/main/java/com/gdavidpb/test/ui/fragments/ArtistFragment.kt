@@ -41,7 +41,7 @@ class ArtistFragment : NavigationFragment() {
         }
 
         with(viewModel) {
-            observe(albums, ::albumsObserver)
+            observe(albums, ::onGetAlbums)
 
             lookupAlbums(artistId = args.artistId)
 
@@ -51,31 +51,16 @@ class ArtistFragment : NavigationFragment() {
         }
     }
 
-    private fun albumsObserver(result: Result<List<Album>>?) {
+    private fun onGetAlbums(result: Result<List<Album>>?) {
         when (result) {
             is Result.OnLoading -> {
                 sRefreshAlbums.isRefreshing = true
             }
             is Result.OnSuccess -> {
-                sRefreshAlbums.isRefreshing = false
-
-                val albums = result.value
-                    .sortedByDescending { it.releaseDate }
-
-                if (albums.isNotEmpty()) {
-                    tViewAlbums.visibility = View.GONE
-                    rViewAlbums.visibility = View.VISIBLE
-                } else {
-                    rViewAlbums.visibility = View.GONE
-                    tViewAlbums.visibility = View.VISIBLE
-                }
-
-                albumAdapter.swapItems(new = albums)
+                handleOnGetAlbumsSuccess(albums = result.value)
             }
             is Result.OnError -> {
-                sRefreshAlbums.isRefreshing = false
-
-                noConnectionSnackBar(isNetworkAvailable = connectionManager.isNetworkAvailable())
+                handleOnGetAlbumsError()
             }
             else -> {
                 sRefreshAlbums.isRefreshing = false
@@ -85,6 +70,26 @@ class ArtistFragment : NavigationFragment() {
                 }
             }
         }
+    }
+
+    private fun handleOnGetAlbumsSuccess(albums: List<Album>) {
+        sRefreshAlbums.isRefreshing = false
+
+        if (albums.isNotEmpty()) {
+            tViewAlbums.visibility = View.GONE
+            rViewAlbums.visibility = View.VISIBLE
+        } else {
+            rViewAlbums.visibility = View.GONE
+            tViewAlbums.visibility = View.VISIBLE
+        }
+
+        albumAdapter.swapItems(new = albums)
+    }
+
+    private fun handleOnGetAlbumsError() {
+        sRefreshAlbums.isRefreshing = false
+
+        noConnectionSnackBar(isNetworkAvailable = connectionManager.isNetworkAvailable())
     }
 
     inner class AlbumManager : AlbumAdapter.AdapterManager {
