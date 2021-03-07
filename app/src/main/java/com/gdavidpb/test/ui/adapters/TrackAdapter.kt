@@ -32,12 +32,21 @@ class TrackAdapter(
                         when {
                             item.isMusic -> {
                                 if (item.isPlaying)
-                                    manager.onPauseTrackClicked(track = item, position = it.adapterPosition)
+                                    manager.onPauseTrackClicked(
+                                        track = item,
+                                        position = it.bindingAdapterPosition
+                                    )
                                 else
-                                    manager.onPlayTrackClicked(track = item, position = it.adapterPosition)
+                                    manager.onPlayTrackClicked(
+                                        track = item,
+                                        position = it.bindingAdapterPosition
+                                    )
                             }
                             item.isVideo -> {
-                                manager.onPreviewTrackClicked(track = item, position = it.adapterPosition)
+                                manager.onPreviewTrackClicked(
+                                    track = item,
+                                    position = it.bindingAdapterPosition
+                                )
                             }
                         }
                 }

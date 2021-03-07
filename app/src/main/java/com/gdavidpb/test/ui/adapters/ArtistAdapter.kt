@@ -32,14 +32,14 @@ class ArtistAdapter(
                     val item = it.resolveItem()
 
                     if (item != null)
-                        manager.onArtistLikeChanged(item, it.adapterPosition, isChecked)
+                        manager.onArtistLikeChanged(item, it.bindingAdapterPosition, isChecked)
                 }
 
                 onClickOnce {
                     val item = it.resolveItem()
 
                     if (item != null)
-                        manager.onArtistClicked(item, it.adapterPosition)
+                        manager.onArtistClicked(item, it.bindingAdapterPosition)
                 }
             }
         }

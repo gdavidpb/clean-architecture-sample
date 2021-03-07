@@ -40,7 +40,7 @@ class AlbumAdapter(
                     val item = it.resolveItem()
 
                     if (item != null)
-                        manager.onAlbumClicked(item, it.adapterPosition)
+                        manager.onAlbumClicked(item, it.bindingAdapterPosition)
                 }
             }
         }
