@@ -6,6 +6,8 @@ import com.gdavidpb.test.domain.model.request.SearchArtistsRequest
 import com.gdavidpb.test.domain.usecase.LikeArtistUseCase
 import com.gdavidpb.test.domain.usecase.SearchArtistsUseCase
 import com.gdavidpb.test.domain.usecase.UnlikeArtistUseCase
+import com.gdavidpb.test.domain.usecase.errors.LikeArtistError
+import com.gdavidpb.test.domain.usecase.errors.SearchArtistsError
 import com.gdavidpb.test.presentation.state.SearchState
 import com.gdavidpb.test.utils.extensions.LiveCompletable
 import com.gdavidpb.test.utils.extensions.LiveResult
@@ -17,8 +19,8 @@ open class SearchViewModel(
     private val likeArtistUseCase: LikeArtistUseCase,
     private val unlikeArtistUseCase: UnlikeArtistUseCase
 ) : StateViewModel<SearchState>(initState = SearchState()) {
-    val artists = LiveResult<List<Artist>>()
-    val like = LiveCompletable()
+    val artists = LiveResult<List<Artist>, SearchArtistsError>()
+    val like = LiveCompletable<LikeArtistError>()
 
     fun resetSearch() {
         artists.postSuccess(listOf())

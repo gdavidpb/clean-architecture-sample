@@ -3,19 +3,20 @@ package com.gdavidpb.test.domain.usecase
 import com.gdavidpb.test.data.source.local.MusicDatabase
 import com.gdavidpb.test.domain.model.request.DownloadTrackRequest
 import com.gdavidpb.test.domain.model.response.DownloadTrackResponse
+import com.gdavidpb.test.domain.repository.NetworkRepository
 import com.gdavidpb.test.domain.repository.StorageRepository
 import com.gdavidpb.test.domain.usecase.coroutines.ResultUseCase
-import kotlinx.coroutines.Dispatchers
+import com.gdavidpb.test.domain.usecase.errors.DownloadTrackError
+import com.gdavidpb.test.utils.extensions.isConnectionIssue
 import java.io.File
+import java.io.IOException
 
-open class DownloadTrackUseCase(
+class DownloadTrackUseCase(
     private val storageRepository: StorageRepository,
-    private val musicDatabase: MusicDatabase
-) : ResultUseCase<DownloadTrackRequest, DownloadTrackResponse>(
-    backgroundContext = Dispatchers.IO,
-    foregroundContext = Dispatchers.Main
-) {
-    override suspend fun executeOnBackground(params: DownloadTrackRequest): DownloadTrackResponse? {
+    private val musicDatabase: MusicDatabase,
+    private val networkRepository: NetworkRepository
+) : ResultUseCase<DownloadTrackRequest, DownloadTrackResponse, DownloadTrackError>() {
+    override suspend fun executeOnBackground(params: DownloadTrackRequest): DownloadTrackResponse {
         val track = params.track
 
         val remoteFile = File(track.previewUrl)
@@ -26,10 +27,19 @@ open class DownloadTrackUseCase(
         if (storageRepository.exists(fileName)) return DownloadTrackResponse(track, localFile)
 
         /* Download this track to cache */
-        val downloadedFile = storageRepository.download(url = track.previewUrl, name = localFile.path)
+        val downloadedFile =
+            storageRepository.download(url = track.previewUrl, name = localFile.path)
 
         musicDatabase.tracks.markAsDownloaded(trackId = track.trackId)
 
         return DownloadTrackResponse(track, downloadedFile)
+    }
+
+    override suspend fun executeOnException(throwable: Throwable): DownloadTrackError? {
+        return when {
+            throwable is IOException -> DownloadTrackError.IO
+            throwable.isConnectionIssue() -> DownloadTrackError.NoConnection(networkRepository.isAvailable())
+            else -> null
+        }
     }
 }

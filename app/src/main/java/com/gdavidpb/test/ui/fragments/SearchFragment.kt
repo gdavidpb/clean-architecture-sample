@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.gdavidpb.test.R
 import com.gdavidpb.test.domain.model.Artist
 import com.gdavidpb.test.domain.usecase.coroutines.Result
+import com.gdavidpb.test.domain.usecase.errors.SearchArtistsError
 import com.gdavidpb.test.presentation.state.SearchState
 import com.gdavidpb.test.presentation.viewmodel.SearchViewModel
 import com.gdavidpb.test.ui.adapters.ArtistAdapter
@@ -76,7 +77,7 @@ open class SearchFragment : NavigationFragment() {
             viewModel.resetSearch()
     }
 
-    private fun onGetArtists(result: Result<List<Artist>>?) {
+    private fun onGetArtists(result: Result<List<Artist>, SearchArtistsError>?) {
         when (result) {
             is Result.OnLoading -> {
                 pBarSearch.visibility = View.VISIBLE
@@ -85,7 +86,7 @@ open class SearchFragment : NavigationFragment() {
                 handleOnGetArtistsSuccess(artists = result.value)
             }
             is Result.OnError -> {
-                handleOnGetArtistsError()
+                handleOnGetArtistsError(error = result.error)
             }
             else -> {
                 pBarSearch.visibility = View.GONE
@@ -126,10 +127,13 @@ open class SearchFragment : NavigationFragment() {
         }
     }
 
-    private fun handleOnGetArtistsError() {
+    private fun handleOnGetArtistsError(error: SearchArtistsError?) {
         pBarSearch.visibility = View.GONE
 
-        noConnectionSnackBar(isNetworkAvailable = connectionManager.isNetworkAvailable())
+        when (error) {
+            is SearchArtistsError.NoConnection -> noConnectionSnackBar(isNetworkAvailable = connectionManager.isNetworkAvailable())
+            else -> defaultErrorSnackBar()
+        }
     }
 
     inner class ArtistManager : ArtistAdapter.AdapterManager {

@@ -7,6 +7,8 @@ import com.gdavidpb.test.domain.model.request.LookupTracksRequest
 import com.gdavidpb.test.domain.model.response.DownloadTrackResponse
 import com.gdavidpb.test.domain.usecase.DownloadTrackUseCase
 import com.gdavidpb.test.domain.usecase.LookupTracksUseCase
+import com.gdavidpb.test.domain.usecase.errors.DownloadTrackError
+import com.gdavidpb.test.domain.usecase.errors.LookupTracksError
 import com.gdavidpb.test.utils.extensions.LiveResult
 import com.gdavidpb.test.utils.extensions.execute
 
@@ -14,8 +16,8 @@ open class AlbumViewModel(
     private val lookupTracksUseCase: LookupTracksUseCase,
     private val downloadTrackUseCase: DownloadTrackUseCase
 ) : ViewModel() {
-    val tracks = LiveResult<List<Track>>()
-    val download = LiveResult<DownloadTrackResponse>()
+    val tracks = LiveResult<List<Track>, LookupTracksError>()
+    val download = LiveResult<DownloadTrackResponse, DownloadTrackError>()
 
     fun lookupTracks(albumId: Long) = execute(
         useCase = lookupTracksUseCase,

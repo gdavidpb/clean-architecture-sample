@@ -41,4 +41,10 @@ abstract class NavigationFragment : Fragment() {
             if (retry != null) action(R.string.retry) { retry() }
         }
     }
+
+    protected fun defaultErrorSnackBar() {
+        snackBar {
+            messageResource = R.string.snack_bar_unexpected_failure
+        }
+    }
 }

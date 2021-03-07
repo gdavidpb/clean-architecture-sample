@@ -1,35 +1,25 @@
 package com.gdavidpb.test.domain.usecase.coroutines
 
 import com.gdavidpb.test.utils.extensions.*
-import kotlinx.coroutines.CancellationException
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
-import kotlin.coroutines.CoroutineContext
 
-abstract class ResultUseCase<Q, T>(
-    override val backgroundContext: CoroutineContext,
-    override val foregroundContext: CoroutineContext
-) : BaseUseCase<Q, LiveResult<T>>(
-    backgroundContext, foregroundContext
-) {
-    protected abstract suspend fun executeOnBackground(params: Q): T?
+abstract class ResultUseCase<P, T, Q> : BaseUseCase<P, T, Q, LiveResult<T, Q>>() {
+    override suspend fun onStart(liveData: LiveResult<T, Q>) {
+        liveData.postLoading()
+    }
 
-    override fun execute(params: Q, liveData: LiveResult<T>, coroutineScope: CoroutineScope) {
-        coroutineScope.launch(foregroundContext) {
-            liveData.postLoading()
+    override suspend fun onEmpty(liveData: LiveResult<T, Q>) {
+        liveData.postEmpty()
+    }
 
-            runCatching {
-                withContext(backgroundContext) { executeOnBackground(params)!! }
-            }.onSuccess { response ->
-                liveData.postSuccess(response)
-            }.onFailure { throwable ->
-                when (throwable) {
-                    is CancellationException -> liveData.postCancel()
-                    is NullPointerException -> liveData.postEmpty()
-                    else -> liveData.postThrowable(throwable)
-                }
-            }
-        }
+    override suspend fun onSuccess(liveData: LiveResult<T, Q>, response: T) {
+        liveData.postSuccess(response)
+    }
+
+    override suspend fun onFailure(liveData: LiveResult<T, Q>, error: Q?) {
+        liveData.postError(error)
+    }
+
+    override suspend fun onCancel(liveData: LiveResult<T, Q>) {
+        liveData.postCancel()
     }
 }

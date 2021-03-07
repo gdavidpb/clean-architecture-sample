@@ -1,34 +1,23 @@
 package com.gdavidpb.test.domain.usecase.coroutines
 
 import com.gdavidpb.test.utils.extensions.*
-import kotlinx.coroutines.CancellationException
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
-import kotlin.coroutines.CoroutineContext
 
-abstract class CompletableUseCase<Q>(
-    override val backgroundContext: CoroutineContext,
-    override val foregroundContext: CoroutineContext
-) : BaseUseCase<Q, LiveCompletable>(
-    backgroundContext, foregroundContext
-) {
-    protected abstract suspend fun executeOnBackground(params: Q)
+abstract class CompletableUseCase<P, Q> : BaseUseCase<P, Unit, Q, LiveCompletable<Q>>() {
+    override suspend fun onStart(liveData: LiveCompletable<Q>) {
+        liveData.postLoading()
+    }
 
-    override fun execute(params: Q, liveData: LiveCompletable, coroutineScope: CoroutineScope) {
-        coroutineScope.launch(foregroundContext) {
-            liveData.postLoading()
+    override suspend fun onEmpty(liveData: LiveCompletable<Q>) {}
 
-            runCatching {
-                withContext(backgroundContext) { executeOnBackground(params) }
-            }.onSuccess {
-                liveData.postComplete()
-            }.onFailure { throwable ->
-                when (throwable) {
-                    is CancellationException -> liveData.postCancel()
-                    else -> liveData.postThrowable(throwable)
-                }
-            }
-        }
+    override suspend fun onSuccess(liveData: LiveCompletable<Q>, response: Unit) {
+        liveData.postComplete()
+    }
+
+    override suspend fun onFailure(liveData: LiveCompletable<Q>, error: Q?) {
+        liveData.postError(error)
+    }
+
+    override suspend fun onCancel(liveData: LiveCompletable<Q>) {
+        liveData.postCancel()
     }
 }

@@ -1,6 +1,5 @@
 package com.gdavidpb.test.ui.fragments
 
-import android.net.ConnectivityManager
 import android.os.Bundle
 import android.view.View
 import androidx.navigation.fragment.navArgs
@@ -8,9 +7,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.gdavidpb.test.R
 import com.gdavidpb.test.domain.model.Album
 import com.gdavidpb.test.domain.usecase.coroutines.Result
+import com.gdavidpb.test.domain.usecase.errors.LookupAlbumsError
 import com.gdavidpb.test.presentation.viewmodel.ArtistViewModel
 import com.gdavidpb.test.ui.adapters.AlbumAdapter
-import com.gdavidpb.test.utils.extensions.isNetworkAvailable
 import com.gdavidpb.test.utils.extensions.observe
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.fragment_artist.*
@@ -22,8 +21,6 @@ class ArtistFragment : NavigationFragment() {
     private val viewModel: ArtistViewModel by viewModel()
 
     private val picasso: Picasso by inject()
-
-    private val connectionManager: ConnectivityManager by inject()
 
     private val albumAdapter = AlbumAdapter(manager = AlbumManager())
 
@@ -51,7 +48,7 @@ class ArtistFragment : NavigationFragment() {
         }
     }
 
-    private fun onGetAlbums(result: Result<List<Album>>?) {
+    private fun onGetAlbums(result: Result<List<Album>, LookupAlbumsError>?) {
         when (result) {
             is Result.OnLoading -> {
                 sRefreshAlbums.isRefreshing = true
@@ -60,7 +57,7 @@ class ArtistFragment : NavigationFragment() {
                 handleOnGetAlbumsSuccess(albums = result.value)
             }
             is Result.OnError -> {
-                handleOnGetAlbumsError()
+                handleOnGetAlbumsError(error = result.error)
             }
             else -> {
                 sRefreshAlbums.isRefreshing = false
@@ -86,10 +83,13 @@ class ArtistFragment : NavigationFragment() {
         albumAdapter.swapItems(new = albums)
     }
 
-    private fun handleOnGetAlbumsError() {
+    private fun handleOnGetAlbumsError(error: LookupAlbumsError?) {
         sRefreshAlbums.isRefreshing = false
 
-        noConnectionSnackBar(isNetworkAvailable = connectionManager.isNetworkAvailable())
+        when (error) {
+            is LookupAlbumsError.NoConnection -> noConnectionSnackBar(isNetworkAvailable = error.isNetworkAvailable)
+            else -> defaultErrorSnackBar()
+        }
     }
 
     inner class AlbumManager : AlbumAdapter.AdapterManager {

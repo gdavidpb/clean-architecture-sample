@@ -1,6 +1,5 @@
 package com.gdavidpb.test.ui.fragments
 
-import android.net.ConnectivityManager
 import android.os.Bundle
 import android.view.View
 import androidx.navigation.fragment.navArgs
@@ -10,23 +9,21 @@ import com.gdavidpb.test.R
 import com.gdavidpb.test.domain.model.Track
 import com.gdavidpb.test.domain.model.response.DownloadTrackResponse
 import com.gdavidpb.test.domain.usecase.coroutines.Result
+import com.gdavidpb.test.domain.usecase.errors.DownloadTrackError
+import com.gdavidpb.test.domain.usecase.errors.LookupTracksError
 import com.gdavidpb.test.presentation.model.TrackItem
 import com.gdavidpb.test.presentation.viewmodel.AlbumViewModel
 import com.gdavidpb.test.ui.adapters.TrackAdapter
 import com.gdavidpb.test.utils.MediaPlayerManager
-import com.gdavidpb.test.utils.extensions.isNetworkAvailable
 import com.gdavidpb.test.utils.extensions.observe
 import com.gdavidpb.test.utils.mappers.toTrack
 import com.gdavidpb.test.utils.mappers.toTrackItem
 import kotlinx.android.synthetic.main.fragment_album.*
-import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class AlbumFragment : NavigationFragment() {
 
     private val viewModel: AlbumViewModel by viewModel()
-
-    private val connectionManager: ConnectivityManager by inject()
 
     private val trackAdapter = TrackAdapter(manager = TrackManager())
 
@@ -80,7 +77,7 @@ class AlbumFragment : NavigationFragment() {
         super.onStop()
     }
 
-    private fun onGetTracks(result: Result<List<Track>>?) {
+    private fun onGetTracks(result: Result<List<Track>, LookupTracksError>?) {
         when (result) {
             is Result.OnLoading -> {
                 sRefreshTracks.isRefreshing = true
@@ -89,22 +86,20 @@ class AlbumFragment : NavigationFragment() {
                 handleOnGetTracksSuccess(tracks = result.value)
             }
             is Result.OnError -> {
-                handleOnGetTracksError()
+                handleOnGetTracksError(error = result.error)
             }
             else -> {
                 sRefreshTracks.isRefreshing = false
 
-                snackBar {
-                    messageResource = R.string.snack_bar_unexpected_failure
-                }
+                defaultErrorSnackBar()
             }
         }
     }
 
-    private fun onTrackDownloaded(result: Result<DownloadTrackResponse>?) {
+    private fun onTrackDownloaded(result: Result<DownloadTrackResponse, DownloadTrackError>?) {
         when (result) {
             is Result.OnSuccess -> handleOnTrackDownloadedSuccess(response = result.value)
-            is Result.OnError -> handleOnTrackDownloadedError()
+            is Result.OnError -> handleOnTrackDownloadedError(error = result.error)
         }
     }
 
@@ -116,10 +111,13 @@ class AlbumFragment : NavigationFragment() {
         trackAdapter.swapItems(new = items)
     }
 
-    private fun handleOnGetTracksError() {
+    private fun handleOnGetTracksError(error: LookupTracksError?) {
         sRefreshTracks.isRefreshing = false
 
-        noConnectionSnackBar(isNetworkAvailable = connectionManager.isNetworkAvailable())
+        when (error) {
+            is LookupTracksError.NoConnection -> noConnectionSnackBar(isNetworkAvailable = error.isNetworkAvailable)
+            else -> defaultErrorSnackBar()
+        }
     }
 
     private fun handleOnTrackDownloadedSuccess(response: DownloadTrackResponse) {
@@ -149,8 +147,11 @@ class AlbumFragment : NavigationFragment() {
         }
     }
 
-    private fun handleOnTrackDownloadedError() {
-        noConnectionSnackBar(isNetworkAvailable = connectionManager.isNetworkAvailable())
+    private fun handleOnTrackDownloadedError(error: DownloadTrackError?) {
+        when (error) {
+            is DownloadTrackError.NoConnection -> noConnectionSnackBar(isNetworkAvailable = error.isNetworkAvailable)
+            else -> defaultErrorSnackBar()
+        }
     }
 
     inner class TrackManager : TrackAdapter.AdapterManager {

@@ -6,12 +6,14 @@ import androidx.room.Room
 import com.gdavidpb.test.BuildConfig
 import com.gdavidpb.test.data.source.iTunesDataRepository
 import com.gdavidpb.test.data.source.iTunesDataStoreFactory
+import com.gdavidpb.test.data.source.local.AndroidNetworkDataStore
 import com.gdavidpb.test.data.source.local.LocalCacheDataStore
 import com.gdavidpb.test.data.source.local.MusicDatabase
 import com.gdavidpb.test.data.source.local.iTunesLocalDataStore
 import com.gdavidpb.test.data.source.remote.iTunesRemoteDataStore
 import com.gdavidpb.test.data.source.remote.iTunesSearchApi
 import com.gdavidpb.test.domain.repository.MusicRepository
+import com.gdavidpb.test.domain.repository.NetworkRepository
 import com.gdavidpb.test.domain.repository.StorageRepository
 import com.gdavidpb.test.domain.usecase.*
 import com.gdavidpb.test.presentation.viewmodel.AlbumViewModel
@@ -88,6 +90,7 @@ val appModule = module {
 
     factoryBy<MusicRepository, iTunesDataRepository>()
     factoryBy<StorageRepository, LocalCacheDataStore>()
+    factoryBy<NetworkRepository, AndroidNetworkDataStore>()
 
     /* Data stores */
 

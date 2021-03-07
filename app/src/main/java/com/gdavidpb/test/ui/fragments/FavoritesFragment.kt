@@ -1,25 +1,21 @@
 package com.gdavidpb.test.ui.fragments
 
-import android.net.ConnectivityManager
 import android.os.Bundle
 import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.gdavidpb.test.R
 import com.gdavidpb.test.domain.model.Artist
 import com.gdavidpb.test.domain.usecase.coroutines.Result
+import com.gdavidpb.test.domain.usecase.errors.GetLikedArtistsError
 import com.gdavidpb.test.presentation.viewmodel.FavoritesViewModel
 import com.gdavidpb.test.ui.adapters.ArtistAdapter
-import com.gdavidpb.test.utils.extensions.isNetworkAvailable
 import com.gdavidpb.test.utils.extensions.observe
 import kotlinx.android.synthetic.main.fragment_favorites.*
-import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class FavoritesFragment : NavigationFragment() {
 
     private val viewModel: FavoritesViewModel by viewModel()
-
-    private val connectionManager: ConnectivityManager by inject()
 
     private val artistAdapter = ArtistAdapter(manager = ArtistManager())
 
@@ -44,7 +40,7 @@ class FavoritesFragment : NavigationFragment() {
         }
     }
 
-    private fun onGetLikedArtists(result: Result<List<Artist>>?) {
+    private fun onGetLikedArtists(result: Result<List<Artist>, GetLikedArtistsError>?) {
         when (result) {
             is Result.OnLoading -> {
                 sRefreshFavorites.isRefreshing = true
@@ -53,7 +49,7 @@ class FavoritesFragment : NavigationFragment() {
                 handleOnGetLikedArtistsSuccess(artists = result.value)
             }
             is Result.OnError -> {
-                handleOnGetLikedArtistsError()
+                handleOnGetLikedArtistsError(error = result.error)
             }
             else -> {
                 sRefreshFavorites.isRefreshing = false
@@ -79,10 +75,13 @@ class FavoritesFragment : NavigationFragment() {
         artistAdapter.swapItems(new = artists)
     }
 
-    private fun handleOnGetLikedArtistsError() {
+    private fun handleOnGetLikedArtistsError(error: GetLikedArtistsError?) {
         sRefreshFavorites.isRefreshing = false
 
-        noConnectionSnackBar(isNetworkAvailable = connectionManager.isNetworkAvailable())
+        when (error) {
+            is GetLikedArtistsError.NoConnection -> noConnectionSnackBar(isNetworkAvailable = error.isNetworkAvailable)
+            else -> defaultErrorSnackBar()
+        }
     }
 
     inner class ArtistManager : ArtistAdapter.AdapterManager {
