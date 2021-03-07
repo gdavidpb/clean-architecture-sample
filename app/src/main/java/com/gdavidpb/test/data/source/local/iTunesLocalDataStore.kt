@@ -29,19 +29,19 @@ class iTunesLocalDataStore(
     override suspend fun saveArtistsSearch(artists: List<Artist>, queryString: String) {
         val array = artists.map { it.toArtistEntity(queryString) }.toTypedArray()
 
-        musicDatabase.artists.saveArtistsSearch(artists = *array)
+        musicDatabase.artists.saveArtistsSearch(artists = array)
     }
 
     override suspend fun saveAlbumsLookup(albums: List<Album>) {
         val array = albums.map { it.toAlbumEntity() }.toTypedArray()
 
-        musicDatabase.albums.saveAlbumsLookup(albums = *array)
+        musicDatabase.albums.saveAlbumsLookup(albums = array)
     }
 
     override suspend fun saveTracksLookup(tracks: List<Track>) {
         val array = tracks.map { it.toTrackEntity() }.toTypedArray()
 
-        musicDatabase.tracks.saveTracksLookup(tracks = *array)
+        musicDatabase.tracks.saveTracksLookup(tracks = array)
     }
 
     override suspend fun likeArtist(artistId: Long) {
