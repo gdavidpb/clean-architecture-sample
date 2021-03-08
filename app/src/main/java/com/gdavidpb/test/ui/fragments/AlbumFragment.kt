@@ -88,6 +88,7 @@ class AlbumFragment : NavigationFragment() {
         when (result) {
             is Result.OnSuccess -> handleOnTrackDownloadedSuccess(response = result.value)
             is Result.OnError -> handleOnTrackDownloadedError(error = result.error)
+            else -> defaultErrorSnackBar()
         }
     }
 

@@ -12,7 +12,7 @@ class LookupAlbumsUseCase(
     private val musicRepository: MusicRepository,
     private val networkRepository: NetworkRepository
 ) : ResultUseCase<LookupAlbumsRequest, List<Album>, LookupAlbumsError>() {
-    override suspend fun executeOnBackground(params: LookupAlbumsRequest): List<Album>? {
+    override suspend fun executeOnBackground(params: LookupAlbumsRequest): List<Album> {
         return musicRepository
             .lookupAlbums(artistId = params.artistId)
             .sortedByDescending { it.releaseDate }

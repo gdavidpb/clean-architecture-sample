@@ -12,7 +12,7 @@ class SearchArtistsUseCase(
     private val musicRepository: MusicRepository,
     private val networkRepository: NetworkRepository
 ) : ResultUseCase<SearchArtistsRequest, List<Artist>, SearchArtistsError>() {
-    override suspend fun executeOnBackground(params: SearchArtistsRequest): List<Artist>? {
+    override suspend fun executeOnBackground(params: SearchArtistsRequest): List<Artist> {
         return musicRepository
             .searchArtists(term = params.query)
             .sortedBy { it.artistName }

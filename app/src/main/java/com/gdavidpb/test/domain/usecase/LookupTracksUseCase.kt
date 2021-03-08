@@ -12,7 +12,7 @@ class LookupTracksUseCase(
     private val musicRepository: MusicRepository,
     private val networkRepository: NetworkRepository
 ) : ResultUseCase<LookupTracksRequest, List<Track>, LookupTracksError>() {
-    override suspend fun executeOnBackground(params: LookupTracksRequest): List<Track>? {
+    override suspend fun executeOnBackground(params: LookupTracksRequest): List<Track> {
         return musicRepository.lookupTracks(albumId = params.albumId)
     }
 

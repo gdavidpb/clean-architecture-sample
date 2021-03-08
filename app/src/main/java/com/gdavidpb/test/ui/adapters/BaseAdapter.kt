@@ -28,8 +28,6 @@ abstract class BaseAdapter<T : Any>(
         super.submitList(list)
     }
 
-    open fun BaseViewHolder<T>.getItem(): T? = currentList.getOrNull(bindingAdapterPosition)
-
     open fun isEmpty() = currentList.isEmpty()
 
     open fun updateItem(item: T, update: T.() -> T) {

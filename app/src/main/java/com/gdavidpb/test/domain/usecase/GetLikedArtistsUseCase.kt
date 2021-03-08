@@ -11,7 +11,7 @@ class GetLikedArtistsUseCase(
     private val musicRepository: MusicRepository,
     private val networkRepository: NetworkRepository
 ) : ResultUseCase<Unit, List<Artist>, GetLikedArtistsError>() {
-    override suspend fun executeOnBackground(params: Unit): List<Artist>? {
+    override suspend fun executeOnBackground(params: Unit): List<Artist> {
         return musicRepository
             .getLikedArtists()
             .sortedBy { it.artistName }
