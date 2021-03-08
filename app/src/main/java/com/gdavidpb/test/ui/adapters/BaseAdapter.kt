@@ -5,7 +5,7 @@ import androidx.recyclerview.widget.ListAdapter
 import com.gdavidpb.test.ui.viewholders.BaseViewHolder
 
 abstract class BaseAdapter<T : Any>(
-    comparator: Comparator<T>
+    private val comparator: Comparator<T>
 ) : ListAdapter<T, BaseViewHolder<T>>(DiffCallback(comparator)) {
 
     private val currentList = mutableListOf<T>()
@@ -31,7 +31,7 @@ abstract class BaseAdapter<T : Any>(
     open fun isEmpty() = currentList.isEmpty()
 
     open fun updateItem(item: T, update: T.() -> T) {
-        val position = currentList.indexOf(item)
+        val position = currentList.indexOfFirst { comparator.compare(it, item) == 0 }
 
         currentList[position] = currentList[position].update()
 

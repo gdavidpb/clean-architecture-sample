@@ -37,7 +37,7 @@ class TrackAdapter(
 
     fun resetStates() {
         currentList.mapIndexedNotNull { index, track ->
-            if (track.isPlaying || track.isPaused || track.isDownloading)
+            if (track.isPlaying || track.isPaused || track.isLoading)
                 index
             else
                 null
@@ -45,7 +45,7 @@ class TrackAdapter(
             currentList[index] = currentList[index].copy(
                 isPlaying = false,
                 isPaused = false,
-                isDownloading = false
+                isLoading = false
             )
 
             notifyItemChanged(index)

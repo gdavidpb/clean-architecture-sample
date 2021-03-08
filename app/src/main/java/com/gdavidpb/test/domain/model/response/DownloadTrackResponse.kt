@@ -1,9 +1,9 @@
 package com.gdavidpb.test.domain.model.response
 
-import com.gdavidpb.test.domain.model.Track
+import com.gdavidpb.test.presentation.model.TrackItem
 import java.io.File
 
 data class DownloadTrackResponse(
-    val track: Track,
+    val track: TrackItem,
     val file: File
 )

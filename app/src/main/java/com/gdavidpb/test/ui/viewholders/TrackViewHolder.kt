@@ -44,10 +44,10 @@ class TrackViewHolder(
             tViewTrackTime.setTextColor(textColor)
 
             tViewTrackName.text = item.trackName
-            tViewTrackTime.text = item.timeMillisString
+            tViewTrackTime.text = item.trackTimeMillis
 
-            pBarTrack.visible = item.isDownloading
-            iViewTrackAction.visible = !item.isDownloading
+            pBarTrack.visible = item.isLoading
+            iViewTrackAction.visible = !item.isLoading
 
             if (actionIconResource != 0)
                 iViewTrackAction.setImageResource(actionIconResource)

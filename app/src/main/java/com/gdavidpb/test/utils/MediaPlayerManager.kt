@@ -16,8 +16,8 @@ class MediaPlayerManager(
         lifecycleOwner.lifecycle.addObserver(MediaPlayerObserver())
     }
 
-    fun play(source: File, onComplete: () -> Unit) {
-        mediaPlayer.get().play(source, onComplete)
+    fun play(source: File, onStart: () -> Unit, onComplete: () -> Unit) {
+        mediaPlayer.get().play(source, onStart, onComplete)
     }
 
     fun pause() {

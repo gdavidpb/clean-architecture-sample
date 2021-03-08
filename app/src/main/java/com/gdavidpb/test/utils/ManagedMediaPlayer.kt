@@ -29,18 +29,20 @@ class ManagedMediaPlayer(
         super.setDataSource(path)
     }
 
-    fun play(source: File, onComplete: () -> Unit) {
+    fun play(source: File, onStart: () -> Unit, onComplete: () -> Unit) {
         val isPlayingSame = dataSource.get() == source.path
         val isPaused = !isPlaying && currentPosition > 0
 
-        if (isPlayingSame && isPaused)
+        if (isPlayingSame && isPaused) {
             start()
-        else {
+            onStart()
+        } else {
             reset()
 
             setOnPreparedListener {
                 lifecycleOwner.lifecycleScope.launchWhenResumed {
                     start()
+                    onStart()
                 }
             }
 

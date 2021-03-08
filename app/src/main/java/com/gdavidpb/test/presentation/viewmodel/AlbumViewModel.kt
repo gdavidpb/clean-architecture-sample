@@ -9,6 +9,7 @@ import com.gdavidpb.test.domain.usecase.DownloadTrackUseCase
 import com.gdavidpb.test.domain.usecase.LookupTracksUseCase
 import com.gdavidpb.test.domain.usecase.errors.DownloadTrackError
 import com.gdavidpb.test.domain.usecase.errors.LookupTracksError
+import com.gdavidpb.test.presentation.model.TrackItem
 import com.gdavidpb.test.utils.extensions.LiveResult
 import com.gdavidpb.test.utils.extensions.execute
 
@@ -25,9 +26,9 @@ class AlbumViewModel(
         params = LookupTracksRequest(albumId = albumId)
     )
 
-    fun downloadTrack(track: Track) = execute(
+    fun downloadTrack(item: TrackItem) = execute(
         useCase = downloadTrackUseCase,
         liveData = download,
-        params = DownloadTrackRequest(track = track)
+        params = DownloadTrackRequest(track = item)
     )
 }

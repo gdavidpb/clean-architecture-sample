@@ -9,7 +9,6 @@ import com.gdavidpb.test.data.model.database.TrackEntity
 import com.gdavidpb.test.domain.model.Album
 import com.gdavidpb.test.domain.model.Artist
 import com.gdavidpb.test.domain.model.Track
-import com.gdavidpb.test.presentation.model.TrackItem
 import com.gdavidpb.test.utils.extensions.parseISO8601Date
 import java.util.*
 
@@ -141,39 +140,4 @@ fun TrackEntity.toTrack() = Track(
     isDownloaded = (isDownloaded == 1),
     isMusic = previewUrl.endsWith(".m4a"),
     isVideo = previewUrl.endsWith(".m4v")
-)
-
-fun TrackItem.toTrack() = Track(
-    artistId = artistId,
-    collectionId = collectionId,
-    trackId = trackId,
-    artistName = artistName,
-    collectionName = collectionName,
-    trackName = trackName,
-    collectionCensoredName = collectionCensoredName,
-    trackCensoredName = trackCensoredName,
-    artistViewUrl = artistViewUrl,
-    collectionViewUrl = collectionViewUrl,
-    trackViewUrl = trackViewUrl,
-    previewUrl = previewUrl,
-    collectionPrice = collectionPrice,
-    trackPrice = trackPrice,
-    releaseDate = releaseDate,
-    isCollectionExplicit = isCollectionExplicit,
-    isTrackExplicit = isTrackExplicit,
-    discCount = discCount,
-    discNumber = discNumber,
-    trackCount = trackCount,
-    trackNumber = trackNumber,
-    trackTimeMillis = trackTimeMillis,
-    country = country,
-    currency = currency,
-    primaryGenreName = primaryGenreName,
-    isStreamable = isStreamable,
-    isDownloading = isDownloading,
-    isPlaying = isPlaying,
-    isPaused = isPaused,
-    isDownloaded = isDownloaded,
-    isMusic = isMusic,
-    isVideo = isVideo
 )
