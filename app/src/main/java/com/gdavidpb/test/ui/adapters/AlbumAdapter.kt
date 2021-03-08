@@ -4,7 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.view.updateLayoutParams
 import com.gdavidpb.test.R
-import com.gdavidpb.test.domain.model.Album
+import com.gdavidpb.test.presentation.model.AlbumItem
 import com.gdavidpb.test.ui.viewholders.AlbumViewHolder
 import com.gdavidpb.test.ui.viewholders.BaseViewHolder
 import com.gdavidpb.test.utils.SIZE_ALBUM_COVER
@@ -13,18 +13,18 @@ import kotlinx.android.synthetic.main.item_album.view.*
 
 class AlbumAdapter(
     private val manager: AdapterManager
-) : BaseAdapter<Album>(AdapterComparator.comparator) {
+) : BaseAdapter<AlbumItem>(AdapterComparator.comparator) {
 
     object AdapterComparator {
-        val comparator = compareBy(Album::collectionId)
+        val comparator = compareBy(AlbumItem::collectionId)
     }
 
     interface AdapterManager {
-        fun onAlbumClicked(item: Album)
+        fun onAlbumClicked(item: AlbumItem)
         fun provideImageLoader(): Picasso
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder<Album> {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder<AlbumItem> {
         val itemView = LayoutInflater
             .from(parent.context)
             .inflate(R.layout.item_album, parent, false)

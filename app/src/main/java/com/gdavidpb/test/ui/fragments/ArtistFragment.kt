@@ -8,9 +8,11 @@ import com.gdavidpb.test.R
 import com.gdavidpb.test.domain.model.Album
 import com.gdavidpb.test.domain.usecase.coroutines.Result
 import com.gdavidpb.test.domain.usecase.errors.LookupAlbumsError
+import com.gdavidpb.test.presentation.model.AlbumItem
 import com.gdavidpb.test.presentation.viewmodel.ArtistViewModel
 import com.gdavidpb.test.ui.adapters.AlbumAdapter
 import com.gdavidpb.test.utils.extensions.observe
+import com.gdavidpb.test.utils.mappers.toAlbumItem
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.fragment_artist.*
 import org.koin.android.ext.android.inject
@@ -72,15 +74,19 @@ class ArtistFragment : NavigationFragment() {
     private fun handleOnGetAlbumsSuccess(albums: List<Album>) {
         sRefreshAlbums.isRefreshing = false
 
-        if (albums.isNotEmpty()) {
+        val context = requireContext()
+
+        val items = albums.map { it.toAlbumItem(context) }
+
+        albumAdapter.submitList(items)
+
+        if (items.isNotEmpty()) {
             tViewAlbums.visibility = View.GONE
             rViewAlbums.visibility = View.VISIBLE
         } else {
             rViewAlbums.visibility = View.GONE
             tViewAlbums.visibility = View.VISIBLE
         }
-
-        albumAdapter.submitList(albums)
     }
 
     private fun handleOnGetAlbumsError(error: LookupAlbumsError?) {
@@ -93,10 +99,10 @@ class ArtistFragment : NavigationFragment() {
     }
 
     inner class AlbumManager : AlbumAdapter.AdapterManager {
-        override fun onAlbumClicked(item: Album) {
+        override fun onAlbumClicked(item: AlbumItem) {
             val destination = ArtistFragmentDirections.navToAlbum(
                 albumId = item.collectionId,
-                albumName = item.collectionName
+                albumName = item.collectionName.toString()
             )
 
             navigate(destination)

@@ -1,5 +1,6 @@
 package com.gdavidpb.test.presentation.model
 
+import androidx.annotation.DrawableRes
 import com.gdavidpb.test.R
 
 data class TrackItem(
@@ -13,6 +14,7 @@ data class TrackItem(
     val isDownloaded: Boolean,
     val isMusic: Boolean,
     val isVideo: Boolean,
+    @DrawableRes
     val nameIconResource: Int
 ) {
     fun computeTextColorResource() = when {

@@ -96,7 +96,7 @@ class AlbumFragment : NavigationFragment() {
     private fun handleOnGetTracksSuccess(tracks: List<Track>) {
         sRefreshTracks.isRefreshing = false
 
-        val items = tracks.map(Track::toTrackItem)
+        val items = tracks.map { it.toTrackItem() }
 
         trackAdapter.submitList(items)
     }
