@@ -3,8 +3,10 @@ package com.gdavidpb.test.utils.mappers
 import android.content.Context
 import com.gdavidpb.test.R
 import com.gdavidpb.test.domain.model.Album
+import com.gdavidpb.test.domain.model.Artist
 import com.gdavidpb.test.domain.model.Track
 import com.gdavidpb.test.presentation.model.AlbumItem
+import com.gdavidpb.test.presentation.model.ArtistItem
 import com.gdavidpb.test.presentation.model.TrackItem
 import com.gdavidpb.test.utils.extensions.formatInterval
 import com.gdavidpb.test.utils.extensions.formatYear
@@ -35,4 +37,11 @@ fun Album.toAlbumItem(context: Context) = AlbumItem(
     ),
     artworkUrl = artworkUrl100,
     nameIconResource = if (isExplicit) R.drawable.ic_explicit else 0
+)
+
+fun Artist.toArtistItem() = ArtistItem(
+    artistId = artistId,
+    artistName = artistName,
+    primaryGenreName = primaryGenreName,
+    isLiked = isLiked
 )

@@ -9,6 +9,7 @@ import com.gdavidpb.test.R
 import com.gdavidpb.test.domain.model.Artist
 import com.gdavidpb.test.domain.usecase.coroutines.Result
 import com.gdavidpb.test.domain.usecase.errors.SearchArtistsError
+import com.gdavidpb.test.presentation.model.ArtistItem
 import com.gdavidpb.test.presentation.state.SearchState
 import com.gdavidpb.test.presentation.viewmodel.SearchViewModel
 import com.gdavidpb.test.ui.adapters.ArtistAdapter
@@ -17,6 +18,7 @@ import com.gdavidpb.test.utils.TIME_SEARCHER_LOCKER
 import com.gdavidpb.test.utils.extensions.drawables
 import com.gdavidpb.test.utils.extensions.isNetworkAvailable
 import com.gdavidpb.test.utils.extensions.observe
+import com.gdavidpb.test.utils.mappers.toArtistItem
 import kotlinx.android.synthetic.main.fragment_search.*
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -101,12 +103,14 @@ class SearchFragment : NavigationFragment() {
     private fun handleOnGetArtistsSuccess(artists: List<Artist>) {
         pBarSearch.visibility = View.GONE
 
-        artistAdapter.submitList(artists)
+        val items = artists.map { it.toArtistItem() }
+
+        artistAdapter.submitList(items)
 
         val isSearch = eTextSearch.text.toString().isNotBlank()
 
         when {
-            artists.isNotEmpty() -> {
+            items.isNotEmpty() -> {
                 tViewSearch.visibility = View.GONE
                 rViewSearch.visibility = View.VISIBLE
             }
@@ -137,16 +141,16 @@ class SearchFragment : NavigationFragment() {
     }
 
     inner class ArtistManager : ArtistAdapter.AdapterManager {
-        override fun onArtistClicked(item: Artist) {
+        override fun onArtistClicked(item: ArtistItem) {
             val destination = SearchFragmentDirections.navToArtist(
                 artistId = item.artistId,
-                artistName = item.artistName
+                artistName = item.artistName.toString()
             )
 
             navigate(destination)
         }
 
-        override fun onArtistLikeChanged(item: Artist, liked: Boolean) {
+        override fun onArtistLikeChanged(item: ArtistItem, liked: Boolean) {
             artistAdapter.setArtistLiked(item, liked)
 
             if (liked)

@@ -21,15 +21,4 @@ data class Album(
     val currency: String,
     val releaseDate: Date,
     val primaryGenreName: String
-) {
-    override fun hashCode() = collectionId.toInt()
-
-    override fun equals(other: Any?): Boolean {
-        if (this === other) return true
-        if (javaClass != other?.javaClass) return false
-
-        other as Album
-
-        return (collectionId == other.collectionId)
-    }
-}
+)
