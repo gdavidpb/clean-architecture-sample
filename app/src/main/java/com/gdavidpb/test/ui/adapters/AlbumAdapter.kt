@@ -8,7 +8,6 @@ import com.gdavidpb.test.domain.model.Album
 import com.gdavidpb.test.ui.viewholders.AlbumViewHolder
 import com.gdavidpb.test.ui.viewholders.BaseViewHolder
 import com.gdavidpb.test.utils.SIZE_ALBUM_COVER
-import com.gdavidpb.test.utils.extensions.onClickOnce
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.item_album.view.*
 
@@ -37,15 +36,6 @@ class AlbumAdapter(
             }
         }
 
-        return AlbumViewHolder(itemView, manager).also {
-            with(itemView) {
-                onClickOnce {
-                    val item = it.getItem()
-
-                    if (item != null)
-                        manager.onAlbumClicked(item)
-                }
-            }
-        }
+        return AlbumViewHolder(itemView, manager)
     }
 }

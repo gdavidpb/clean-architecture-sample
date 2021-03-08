@@ -6,7 +6,6 @@ import com.gdavidpb.test.R
 import com.gdavidpb.test.presentation.model.TrackItem
 import com.gdavidpb.test.ui.viewholders.BaseViewHolder
 import com.gdavidpb.test.ui.viewholders.TrackViewHolder
-import com.gdavidpb.test.utils.extensions.onClickOnce
 
 class TrackAdapter(
     private val manager: AdapterManager
@@ -27,26 +26,7 @@ class TrackAdapter(
             .from(parent.context)
             .inflate(R.layout.item_track, parent, false)
 
-        return TrackViewHolder(itemView).also {
-            with(itemView) {
-                onClickOnce {
-                    val item = it.getItem()
-
-                    if (item != null)
-                        when {
-                            item.isMusic -> {
-                                if (item.isPlaying)
-                                    manager.onPauseTrackClicked(item)
-                                else
-                                    manager.onPlayTrackClicked(item)
-                            }
-                            item.isVideo -> {
-                                manager.onPreviewTrackClicked(item)
-                            }
-                        }
-                }
-            }
-        }
+        return TrackViewHolder(itemView, manager)
     }
 
     override fun updateItem(item: TrackItem, update: TrackItem.() -> TrackItem) {

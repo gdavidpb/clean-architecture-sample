@@ -6,8 +6,6 @@ import com.gdavidpb.test.R
 import com.gdavidpb.test.domain.model.Artist
 import com.gdavidpb.test.ui.viewholders.ArtistViewHolder
 import com.gdavidpb.test.ui.viewholders.BaseViewHolder
-import com.gdavidpb.test.utils.extensions.onClickOnce
-import kotlinx.android.synthetic.main.item_artist.view.*
 
 class ArtistAdapter(
     private val manager: AdapterManager
@@ -27,26 +25,7 @@ class ArtistAdapter(
             .from(parent.context)
             .inflate(R.layout.item_artist, parent, false)
 
-        return ArtistViewHolder(itemView).also {
-            with(itemView) {
-                cBoxLiked.setOnCheckedChangeListener { buttonView, isChecked ->
-                    /* Ignore event when it's disabled */
-                    if (!buttonView.isEnabled) return@setOnCheckedChangeListener
-
-                    val item = it.getItem()
-
-                    if (item != null)
-                        manager.onArtistLikeChanged(item, isChecked)
-                }
-
-                onClickOnce {
-                    val item = it.getItem()
-
-                    if (item != null)
-                        manager.onArtistClicked(item)
-                }
-            }
-        }
+        return ArtistViewHolder(itemView, manager)
     }
 
     fun setArtistLiked(item: Artist, liked: Boolean) {

@@ -7,13 +7,27 @@ import com.gdavidpb.test.ui.adapters.AlbumAdapter
 import com.gdavidpb.test.utils.CircleTransform
 import com.gdavidpb.test.utils.extensions.drawables
 import com.gdavidpb.test.utils.extensions.formatYear
+import com.gdavidpb.test.utils.extensions.onClickOnce
 import kotlinx.android.synthetic.main.item_album.view.*
 
 class AlbumViewHolder(
     itemView: View,
     private val manager: AlbumAdapter.AdapterManager
 ) : BaseViewHolder<Album>(itemView) {
+
+    init {
+        with(itemView) {
+            onClickOnce {
+                val item = getItem()
+
+                if (item != null) manager.onAlbumClicked(item)
+            }
+        }
+    }
+
     override fun bindView(item: Album) {
+        super.bindView(item)
+
         with(itemView) {
             tViewAlbumName.text = item.collectionName
             tViewAlbumName.drawables(right = if (item.isExplicit) R.drawable.ic_explicit else 0)
