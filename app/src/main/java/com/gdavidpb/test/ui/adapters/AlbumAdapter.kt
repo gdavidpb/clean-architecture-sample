@@ -7,7 +7,7 @@ import com.gdavidpb.test.R
 import com.gdavidpb.test.presentation.model.AlbumItem
 import com.gdavidpb.test.ui.viewholders.AlbumViewHolder
 import com.gdavidpb.test.ui.viewholders.BaseViewHolder
-import com.gdavidpb.test.utils.SIZE_ALBUM_COVER
+import com.gdavidpb.test.utils.Sizes
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.item_album.view.*
 
@@ -31,8 +31,8 @@ class AlbumAdapter(
 
         with(itemView) {
             iViewAlbumCover.updateLayoutParams<ViewGroup.LayoutParams> {
-                width = SIZE_ALBUM_COVER
-                height = SIZE_ALBUM_COVER
+                width = Sizes.ALBUM_COVER
+                height = Sizes.ALBUM_COVER
             }
         }
 

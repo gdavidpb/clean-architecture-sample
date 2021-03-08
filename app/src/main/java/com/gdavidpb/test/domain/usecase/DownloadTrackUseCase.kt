@@ -21,19 +21,17 @@ class DownloadTrackUseCase(
 
         val remoteFile = File(track.previewUrl.toString())
         val fileName = "${track.trackId}.${remoteFile.extension}"
-        val localFile = File("cache", fileName)
 
-        /* If there is cache for this track */
-        if (storageRepository.exists(fileName))
-            return DownloadTrackResponse(track, localFile)
+        val isCached = storageRepository.exists(fileName)
 
-        /* Download this track to cache */
-        val downloadedFile =
-            storageRepository.download(url = track.previewUrl.toString(), name = localFile.path)
+        val localFile = if (isCached)
+            storageRepository.get(fileName)
+        else
+            storageRepository.download(url = track.previewUrl.toString(), name = fileName).also {
+                musicRepository.markTrackAsDownloaded(trackId = track.trackId)
+            }
 
-        musicRepository.markTrackAsDownloaded(trackId = track.trackId)
-
-        return DownloadTrackResponse(track, downloadedFile)
+        return DownloadTrackResponse(track, localFile)
     }
 
     override suspend fun executeOnException(throwable: Throwable): DownloadTrackError? {

@@ -14,7 +14,7 @@ import com.gdavidpb.test.presentation.state.SearchState
 import com.gdavidpb.test.presentation.viewmodel.SearchViewModel
 import com.gdavidpb.test.ui.adapters.ArtistAdapter
 import com.gdavidpb.test.utils.IdempotentLocker
-import com.gdavidpb.test.utils.TIME_SEARCHER_LOCKER
+import com.gdavidpb.test.utils.Times
 import com.gdavidpb.test.utils.extensions.drawables
 import com.gdavidpb.test.utils.extensions.isNetworkAvailable
 import com.gdavidpb.test.utils.extensions.observe
@@ -51,7 +51,7 @@ class SearchFragment : NavigationFragment() {
                     viewModel.resetSearch()
                 }
                 eTextSearch.isFocused -> {
-                    locker.executeLast(TIME_SEARCHER_LOCKER) {
+                    locker.executeLast(Times.SEARCHER_LOCKER) {
                         viewModel.setState {
                             copy(query = "$text")
                         }

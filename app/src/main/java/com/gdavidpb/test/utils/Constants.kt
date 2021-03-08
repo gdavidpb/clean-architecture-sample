@@ -1,5 +1,9 @@
 package com.gdavidpb.test.utils
 
-const val SIZE_ALBUM_COVER = 100
+object Sizes {
+    const val ALBUM_COVER = 100
+}
 
-const val TIME_SEARCHER_LOCKER = 500L
+object Times {
+    const val SEARCHER_LOCKER = 500L
+}

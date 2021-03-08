@@ -2,53 +2,59 @@ package com.gdavidpb.test.data.source.local
 
 import android.content.Context
 import com.gdavidpb.test.domain.repository.StorageRepository
-import java.io.*
+import java.io.File
+import java.io.FileNotFoundException
+import java.io.FileOutputStream
+import java.io.InputStream
 import java.net.URL
 
 class LocalCacheDataStore(
-    private val context: Context
+    context: Context
 ) : StorageRepository {
+
+    private val root: File = context.filesDir
+
+    override suspend fun get(name: String): File {
+        return File(root, name)
+    }
+
+    override suspend fun exists(name: String): Boolean {
+        val file = File(root, name)
+
+        return file.exists()
+    }
+
+    override suspend fun inputStream(name: String): InputStream {
+        val file = File(root, name)
+
+        return file.inputStream()
+    }
+
     @Suppress("BlockingMethodInNonBlockingContext")
     override suspend fun download(url: String, name: String): File {
         return URL(url).openStream().use { inputStream ->
-            val outputFile = File(context.filesDir, name)
+            val file = File(root, name)
 
-            /* Create directories to */
-            outputFile.parentFile?.mkdirs()
-                ?: throw IOException("Unable to create directory for file '$outputFile'")
+            file.parentFile?.mkdirs()
 
-            val outputStream = FileOutputStream(outputFile)
+            val outputStream = FileOutputStream(file)
 
             inputStream.copyTo(outputStream)
 
             outputStream.flush()
             outputStream.close()
 
-            outputFile
+            file
         }
     }
 
-    override suspend fun get(name: String): InputStream {
-        val inputFile = File(context.filesDir, name)
-
-        return inputFile.inputStream()
-    }
-
-    override suspend fun exists(name: String): Boolean {
-        return File(name).exists()
-    }
-
     override suspend fun delete(name: String) {
+        val file = File(root, name)
+
         runCatching {
-            File(context.filesDir, name).let {
-                if (it.isDirectory)
-                    it.deleteRecursively()
-                else
-                    it.delete()
-            }
+            with(file) { if (isDirectory) deleteRecursively() else delete() }
         }.onFailure { throwable ->
-            if (throwable !is FileNotFoundException)
-                throw throwable
+            if (throwable !is FileNotFoundException) throw throwable
         }
     }
 }
