@@ -103,7 +103,7 @@ val appModule = module {
 
     /* Use cases */
 
-    factory<DownloadTrackUseCase>()
+    factory<GetTrackPreviewUseCase>()
     factory<LikeArtistUseCase>()
     factory<UnlikeArtistUseCase>()
     factory<LookupAlbumsUseCase>()

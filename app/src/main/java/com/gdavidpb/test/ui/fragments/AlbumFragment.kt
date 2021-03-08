@@ -7,9 +7,9 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.gdavidpb.test.R
 import com.gdavidpb.test.domain.model.Track
-import com.gdavidpb.test.domain.model.response.DownloadTrackResponse
+import com.gdavidpb.test.domain.model.response.GetTrackPreviewResponse
 import com.gdavidpb.test.domain.usecase.coroutines.Result
-import com.gdavidpb.test.domain.usecase.errors.DownloadTrackError
+import com.gdavidpb.test.domain.usecase.errors.GetTrackPreviewError
 import com.gdavidpb.test.domain.usecase.errors.LookupTracksError
 import com.gdavidpb.test.presentation.model.TrackItem
 import com.gdavidpb.test.presentation.viewmodel.AlbumViewModel
@@ -48,7 +48,7 @@ class AlbumFragment : NavigationFragment() {
 
         with(viewModel) {
             observe(tracks, ::onGetTracks)
-            observe(download, ::onTrackDownloaded)
+            observe(preview, ::onTrackPreviewGotten)
 
             lookupTracks(albumId = args.albumId)
 
@@ -83,12 +83,12 @@ class AlbumFragment : NavigationFragment() {
         }
     }
 
-    private fun onTrackDownloaded(result: Result<DownloadTrackResponse, DownloadTrackError>?) {
+    private fun onTrackPreviewGotten(result: Result<GetTrackPreviewResponse, GetTrackPreviewError>?) {
         when (result) {
             is Result.OnLoading -> {
             }
-            is Result.OnSuccess -> handleOnTrackDownloadedSuccess(response = result.value)
-            is Result.OnError -> handleOnTrackDownloadedError(error = result.error)
+            is Result.OnSuccess -> handleOnTrackPreviewGottenSuccess(response = result.value)
+            is Result.OnError -> handleOnTrackPreviewGottenError(error = result.error)
             else -> defaultErrorSnackBar()
         }
     }
@@ -110,19 +110,19 @@ class AlbumFragment : NavigationFragment() {
         }
     }
 
-    private fun handleOnTrackDownloadedSuccess(response: DownloadTrackResponse) {
-        val item = response.track
+    private fun handleOnTrackPreviewGottenSuccess(response: GetTrackPreviewResponse) {
+        val item = response.item
 
         managedMediaPlayer.play(
-            source = response.file,
+            source = response.trackFile,
             onStart = { onTrackStarted(item) },
             onComplete = { onTrackCompleted(item) }
         )
     }
 
-    private fun handleOnTrackDownloadedError(error: DownloadTrackError?) {
+    private fun handleOnTrackPreviewGottenError(error: GetTrackPreviewError?) {
         when (error) {
-            is DownloadTrackError.NoConnection -> noConnectionSnackBar(isNetworkAvailable = error.isNetworkAvailable)
+            is GetTrackPreviewError.NoConnection -> noConnectionSnackBar(isNetworkAvailable = error.isNetworkAvailable)
             else -> defaultErrorSnackBar()
         }
     }
@@ -158,7 +158,7 @@ class AlbumFragment : NavigationFragment() {
                 )
             }
 
-            viewModel.downloadTrack(item)
+            viewModel.getTrackPreview(item)
         }
 
         override fun onPauseTrackClicked(item: TrackItem) {
