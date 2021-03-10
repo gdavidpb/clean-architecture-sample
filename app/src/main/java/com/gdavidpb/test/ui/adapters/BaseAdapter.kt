@@ -55,6 +55,8 @@ abstract class BaseAdapter<T : Any>(
     }
 
     open fun getItemPosition(item: T): Int {
+        check(hasStableIds()) { "In order to use modifiers by item you have to set up stable ids." }
+
         return currentList.indexOfFirst { comparator.compare(it, item) == 0 }
     }
 
