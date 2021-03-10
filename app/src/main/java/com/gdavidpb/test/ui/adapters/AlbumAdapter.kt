@@ -15,6 +15,10 @@ class AlbumAdapter(
     private val manager: AdapterManager
 ) : BaseAdapter<AlbumItem>(AdapterComparator.comparator) {
 
+    init {
+        setHasStableIds(true)
+    }
+
     object AdapterComparator {
         val comparator = compareBy(AlbumItem::collectionId)
     }
@@ -24,10 +28,14 @@ class AlbumAdapter(
         fun provideImageLoader(): Picasso
     }
 
+    override fun getItemId(position: Int): Long {
+        return getItem(position).collectionId
+    }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder<AlbumItem> {
         val itemView = LayoutInflater
-            .from(parent.context)
-            .inflate(R.layout.item_album, parent, false)
+                .from(parent.context)
+                .inflate(R.layout.item_album, parent, false)
 
         with(itemView) {
             iViewAlbumCover.updateLayoutParams<ViewGroup.LayoutParams> {

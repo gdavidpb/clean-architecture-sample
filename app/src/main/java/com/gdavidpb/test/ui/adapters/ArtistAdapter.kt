@@ -11,6 +11,10 @@ class ArtistAdapter(
     private val manager: AdapterManager
 ) : BaseAdapter<ArtistItem>(AdapterComparator.comparator) {
 
+    init {
+        setHasStableIds(true)
+    }
+
     object AdapterComparator {
         val comparator = compareBy(ArtistItem::artistId)
     }
@@ -20,10 +24,14 @@ class ArtistAdapter(
         fun onArtistLikeChanged(item: ArtistItem, liked: Boolean)
     }
 
+    override fun getItemId(position: Int): Long {
+        return getItem(position).artistId
+    }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder<ArtistItem> {
         val itemView = LayoutInflater
-            .from(parent.context)
-            .inflate(R.layout.item_artist, parent, false)
+                .from(parent.context)
+                .inflate(R.layout.item_artist, parent, false)
 
         return ArtistViewHolder(itemView, manager)
     }

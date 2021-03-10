@@ -11,6 +11,10 @@ class TrackAdapter(
     private val manager: AdapterManager
 ) : BaseAdapter<TrackItem>(AdapterComparator.comparator) {
 
+    init {
+        setHasStableIds(true)
+    }
+
     object AdapterComparator {
         val comparator = compareBy(TrackItem::trackId)
     }
@@ -21,10 +25,14 @@ class TrackAdapter(
         fun onPreviewTrackClicked(item: TrackItem)
     }
 
+    override fun getItemId(position: Int): Long {
+        return getItem(position).trackId
+    }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder<TrackItem> {
         val itemView = LayoutInflater
-            .from(parent.context)
-            .inflate(R.layout.item_track, parent, false)
+                .from(parent.context)
+                .inflate(R.layout.item_track, parent, false)
 
         return TrackViewHolder(itemView, manager)
     }
@@ -43,9 +51,9 @@ class TrackAdapter(
                 null
         }.forEach { index ->
             currentList[index] = currentList[index].copy(
-                isPlaying = false,
-                isPaused = false,
-                isLoading = false
+                    isPlaying = false,
+                    isPaused = false,
+                    isLoading = false
             )
 
             notifyItemChanged(index)
