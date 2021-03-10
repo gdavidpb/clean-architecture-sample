@@ -60,7 +60,7 @@ abstract class BaseAdapter<T : Any>(
         return currentList.indexOfFirst { comparator.compare(it, item) == 0 }
     }
 
-    class DiffCallback<Q>(
+    private class DiffCallback<Q>(
             private val comparator: Comparator<Q>
     ) : DiffUtil.ItemCallback<Q>() {
         override fun areItemsTheSame(oldItem: Q, newItem: Q): Boolean {
