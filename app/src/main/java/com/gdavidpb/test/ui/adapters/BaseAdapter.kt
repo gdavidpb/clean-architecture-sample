@@ -14,6 +14,14 @@ abstract class BaseAdapter<T : Any>(
         return currentList
     }
 
+    override fun getItem(position: Int): T {
+        return currentList[position]
+    }
+
+    override fun getItemCount(): Int {
+        return currentList.size
+    }
+
     override fun onBindViewHolder(holder: BaseViewHolder<T>, position: Int) {
         val item = getItem(position)
 
@@ -31,21 +39,27 @@ abstract class BaseAdapter<T : Any>(
     open fun isEmpty() = currentList.isEmpty()
 
     open fun updateItem(item: T, update: T.() -> T) {
-        val position = currentList.indexOfFirst { comparator.compare(it, item) == 0 }
+        val position = getItemPosition(item)
 
         currentList[position] = currentList[position].update()
 
-        super.submitList(currentList)
+        notifyItemChanged(position)
     }
 
     open fun removeItem(item: T) {
-        currentList.remove(item)
+        val position = getItemPosition(item)
 
-        super.submitList(currentList)
+        currentList.removeAt(position)
+
+        notifyItemRemoved(position)
+    }
+
+    open fun getItemPosition(item: T): Int {
+        return currentList.indexOfFirst { comparator.compare(it, item) == 0 }
     }
 
     class DiffCallback<Q>(
-        private val comparator: Comparator<Q>
+            private val comparator: Comparator<Q>
     ) : DiffUtil.ItemCallback<Q>() {
         override fun areItemsTheSame(oldItem: Q, newItem: Q): Boolean {
             return oldItem == newItem
