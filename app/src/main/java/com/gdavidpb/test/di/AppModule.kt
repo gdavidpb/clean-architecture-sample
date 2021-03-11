@@ -4,6 +4,7 @@ import android.content.Context
 import android.net.ConnectivityManager
 import androidx.room.Room
 import com.gdavidpb.test.BuildConfig
+import com.gdavidpb.test.data.model.database.DatabaseModel
 import com.gdavidpb.test.data.source.iTunesDataRepository
 import com.gdavidpb.test.data.source.iTunesDataStoreFactory
 import com.gdavidpb.test.data.source.local.AndroidNetworkDataStore
@@ -20,7 +21,6 @@ import com.gdavidpb.test.presentation.viewmodel.AlbumViewModel
 import com.gdavidpb.test.presentation.viewmodel.ArtistViewModel
 import com.gdavidpb.test.presentation.viewmodel.FavoritesViewModel
 import com.gdavidpb.test.presentation.viewmodel.SearchViewModel
-import com.gdavidpb.test.data.model.database.DatabaseModel
 import com.squareup.picasso.Picasso
 import okhttp3.OkHttpClient
 import org.koin.android.ext.koin.androidContext

@@ -5,11 +5,11 @@ import com.gdavidpb.test.presentation.model.ArtistItem
 import com.gdavidpb.test.ui.adapters.ArtistAdapter
 import com.gdavidpb.test.utils.extensions.onClickOnce
 import com.gdavidpb.test.utils.extensions.setSafeChecked
-import kotlinx.android.synthetic.main.item_artist.view.*
+import kotlinx.android.synthetic.main.view_item_artist.view.*
 
 class ArtistViewHolder(
-    itemView: View,
-    private val manager: ArtistAdapter.AdapterManager
+        itemView: View,
+        private val manager: ArtistAdapter.AdapterManager
 ) : BaseViewHolder<ArtistItem>(itemView) {
 
     init {

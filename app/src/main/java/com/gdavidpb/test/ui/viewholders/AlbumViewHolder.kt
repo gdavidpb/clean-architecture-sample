@@ -7,7 +7,7 @@ import com.gdavidpb.test.ui.adapters.AlbumAdapter
 import com.gdavidpb.test.utils.CircleTransform
 import com.gdavidpb.test.utils.extensions.drawables
 import com.gdavidpb.test.utils.extensions.onClickOnce
-import kotlinx.android.synthetic.main.item_album.view.*
+import kotlinx.android.synthetic.main.view_item_album.view.*
 
 class AlbumViewHolder(
     itemView: View,

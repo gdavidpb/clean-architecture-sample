@@ -31,8 +31,8 @@ class TrackAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder<TrackItem> {
         val itemView = LayoutInflater
-                .from(parent.context)
-                .inflate(R.layout.item_track, parent, false)
+            .from(parent.context)
+            .inflate(R.layout.view_item_track, parent, false)
 
         return TrackViewHolder(itemView, manager)
     }

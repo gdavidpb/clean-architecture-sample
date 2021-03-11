@@ -30,8 +30,8 @@ class ArtistAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder<ArtistItem> {
         val itemView = LayoutInflater
-                .from(parent.context)
-                .inflate(R.layout.item_artist, parent, false)
+            .from(parent.context)
+            .inflate(R.layout.view_item_artist, parent, false)
 
         return ArtistViewHolder(itemView, manager)
     }

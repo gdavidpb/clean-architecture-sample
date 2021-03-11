@@ -36,7 +36,7 @@
             android:id="@+id/rViewFavorites"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            tools:listitem="@layout/item_artist" />
+            tools:listitem="@layout/view_item_artist" />
 
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 

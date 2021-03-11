@@ -32,7 +32,7 @@
             android:id="@+id/rViewAlbums"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            tools:listitem="@layout/item_album" />
+            tools:listitem="@layout/view_item_album" />
 
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
