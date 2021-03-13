@@ -12,20 +12,20 @@ import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.view_item_album.view.*
 
 class AlbumAdapter(
-    private val manager: AdapterManager
-) : BaseAdapter<AlbumItem>(AdapterComparator.comparator) {
+        private val manager: AdapterManager
+) : BaseAdapter<AlbumItem>() {
 
     init {
         setHasStableIds(true)
     }
 
-    object AdapterComparator {
-        val comparator = compareBy(AlbumItem::collectionId)
-    }
-
     interface AdapterManager {
         fun onAlbumClicked(item: AlbumItem)
         fun provideImageLoader(): Picasso
+    }
+
+    override fun provideComparator(): Comparator<AlbumItem> {
+        return compareBy(AlbumItem::collectionId)
     }
 
     override fun getItemId(position: Int): Long {
@@ -34,8 +34,8 @@ class AlbumAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder<AlbumItem> {
         val itemView = LayoutInflater
-            .from(parent.context)
-            .inflate(R.layout.view_item_album, parent, false)
+                .from(parent.context)
+                .inflate(R.layout.view_item_album, parent, false)
 
         with(itemView) {
             iViewAlbumCover.updateLayoutParams<ViewGroup.LayoutParams> {

@@ -8,15 +8,11 @@ import com.gdavidpb.test.ui.viewholders.BaseViewHolder
 import com.gdavidpb.test.ui.viewholders.TrackViewHolder
 
 class TrackAdapter(
-    private val manager: AdapterManager
-) : BaseAdapter<TrackItem>(AdapterComparator.comparator) {
+        private val manager: AdapterManager
+) : BaseAdapter<TrackItem>() {
 
     init {
         setHasStableIds(true)
-    }
-
-    object AdapterComparator {
-        val comparator = compareBy(TrackItem::trackId)
     }
 
     interface AdapterManager {
@@ -25,14 +21,18 @@ class TrackAdapter(
         fun onPreviewTrackClicked(item: TrackItem)
     }
 
+    override fun provideComparator(): Comparator<TrackItem> {
+        return compareBy(TrackItem::trackId)
+    }
+
     override fun getItemId(position: Int): Long {
         return getItem(position).trackId
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder<TrackItem> {
         val itemView = LayoutInflater
-            .from(parent.context)
-            .inflate(R.layout.view_item_track, parent, false)
+                .from(parent.context)
+                .inflate(R.layout.view_item_track, parent, false)
 
         return TrackViewHolder(itemView, manager)
     }

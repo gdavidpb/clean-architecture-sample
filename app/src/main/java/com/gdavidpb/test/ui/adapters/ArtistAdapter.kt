@@ -8,20 +8,20 @@ import com.gdavidpb.test.ui.viewholders.ArtistViewHolder
 import com.gdavidpb.test.ui.viewholders.BaseViewHolder
 
 class ArtistAdapter(
-    private val manager: AdapterManager
-) : BaseAdapter<ArtistItem>(AdapterComparator.comparator) {
+        private val manager: AdapterManager
+) : BaseAdapter<ArtistItem>() {
 
     init {
         setHasStableIds(true)
     }
 
-    object AdapterComparator {
-        val comparator = compareBy(ArtistItem::artistId)
-    }
-
     interface AdapterManager {
         fun onArtistClicked(item: ArtistItem)
         fun onArtistLikeChanged(item: ArtistItem, liked: Boolean)
+    }
+
+    override fun provideComparator(): Comparator<ArtistItem> {
+        return compareBy(ArtistItem::artistId)
     }
 
     override fun getItemId(position: Int): Long {
@@ -30,8 +30,8 @@ class ArtistAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder<ArtistItem> {
         val itemView = LayoutInflater
-            .from(parent.context)
-            .inflate(R.layout.view_item_artist, parent, false)
+                .from(parent.context)
+                .inflate(R.layout.view_item_artist, parent, false)
 
         return ArtistViewHolder(itemView, manager)
     }

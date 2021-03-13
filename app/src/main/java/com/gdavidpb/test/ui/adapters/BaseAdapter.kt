@@ -5,11 +5,11 @@ import androidx.recyclerview.widget.RecyclerView
 import com.gdavidpb.test.ui.viewholders.BaseViewHolder
 import java.util.Collections.synchronizedList
 
-abstract class BaseAdapter<T>(
-    private val comparator: Comparator<T>
-) : RecyclerView.Adapter<BaseViewHolder<T>>() {
+abstract class BaseAdapter<T> : RecyclerView.Adapter<BaseViewHolder<T>>() {
 
     protected val currentList: MutableList<T> = synchronizedList(mutableListOf<T>())
+
+    abstract fun provideComparator(): Comparator<T>
 
     override fun getItemCount(): Int {
         return currentList.size
@@ -26,7 +26,7 @@ abstract class BaseAdapter<T>(
     }
 
     open fun submitList(list: List<T>) {
-        val diffUtil = ListDiffUtil(oldList = currentList, newList = list, comparator = comparator)
+        val diffUtil = ListDiffUtil(oldList = currentList, newList = list, comparator = provideComparator())
         val diffResult = DiffUtil.calculateDiff(diffUtil, true)
 
         diffResult.dispatchUpdatesTo(this)
@@ -57,6 +57,8 @@ abstract class BaseAdapter<T>(
 
     open fun getItemPosition(item: T): Int {
         check(hasStableIds()) { "In order to use modifiers by item you have to set up stable ids." }
+
+        val comparator = provideComparator()
 
         return currentList.indexOfFirst { comparator.compare(it, item) == 0 }
     }
