@@ -3,12 +3,14 @@ package com.gdavidpb.test.ui.viewholders
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 
-abstract class BaseViewHolder<T>(itemView: View) : RecyclerView.ViewHolder(itemView) {
-    private var _item: T? = null
+abstract class BaseViewHolder<T : Any>(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    private lateinit var item: T
 
-    fun getItem(): T? = _item
+    fun getItem(): T {
+        return item
+    }
 
     open fun bindView(item: T) {
-        _item = item
+        this.item = item
     }
 }

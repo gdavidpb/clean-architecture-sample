@@ -19,7 +19,7 @@ class AlbumViewHolder(
             onClickOnce {
                 val item = getItem()
 
-                if (item != null) manager.onAlbumClicked(item)
+                manager.onAlbumClicked(item)
             }
         }
     }

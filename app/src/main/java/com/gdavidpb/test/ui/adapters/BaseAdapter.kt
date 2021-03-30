@@ -5,7 +5,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.gdavidpb.test.ui.viewholders.BaseViewHolder
 import java.util.Collections.synchronizedList
 
-abstract class BaseAdapter<T> : RecyclerView.Adapter<BaseViewHolder<T>>() {
+abstract class BaseAdapter<T : Any> : RecyclerView.Adapter<BaseViewHolder<T>>() {
 
     protected val currentList: MutableList<T> = synchronizedList(mutableListOf<T>())
 

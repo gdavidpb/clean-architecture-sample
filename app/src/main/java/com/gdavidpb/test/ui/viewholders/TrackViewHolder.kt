@@ -20,12 +20,11 @@ class TrackViewHolder(
             onClickOnce {
                 val item = getItem()
 
-                if (item != null)
-                    when {
-                        item.isMusic && !item.isPlaying -> manager.onPlayTrackClicked(item)
-                        item.isMusic && item.isPlaying -> manager.onPauseTrackClicked(item)
-                        item.isVideo -> manager.onPreviewTrackClicked(item)
-                    }
+                when {
+                    item.isMusic && !item.isPlaying -> manager.onPlayTrackClicked(item)
+                    item.isMusic && item.isPlaying -> manager.onPauseTrackClicked(item)
+                    item.isVideo -> manager.onPreviewTrackClicked(item)
+                }
             }
         }
     }

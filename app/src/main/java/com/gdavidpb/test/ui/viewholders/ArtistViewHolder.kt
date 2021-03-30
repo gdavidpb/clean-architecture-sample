@@ -16,7 +16,7 @@ class ArtistViewHolder(
         CompoundButton.OnCheckedChangeListener { _, isChecked ->
             val item = getItem()
 
-            if (item != null) manager.onArtistLikeChanged(item, isChecked)
+            manager.onArtistLikeChanged(item, isChecked)
         }
 
     init {
@@ -24,7 +24,7 @@ class ArtistViewHolder(
             onClickOnce {
                 val item = getItem()
 
-                if (item != null) manager.onArtistClicked(item)
+                manager.onArtistClicked(item)
             }
         }
     }
